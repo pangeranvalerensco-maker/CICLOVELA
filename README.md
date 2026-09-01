@@ -49,3 +49,26 @@ The stack is intentionally conventional so the three-week schedule is spent on d
 The provided project rules state the submission deadline is **Friday, 18 September 2026 at 22:00 WIB**.
 
 The project plan therefore targets a 21-day implementation cycle plus a buffer for integration, testing, deployment, and submission preparation.
+
+
+Biasanya **konteks percakapan ini tetap tersimpan di GitHub Copilot Chat**, sehingga setelah VS Code dibuka kembali Anda dapat melanjutkan dari chat yang sama.
+
+Namun, jangan mengandalkan saya untuk mengingat semua detail jika:
+
+- Membuka chat baru
+- Menghapus riwayat percakapan
+- Workspace berubah
+- Sesi atau extension mengalami reset
+
+Agar aman, keputusan penting proyek sudah tersimpan di file dokumentasi. Saat ini keputusan terakhir kita adalah menggunakan **arsitektur microservices** dengan service:
+
+```text
+api-gateway
+auth-service
+catalog-service
+inventory-service
+order-service
+traceability-service
+```
+
+Ketika melanjutkan, cukup buka percakapan ini dan katakan, misalnya: **“lanjutkan pembangunan auth-service”**.
