@@ -1,64 +1,64 @@
-# CICLOVELA — AI AGENT CONTEXT
+# CICLOVELA — KONTEKS AGEN AI (AI AGENT CONTEXT)
 
-You are an AI coding agent working on CICLOVELA.
+Anda adalah agen pengkodean AI yang bekerja di CICLOVELA.
 
-## Mandatory Reading
+## Bacaan Wajib
 
-Read:
+Baca:
 
 1. `docs/00-SOURCE-OF-TRUTH.md`
 2. `docs/01-product/01-PRODUCT-REQUIREMENTS.md`
 3. `docs/01-product/02-MVP-SCOPE.md`
 4. `docs/02-domain/01-ACTORS-AND-RBAC.md`
 5. `docs/02-domain/02-BUSINESS-RULES.md`
-6. the relevant architecture/database/API document before modifying that layer.
+6. dokumen arsitektur/database/API yang relevan sebelum memodifikasi lapisan tersebut.
 
-## Fixed Project Concept
+## Konsep Proyek Tetap
 
-CICLOVELA is an agricultural supply chain, inventory, and product traceability platform.
+CICLOVELA adalah platform rantai pasok pertanian, inventaris, dan keterlacakan produk.
 
-Core lifecycle:
+Siklus hidup inti:
 
 ```text
 Farmer → Batch → Distributor → Retailer → Consumer → Waste/End-of-Life
 ```
 
-## Non-Negotiable Domain Rules
+## Aturan Domain yang Tidak Dapat Ditawar
 
-- Batch is distinct from Product.
-- Expiry is batch-aware.
-- Inventory changes must be explainable through movement records.
-- Waste is a first-class event.
-- Distributor and Retailer operate under Business Entity.
-- Business Entity creation is subject to Platform Admin approval.
-- Price changes are recorded as separate transaction values.
-- Backend enforces authorization.
-- Consumer-visible data is a controlled projection of internal data.
+- Batch berbeda dengan Product.
+- Kedaluwarsa (Expiry) disesuaikan dengan batch.
+- Perubahan inventory harus dapat dijelaskan melalui catatan pergerakan.
+- Limbah (Waste) adalah peristiwa bisnis kelas satu.
+- Distributor dan Retailer beroperasi di bawah Business Entity.
+- Pembuatan Business Entity tunduk pada persetujuan Platform Admin.
+- Perubahan harga dicatat sebagai nilai transaksi yang terpisah.
+- Backend menegakkan otorisasi.
+- Data yang terlihat oleh konsumen adalah proyeksi terkontrol dari data internal.
 
-## Coding Rules
+## Aturan Pengkodean
 
-1. Do not invent a new domain concept without updating the docs.
-2. Do not silently change role definitions.
-3. Do not bypass service/business rules from controllers.
-4. Do not trust frontend authorization.
-5. Do not hard-delete entities that are required to use soft delete.
-6. Do not introduce a new dependency without explaining why it is needed.
-7. Do not create dummy CRUD merely to satisfy a checklist.
-8. Do not implement P2 features while P0 features are incomplete.
-9. Before modifying database entities, check the ERD plan.
-10. Before modifying an API, update the API contract.
+1. Jangan menciptakan konsep domain baru tanpa memperbarui dokumen.
+2. Jangan diam-diam mengubah definisi peran.
+3. Jangan mengabaikan layanan/aturan bisnis dari controller.
+4. Jangan mempercayai otorisasi frontend.
+5. Jangan melakukan penghapusan permanen (hard-delete) pada entitas yang diwajibkan menggunakan soft delete.
+6. Jangan memperkenalkan dependensi baru tanpa menjelaskan mengapa itu diperlukan.
+7. Jangan membuat CRUD palsu hanya sekadar untuk memenuhi daftar periksa (checklist).
+8. Jangan mengimplementasikan fitur P2 sementara fitur P0 belum selesai.
+9. Sebelum mengubah entitas database, periksa rencana ERD.
+10. Sebelum mengubah API, perbarui kontrak API.
 
-## When Requirements Conflict
+## Ketika Persyaratan Bertentangan
 
-Stop and report the conflict. Prefer the Source of Truth and explicit human decisions over assumptions.
+Berhenti dan laporkan konflik tersebut. Lebih utamakan dokumen Sumber Kebenaran (Source of Truth) dan keputusan eksplisit manusia daripada sekadar asumsi.
 
-## Output Expected From Agents
+## Output yang Diharapkan Dari Agen
 
-For substantial changes, report:
+Untuk perubahan substansial, laporkan:
 
-- what changed;
-- which requirement it satisfies;
-- affected files;
-- database/API impact;
-- tests performed;
-- known limitations.
+- apa yang berubah;
+- persyaratan mana yang dipenuhi;
+- file yang terdampak;
+- dampak database/API;
+- pengujian yang dilakukan;
+- batasan yang diketahui.

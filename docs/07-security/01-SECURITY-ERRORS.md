@@ -1,38 +1,38 @@
-# Security & Error Handling
+# Keamanan & Penanganan Kesalahan
 
-## Authentication
+## Autentikasi
 
-JWT authentication is the planned mechanism.
+Autentikasi JWT adalah mekanisme yang direncanakan.
 
-## Authorization
+## Otorisasi
 
-All sensitive operations must be authorized server-side. Client-side role checks are only a UX layer and are never the security boundary.
+Semua operasi sensitif harus diotorisasi di sisi server (server-side). Pengecekan peran di sisi klien hanyalah sebuah lapisan UX dan tidak pernah menjadi batas keamanan.
 
-## Passwords
+## Kata Sandi
 
-Passwords must be hashed. Plain-text passwords must never be stored.
+Kata sandi harus di-hash (hashed). Kata sandi dalam teks biasa tidak boleh disimpan.
 
-## Validation
+## Validasi
 
-All POST and PUT endpoints require server-side validation. PATCH endpoints must also validate fields that are supplied.
+Semua endpoint POST dan PUT memerlukan validasi di sisi server. Endpoint PATCH juga harus memvalidasi field yang disertakan.
 
-Validation examples:
+Contoh validasi:
 
-- required;
-- unique;
+- wajib (required);
+- unik (unique);
 - min/max;
 - enum;
-- numeric;
-- date;
+- numerik;
+- tanggal (date);
 - email.
 
-## File Upload
+## Unggah File
 
-Only accepted image/PDF types should be processed. File size limits and safe filenames must be defined.
+Hanya tipe gambar/PDF yang diizinkan yang boleh diproses. Batas ukuran file dan nama file yang aman harus ditentukan.
 
-## Global Error Handling
+## Penanganan Kesalahan Global
 
-Handle:
+Tangani:
 
 - 400 Bad Request
 - 401 Unauthorized
@@ -41,8 +41,8 @@ Handle:
 - 422 Validation Error
 - 500 Internal Server Error
 
-Frontend must provide fallback UI when the API is unavailable.
+Frontend harus menyediakan UI fallback ketika API tidak tersedia.
 
 ## CORS
 
-Configure CORS for the deployed frontend origin rather than allowing arbitrary origins in production.
+Konfigurasikan CORS untuk asal frontend yang di-deploy (deployed frontend origin) dan bukan mengizinkan asal (origin) sembarangan di produksi.

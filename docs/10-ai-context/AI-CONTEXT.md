@@ -1,28 +1,28 @@
-# CICLOVELA - AI DEVELOPMENT CONTEXT
+# CICLOVELA - KONTEKS PENGEMBANGAN AI
 
-## IMPORTANT
+## PENTING
 
-This document is the permanent project context for AI coding agents.
+Dokumen ini adalah konteks proyek permanen untuk agen pengkodean AI.
 
-Before modifying, creating, deleting, or refactoring code,
-the AI agent MUST read this document and the relevant documents
-inside /docs.
+Sebelum memodifikasi, membuat, menghapus, atau memfaktorkan ulang kode,
+agen AI WAJIB membaca dokumen ini dan dokumen relevan lainnya
+di dalam /docs.
 
-The AI MUST NOT invent business requirements.
+AI TIDAK BOLEH menciptakan persyaratan bisnis sendiri.
 
-If a requirement is unclear or conflicts with existing documentation,
-STOP and report the conflict before implementing it.
+Jika sebuah persyaratan tidak jelas atau bertentangan dengan dokumentasi yang ada,
+BERHENTI dan laporkan konflik tersebut sebelum mengimplementasikannya.
 
 ---
 
-# 1. PROJECT IDENTITY
+# 1. IDENTITAS PROYEK
 
-Project name: CICLOVELA
+Nama proyek: CICLOVELA
 
-CICLOVELA is an agribusiness supply-chain and inventory management
-system focused on agricultural products.
+CICLOVELA adalah sistem manajemen rantai pasok dan inventaris agribisnis
+yang berfokus pada produk pertanian.
 
-The system connects:
+Sistem ini menghubungkan:
 
 Farmer
     ↓
@@ -32,52 +32,52 @@ Retailer
     ↓
 Consumer
 
-The project is NOT a pure accounting system.
+Proyek ini BUKAN murni sistem akuntansi.
 
-The project is NOT a generic marketplace.
+Proyek ini BUKAN marketplace umum.
 
-The project is NOT a generic organizational management system.
+Proyek ini BUKAN sistem manajemen organisasi umum.
 
-The main focus is:
+Fokus utamanya adalah:
 
-- agricultural product traceability
-- inventory management
-- batch management
-- expiry management
-- supply-chain transactions
-- waste management
-- business entity verification
-- price transparency
+- keterlacakan produk pertanian
+- manajemen inventaris
+- manajemen batch
+- manajemen kedaluwarsa
+- transaksi rantai pasok
+- manajemen limbah (waste management)
+- verifikasi entitas bisnis
+- transparansi harga
 
-# 2. CORE CONCEPT
+# 2. KONSEP INTI
 
-The inventory system is one of the core features of CICLOVELA.
+Sistem inventaris adalah salah satu fitur inti dari CICLOVELA.
 
-Inventory must not be treated as a simple integer stock field.
+Inventaris tidak boleh diperlakukan hanya sebagai field stok integer biasa.
 
-Every inventory quantity must be associated with a product batch.
+Setiap kuantitas inventaris harus dikaitkan dengan batch produk.
 
-A batch has:
+Sebuah batch memiliki:
 
-- batch code
-- product
+- kode batch
+- produk
 - farmer
-- harvest date
-- initial quantity
-- unit
-- quality grade
-- expiry date
+- tanggal panen
+- kuantitas awal
+- satuan
+- tingkat kualitas
+- tanggal kedaluwarsa
 - status
 
-Different batches of the same product may have different:
+Batch yang berbeda dari produk yang sama dapat memiliki perbedaan pada:
 
-- quantities
-- harvest dates
-- expiry dates
-- quality grades
-- purchase prices
+- kuantitas
+- tanggal panen
+- tanggal kedaluwarsa
+- tingkat kualitas
+- harga pembelian
 
-# 3. SUPPLY CHAIN
+# 3. RANTAI PASOK (SUPPLY CHAIN)
 
 FARMER
   ↓
@@ -87,27 +87,27 @@ RETAILER
   ↓
 CONSUMER
 
-Farmer can operate as an individual user.
+Farmer dapat beroperasi sebagai pengguna individu.
 
-Distributor must operate through an approved Business Entity.
+Distributor wajib beroperasi melalui Business Entity yang telah disetujui.
 
-Retailer must operate through an approved Business Entity.
+Retailer wajib beroperasi melalui Business Entity yang telah disetujui.
 
-Consumer can operate as an individual user.
+Consumer dapat beroperasi sebagai pengguna individu.
 
-A business entity must be approved before it can perform
-business transactions.
+Sebuah entitas bisnis harus disetujui sebelum dapat melakukan
+transaksi bisnis.
 
-# 4. DO NOT ASSUME
+# 4. JANGAN BERASUMSI
 
-The following must NOT be assumed by the AI:
+Hal-hal berikut TIDAK BOLEH diasumsikan oleh AI:
 
-- Do not create a warehouse entity unless documented.
-- Do not create supplier entity unless documented.
-- Do not create employee management unless documented.
-- Do not turn CICLOVELA into an accounting system.
-- Do not add cryptocurrency/blockchain features.
-- Do not add unnecessary microservices.
-- Do not add real-time delivery tracking unless documented.
-- Do not integrate Midtrans before the payment phase is approved.
-- Do not add entities simply because they are common in marketplace systems.
+- Jangan membuat entitas gudang (warehouse) kecuali didokumentasikan.
+- Jangan membuat entitas pemasok (supplier) kecuali didokumentasikan.
+- Jangan membuat manajemen karyawan kecuali didokumentasikan.
+- Jangan mengubah CICLOVELA menjadi sistem akuntansi.
+- Jangan menambahkan fitur mata uang kripto/blockchain.
+- Jangan menambahkan layanan mikro (microservices) yang tidak perlu.
+- Jangan menambahkan pelacakan pengiriman real-time kecuali didokumentasikan.
+- Jangan mengintegrasikan Midtrans sebelum fase pembayaran disetujui.
+- Jangan menambahkan entitas hanya karena entitas tersebut umum ada di sistem marketplace.

@@ -1,42 +1,42 @@
-# Project Specification Compliance Checklist
+# Daftar Periksa Kepatuhan Spesifikasi Proyek
 
-This checklist is derived from the provided project specification. It must be checked before submission.
+Daftar periksa ini diturunkan dari spesifikasi proyek yang diberikan. Ini harus diperiksa sebelum pengiriman (submission).
 
 ## Frontend
 
-- [ ] Responsive: mobile ≤768px
-- [ ] Responsive: tablet 769–1024px
-- [ ] Responsive: desktop >1024px
+- [ ] Responsif: seluler ≤768px
+- [ ] Responsif: tablet 769–1024px
+- [ ] Responsif: desktop >1024px
 - [ ] Login
-- [ ] Register
-- [ ] Logout
-- [ ] Forgot password
-- [ ] Reset password
-- [ ] Token stored in Local Storage or Cookie
-- [ ] Private routes
-- [ ] Role routes
-- [ ] Unauthorized redirect
-- [ ] Session survives browser refresh
-- [ ] Logout clears authentication data
-- [ ] Dashboard uses backend data
-- [ ] Card summary
+- [ ] Daftar (Register)
+- [ ] Keluar (Logout)
+- [ ] Lupa kata sandi (Forgot password)
+- [ ] Atur ulang kata sandi (Reset password)
+- [ ] Token disimpan di Local Storage atau Cookie
+- [ ] Rute privat (Private routes)
+- [ ] Rute peran (Role routes)
+- [ ] Pengalihan jika tidak diizinkan (Unauthorized redirect)
+- [ ] Sesi bertahan saat browser di-refresh
+- [ ] Logout menghapus data autentikasi
+- [ ] Dasbor menggunakan data backend
+- [ ] Ringkasan kartu (Card summary)
 - [ ] Total data
-- [ ] Statistics
-- [ ] Recent activity
-- [ ] CRUD interface for each main entity
-- [ ] Search
-- [ ] Filter status/category/date where applicable
-- [ ] Sorting newest/oldest/A-Z/Z-A
-- [ ] Search/filter/sort combinable
-- [ ] Pagination with previous/next/page numbers/count/page-size
-- [ ] Image/PDF upload
-- [ ] Client-side/realtime validation
-- [ ] Toast success/error/warning/info
-- [ ] 401 page
-- [ ] 403 page
-- [ ] 404 page
-- [ ] 500 page
-- [ ] API failure fallback
+- [ ] Statistik
+- [ ] Aktivitas terkini (Recent activity)
+- [ ] Antarmuka CRUD untuk setiap entitas utama
+- [ ] Pencarian (Search)
+- [ ] Filter status/kategori/tanggal jika memungkinkan
+- [ ] Pengurutan (Sorting) terbaru/terlama/A-Z/Z-A
+- [ ] Pencarian/filter/pengurutan dapat dikombinasikan
+- [ ] Paginasi dengan sebelumnya/selanjutnya/nomor halaman/jumlah/ukuran halaman
+- [ ] Unggah Gambar/PDF
+- [ ] Validasi sisi klien/real-time
+- [ ] Toast sukses/kesalahan/peringatan/info
+- [ ] Halaman 401
+- [ ] Halaman 403
+- [ ] Halaman 404
+- [ ] Halaman 500
+- [ ] Fallback kegagalan API
 
 ## Backend
 
@@ -49,52 +49,52 @@ This checklist is derived from the provided project specification. It must be ch
 - [ ] Register
 - [ ] Login
 - [ ] Logout
-- [ ] Forgot password
-- [ ] Reset password
-- [ ] RBAC with at least 2 roles
-- [ ] At least 6 real main entities with CRUD
-- [ ] POST/PUT validation
-- [ ] PATCH validation where relevant
-- [ ] Image/PDF upload
-- [ ] Global 400 handling
-- [ ] Global 401 handling
-- [ ] Global 403 handling
-- [ ] Global 404 handling
-- [ ] Global 422 validation handling
-- [ ] Global 500 handling
-- [ ] Consistent JSON errors
-- [ ] Required relationship types
-- [ ] Soft delete on at least 2 tables
-- [ ] Swagger/OpenAPI/Postman documentation
-- [ ] Search/filter/sort/pagination API
-- [ ] Password hashing
-- [ ] JWT authentication
+- [ ] Lupa kata sandi (Forgot password)
+- [ ] Atur ulang kata sandi (Reset password)
+- [ ] RBAC dengan minimal 2 peran
+- [ ] Minimal 6 entitas utama nyata dengan CRUD
+- [ ] Validasi POST/PUT
+- [ ] Validasi PATCH jika relevan
+- [ ] Unggah Gambar/PDF
+- [ ] Penanganan global 400
+- [ ] Penanganan global 401
+- [ ] Penanganan global 403
+- [ ] Penanganan global 404
+- [ ] Penanganan validasi global 422
+- [ ] Penanganan global 500
+- [ ] Error JSON yang konsisten
+- [ ] Jenis relasi yang diwajibkan
+- [ ] Soft delete pada setidaknya 2 tabel
+- [ ] Dokumentasi Swagger/OpenAPI/Postman
+- [ ] API pencarian/filter/pengurutan/paginasi
+- [ ] Hashing kata sandi
+- [ ] Autentikasi JWT
 - [ ] CORS
-- [ ] Request validation
+- [ ] Validasi request
 
 ## Database
 
-- [ ] ≥6 main tables
-- [ ] ≥5 relationships
-- [ ] PKs
-- [ ] FKs
-- [ ] 3NF considered
-- [ ] created_at on main tables
-- [ ] updated_at on main tables
-- [ ] ≥2 soft-delete tables
-- [ ] ≥20 coherent seed records per main table
+- [ ] ≥6 tabel utama
+- [ ] ≥5 relasi
+- [ ] PK
+- [ ] FK
+- [ ] 3NF dipertimbangkan
+- [ ] created_at pada tabel utama
+- [ ] updated_at pada tabel utama
+- [ ] ≥2 tabel soft-delete
+- [ ] ≥20 baris data awal (seed records) yang koheren per tabel utama
 
-## Submission
+## Pengiriman (Submission)
 
-- [ ] Fullstack application
-- [ ] Frontend + backend in one public GitHub monorepo
-- [ ] README contains title
-- [ ] README contains description
-- [ ] README contains main features
-- [ ] README contains technology stack
-- [ ] README contains folder structure
-- [ ] README contains installation/run instructions
-- [ ] Demo account if required
-- [ ] System design flowcharts
-- [ ] Final deadline: 18 September 2026, 22:00 WIB
-- [ ] Google Form submission completed
+- [ ] Aplikasi Fullstack
+- [ ] Frontend + backend dalam satu monorepo publik GitHub
+- [ ] README memuat judul
+- [ ] README memuat deskripsi
+- [ ] README memuat fitur utama
+- [ ] README memuat teknologi/stack
+- [ ] README memuat struktur folder
+- [ ] README memuat instruksi instalasi/menjalankan aplikasi
+- [ ] Akun demo jika diperlukan
+- [ ] Diagram alir desain sistem (System design flowcharts)
+- [ ] Tenggat waktu akhir: 18 September 2026, 22:00 WIB
+- [ ] Pengiriman Google Form selesai

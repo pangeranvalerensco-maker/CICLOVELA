@@ -1,72 +1,72 @@
-# CICLOVELA — SOURCE OF TRUTH
+# CICLOVELA — SUMBER KEBENARAN (SOURCE OF TRUTH)
 
-This document is the canonical reference for CICLOVELA.
+Dokumen ini adalah referensi kanonikal untuk CICLOVELA.
 
-Any developer, AI coding agent, reviewer, or contributor must read and follow this document before modifying the system.
+Setiap pengembang, agen AI coding, peninjau, atau kontributor harus membaca dan mengikuti dokumen ini sebelum memodifikasi sistem.
 
-If an implementation conflicts with this document, the implementation must be changed unless the requirement itself has been formally revised and documented.
+Jika sebuah implementasi bertentangan dengan dokumen ini, implementasi tersebut harus diubah kecuali persyaratan itu sendiri telah direvisi dan didokumentasikan secara formal.
 
-AI-generated suggestions do not override approved CICLOVELA requirements.
+Saran yang dihasilkan oleh AI tidak mengesampingkan persyaratan CICLOVELA yang telah disetujui.
 
-## 1. Fixed Identity
+## 1. Identitas Tetap
 
-**Project:** CICLOVELA
+**Proyek:** CICLOVELA
 
-**Working title:** Agricultural Supply Chain, Inventory & Product Traceability Platform
+**Judul kerja:** Agricultural Supply Chain, Inventory & Product Traceability Platform
 
-**Core thesis:** CICLOVELA records the lifecycle and movement of agricultural products across Farmer → Distributor → Retailer → Consumer while preserving inventory history, batch information, ownership, value, expiry, and waste records.
+**Tesis inti:** CICLOVELA mencatat siklus hidup dan pergerakan produk pertanian melintasi Farmer → Distributor → Retailer → Consumer sekaligus mempertahankan riwayat inventaris, informasi batch, kepemilikan, nilai, kedaluwarsa, dan catatan limbah (waste).
 
-## 2. What CICLOVELA Is
+## 2. Apa Itu CICLOVELA
 
-CICLOVELA is a controlled supply-chain and inventory platform.
+CICLOVELA adalah platform rantai pasok dan inventaris yang terkendali.
 
-The primary business question is:
+Pertanyaan bisnis utamanya adalah:
 
-> Where did this product come from, where is it now, how much remains, what happened to it, what value was attached to it at each stage, and what portion became waste?
+> Dari mana produk ini berasal, di mana posisinya sekarang, berapa jumlah yang tersisa, apa yang terjadi padanya, nilai apa yang melekat padanya di setiap tahap, dan porsi mana yang menjadi waste?
 
-## 3. What CICLOVELA Is Not
+## 3. Apa Yang Bukan CICLOVELA
 
-- Not a pure accounting application.
-- Not a general organization-management system.
-- Not a pure marketplace.
-- Not a real-time courier/GPS application.
-- Not a tax application.
-- Not a banking application.
-- Not an unrestricted social network.
+- Bukan murni aplikasi akuntansi.
+- Bukan sistem manajemen organisasi umum.
+- Bukan murni marketplace.
+- Bukan aplikasi kurir/GPS real-time.
+- Bukan aplikasi pajak.
+- Bukan aplikasi perbankan.
+- Bukan jejaring sosial tanpa batas.
 
-Payment integration and delivery status may exist as supporting features, but they do not redefine the core product.
+Integrasi pembayaran dan status pengiriman dapat ada sebagai fitur pendukung, namun fitur-fitur tersebut tidak mendefinisikan ulang produk inti.
 
-## 4. Fixed Actors
+## 4. Aktor Tetap
 
 ### Platform Admin
 
-Operates the CICLOVELA platform. Responsible for platform-level moderation and Business Entity approval.
+Mengoperasikan platform CICLOVELA. Bertanggung jawab atas moderasi tingkat platform dan persetujuan Business Entity.
 
 ### Farmer
 
-A personal user who can register agricultural products/batches and offer goods into the supply chain. Farmer does not need to belong to a Business Entity in the MVP.
+Pengguna personal yang dapat mendaftarkan produk/batch pertanian dan menawarkan barang ke dalam rantai pasok. Farmer tidak diwajibkan untuk bergabung dengan Business Entity pada tahap MVP.
 
 ### Business Entity
 
-A verified organization representing a distributor, retailer, or other business participant.
+Organisasi terverifikasi yang merepresentasikan distributor, pengecer, atau partisipan bisnis lainnya.
 
 ### Entity Admin
 
-Manages members and operational data within a Business Entity. This is distinct from Platform Admin.
+Mengelola anggota dan data operasional di dalam sebuah Business Entity. Ini berbeda dengan Platform Admin.
 
 ### Distributor
 
-Must operate under a Business Entity. Purchases/receives products from Farmers and can transfer/sell them onward.
+Harus beroperasi di bawah sebuah Business Entity. Membeli/menerima produk dari Farmer dan dapat mentransfer/menjualnya lebih lanjut.
 
 ### Retailer
 
-Must operate under a Business Entity. Purchases/receives products from distributors and sells to consumers.
+Harus beroperasi di bawah sebuah Business Entity. Membeli/menerima produk dari distributor dan menjualnya kepada konsumen.
 
 ### Consumer
 
-Personal user who can browse products, place orders, and view permitted traceability information.
+Pengguna personal yang dapat menelusuri produk, melakukan pemesanan, dan melihat informasi keterlacakan yang diizinkan.
 
-## 5. Fixed Lifecycle
+## 5. Siklus Hidup Tetap
 
 ```text
 Farmer
@@ -82,9 +82,9 @@ Consumer
 Product End-of-Life / Waste
 ```
 
-The lifecycle is batch-aware. A Product is a general product definition; a Batch represents a specific production/harvest lot with its own quantity, dates, quality, ownership, and expiry.
+Siklus hidup ini berbasis batch (batch-aware). Product adalah definisi umum; Batch merepresentasikan kelompok produksi/panen spesifik dengan kuantitas, tanggal, kualitas, kepemilikan, dan kedaluwarsanya sendiri.
 
-## 6. Fixed Core Domains
+## 6. Domain Inti Tetap
 
 1. Identity & access
 2. Business Entity
@@ -97,55 +97,55 @@ The lifecycle is batch-aware. A Product is a general product definition; a Batch
 9. Waste
 10. Traceability
 
-Supporting domains:
+Domain pendukung:
 
 11. Payment
 12. Delivery
 13. Notification
 14. Analytics / dashboard
 
-Supporting domains are lower priority than the core domains.
+Domain pendukung memiliki prioritas lebih rendah dibandingkan domain inti.
 
-## 7. Non-Negotiable Business Principles
+## 7. Prinsip Bisnis yang Tidak Dapat Ditawar
 
-- Inventory must be explainable through movements.
-- Batch information must be preserved.
-- Expiry can differ between batches of the same product.
-- Waste is a first-class business event, not a note field.
-- Ownership changes must be traceable.
-- Price changes between supply-chain stages must be recorded rather than silently overwritten.
-- Role permissions must be enforced server-side.
-- Business Entity creation must be controlled/approved by Platform Admin.
-- Consumer-facing traceability must not expose sensitive internal business data.
-- Deleted master data must be recoverable through soft delete where required by the project rules.
+- Inventory harus dapat dijelaskan melalui pergerakan (movements).
+- Informasi batch harus dipertahankan.
+- Kedaluwarsa dapat berbeda antar batch dari produk yang sama.
+- Waste merupakan peristiwa bisnis utama (first-class), bukan sekadar catatan (note field).
+- Perubahan kepemilikan harus dapat dilacak.
+- Perubahan harga antar tahap rantai pasok harus dicatat daripada ditimpa diam-diam.
+- Izin berbasis peran harus ditegakkan di sisi server (server-side).
+- Pembuatan Business Entity harus dikontrol/disetujui oleh Platform Admin.
+- Keterlacakan yang menghadap konsumen tidak boleh mengekspos data bisnis internal yang sensitif.
+- Data master yang dihapus harus dapat dipulihkan melalui soft delete jika diwajibkan oleh aturan proyek.
 
-## 8. Scope Philosophy
+## 8. Filosofi Cakupan (Scope Philosophy)
 
-The MVP must be deep and coherent rather than broad and unfinished.
+MVP harus mendalam dan koheren, bukan luas dan tidak selesai.
 
-Priority order:
+Urutan prioritas:
 
-**P0:** authentication, authorization, entities, products, batches, inventory, movement, transfers, orders/sales, waste, traceability, required project infrastructure.
+**P0:** autentikasi, otorisasi, entities, products, batches, inventory, movement, transfers, orders/sales, waste, traceability, infrastruktur proyek yang diwajibkan.
 
-**P1:** dashboard analytics, price history, advanced filters, reports, notifications, richer traceability.
+**P1:** analitik dasbor, riwayat harga, filter lanjutan, laporan, notifikasi, keterlacakan yang lebih kaya.
 
-**P2:** Midtrans/payment gateway, delivery workflow, QR/public traceability page, advanced analytics/recommendations.
+**P2:** Midtrans/payment gateway, alur kerja pengiriman (delivery), kode QR/halaman keterlacakan publik, analitik lanjutan/rekomendasi.
 
-## 9. Change Control
+## 9. Kontrol Perubahan
 
-Any proposed feature must answer:
+Setiap usulan fitur harus menjawab:
 
-1. Which business problem does it solve?
-2. Which actor uses it?
-3. Which domain entity does it affect?
-4. Which business rules does it introduce?
-5. Does it threaten the three-week schedule?
-6. Is it P0, P1, or P2?
+1. Masalah bisnis apa yang diselesaikannya?
+2. Aktor mana yang menggunakannya?
+3. Entitas domain mana yang dipengaruhinya?
+4. Aturan bisnis apa yang diperkenalkannya?
+5. Apakah mengancam jadwal tiga minggu?
+6. Apakah ini P0, P1, atau P2?
 
-If it does not improve the core lifecycle, it is probably not a priority.
-Non-Negotiable Rules
+Jika usulan tersebut tidak memperbaiki siklus hidup inti, kemungkinan hal itu bukan prioritas.
+Aturan yang Tidak Dapat Ditawar
 
-Business Structure
+Struktur Bisnis
 
 Farmer dapat beroperasi sebagai personal user.
 Distributor wajib berada di dalam Business Entity.
@@ -154,7 +154,7 @@ Consumer dapat beroperasi sebagai personal user.
 Business Entity baru dapat digunakan setelah approval Platform Admin.
 Distributor dan Retailer memperoleh kewenangan melalui Business Membership, bukan role bebas yang dapat dipilih tanpa konteks entity.
 
-Supply Chain
+Rantai Pasok (Supply Chain)
 
 FARMER
    ↓
@@ -172,7 +172,7 @@ Farmer → Retailer
 Farmer → Consumer
 Distributor → Consumer
 
-Product & Batch
+Produk & Batch (Product & Batch)
 
 Product merepresentasikan jenis produk.
 Batch merepresentasikan kelompok produksi/panen tertentu.
@@ -182,7 +182,7 @@ Perubahan ownership tidak membuat Batch baru.
 Satu Batch dapat tersebar pada beberapa Inventory Account.
 Sebagian quantity Batch dapat dijual atau dipindahkan.
 
-Inventory
+Inventaris (Inventory)
 
 Inventory tidak boleh negatif.
 reserved_quantity tidak boleh lebih besar daripada quantity.
@@ -191,7 +191,7 @@ Historical Inventory Movement tidak boleh diedit.
 Transaksi yang perlu dibatalkan harus menggunakan reversal/cancellation mechanism.
 Quantity awal Batch tidak boleh diubah akibat transaksi atau waste.
 
-Waste
+Limbah (Waste)
 
 Waste merupakan core feature.
 Waste harus memiliki quantity, batch, inventory, reason, actor, dan timestamp.
@@ -200,13 +200,13 @@ Waste menghasilkan WASTE_OUT Inventory Movement.
 Waste tidak mengubah initial_quantity Batch.
 Expired product tidak otomatis dihapus dari inventory tanpa pencatatan waste.
 
-Expiry
+Kedaluwarsa (Expiry)
 
 Batch yang telah expired tidak boleh digunakan untuk transaksi penjualan baru.
 Expired stock tetap dapat tercatat di inventory sampai dilakukan waste handling.
 Expiry harus ditentukan pada level Batch, bukan Product.
 
-Transaction
+Transaksi (Transaction)
 
 Purchase tidak langsung menambah inventory ketika dibuat.
 Inventory berpindah setelah Purchase mencapai status yang sesuai.
@@ -214,7 +214,7 @@ Sale tidak boleh mengurangi inventory yang tidak tersedia.
 Completed transaction tidak boleh dihapus secara fisik.
 Historical transaction harus tetap dapat ditelusuri.
 
-Scope
+Cakupan (Scope)
 
 CICLOVELA bukan:
 

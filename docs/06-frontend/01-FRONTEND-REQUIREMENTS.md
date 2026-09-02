@@ -1,73 +1,73 @@
-# Frontend Requirements
+# Persyaratan Frontend
 
-## Mandatory From Project Rules
+## Wajib Dari Aturan Proyek
 
-- Responsive layout for mobile, tablet, desktop.
-- Complete authentication flow: Login, Register, Logout, Forgot Password, Reset Password.
-- JWT stored using Local Storage or Cookie according to the project specification.
-- Private routes.
-- Role routes.
-- Redirect on unauthorized access.
-- Dashboard with backend data, not static mock data.
-- CRUD interfaces for main entities.
-- Search, filter, sorting.
-- Pagination.
-- Image/PDF upload.
-- Real-time/client-side form validation.
-- Toast notifications for CRUD processes.
-- 401, 403, 404, 500 pages and API fallback.
+- Tata letak responsif untuk ponsel, tablet, desktop.
+- Alur autentikasi lengkap: Login, Register, Logout, Forgot Password, Reset Password.
+- JWT disimpan menggunakan Local Storage atau Cookie sesuai spesifikasi proyek.
+- Rute privat (private routes).
+- Rute peran (role routes).
+- Pengalihan (redirect) pada akses yang tidak diotorisasi.
+- Dasbor dengan data dari backend, bukan data palsu yang statis.
+- Antarmuka CRUD untuk entitas utama.
+- Pencarian, penyaringan, pengurutan.
+- Paginasi.
+- Unggah gambar/PDF.
+- Validasi form real-time/sisi klien.
+- Notifikasi toast untuk proses CRUD.
+- Halaman 401, 403, 404, 500 dan fallback API.
 
-## Core Screens
+## Layar Inti
 
-### Public
+### Publik (Public)
 
-- Landing/home
+- Beranda (Landing/home)
 - Login
-- Register
-- Forgot password
-- Reset password
-- Public product/traceability pages if P2 is implemented
+- Daftar (Register)
+- Lupa kata sandi (Forgot password)
+- Atur ulang kata sandi (Reset password)
+- Halaman produk/keterlacakan publik jika P2 diimplementasikan
 
-### Platform Admin
+### Admin Platform (Platform Admin)
 
-- Dashboard
-- Business Entity requests
-- Business Entity management
-- Users/members
-- Reference data
+- Dasbor
+- Permintaan Business Entity
+- Manajemen Business Entity
+- Pengguna/anggota
+- Data referensi
 
-### Farmer
+### Petani (Farmer)
 
-- Dashboard
-- Products
-- Batches
-- Inventory
-- Supply transactions
-- Waste
-- Traceability
+- Dasbor
+- Produk (Products)
+- Batch
+- Inventaris (Inventory)
+- Transaksi pasokan (Supply transactions)
+- Limbah (Waste)
+- Keterlacakan (Traceability)
 
 ### Distributor
 
-- Dashboard
-- Incoming supply
-- Inventory
-- Transfers/sales
-- Waste
-- Batch traceability
+- Dasbor
+- Pasokan masuk (Incoming supply)
+- Inventaris (Inventory)
+- Transfer/penjualan
+- Limbah (Waste)
+- Keterlacakan batch (Batch traceability)
 
-### Retailer
+### Pengecer (Retailer)
 
-- Dashboard
-- Incoming supply
-- Inventory
-- Orders/sales
-- Waste
-- Traceability
+- Dasbor
+- Pasokan masuk (Incoming supply)
+- Inventaris (Inventory)
+- Pesanan/penjualan (Orders/sales)
+- Limbah (Waste)
+- Keterlacakan (Traceability)
 
-### Consumer
+### Konsumen (Consumer)
 
-- Product catalog
-- Product detail
-- Cart/order if implemented
-- Orders
-- Traceability
+- Katalog produk
+- Detail produk
+- Keranjang/pesanan (Cart/order) jika diimplementasikan
+- Pesanan (Orders)
+- Keterlacakan (Traceability)

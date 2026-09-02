@@ -1,71 +1,71 @@
-# Actors, Roles & RBAC
+# Aktor, Peran & RBAC
 
-## Platform Roles
+## Peran Platform
 
 ### PLATFORM_ADMIN
 
-Can:
-- review Business Entity creation requests;
-- approve/reject entities;
-- manage platform-level reference data;
-- inspect platform activity;
-- access administrative dashboards.
+Dapat:
+- meninjau permintaan pembuatan Business Entity;
+- menyetujui/menolak entitas;
+- mengelola data referensi tingkat platform;
+- memeriksa aktivitas platform;
+- mengakses dasbor administratif.
 
 ### FARMER
 
-Can:
-- manage own farmer profile;
-- manage own products/batches according to ownership rules;
-- offer/transfer goods into the supply chain;
-- inspect own inventory/history.
+Dapat:
+- mengelola profil farmer sendiri;
+- mengelola product/batch sendiri berdasarkan aturan kepemilikan;
+- menawarkan/mentransfer barang ke dalam rantai pasok;
+- memeriksa inventory/riwayat sendiri.
 
 ### CONSUMER
 
-Can:
-- browse permitted products;
-- create orders;
-- view own orders;
-- view permitted traceability.
+Dapat:
+- menelusuri produk yang diizinkan;
+- membuat pesanan;
+- melihat pesanan sendiri;
+- melihat keterlacakan yang diizinkan.
 
 ### ENTITY_ADMIN
 
-Can:
-- manage Business Entity profile;
-- manage members;
-- assign permitted entity roles;
-- manage entity operational data.
+Dapat:
+- mengelola profil Business Entity;
+- mengelola anggota;
+- menugaskan peran entitas yang diizinkan;
+- mengelola data operasional entitas.
 
 ### DISTRIBUTOR
 
-Can:
-- receive/purchase goods;
-- manage entity inventory;
-- transfer/sell goods onward;
-- record permitted waste;
-- inspect relevant batch history.
+Dapat:
+- menerima/membeli barang;
+- mengelola inventory entitas;
+- mentransfer/menjual barang lebih lanjut;
+- mencatat waste yang diizinkan;
+- memeriksa riwayat batch yang relevan.
 
 ### RETAILER
 
-Can:
-- receive goods;
-- manage retail inventory;
-- sell goods;
-- record permitted waste;
-- inspect relevant batch history.
+Dapat:
+- menerima barang;
+- mengelola inventory eceran;
+- menjual barang;
+- mencatat waste yang diizinkan;
+- memeriksa riwayat batch yang relevan.
 
-## Registration Rules
+## Aturan Registrasi
 
-1. All people begin as a user account.
-2. Farmer may operate as a personal role.
-3. Consumer may operate as a personal role.
-4. Distributor and Retailer must operate under a Business Entity.
-5. Business Entity creation requires Platform Admin approval.
-6. A user must not gain distributor/retailer privileges simply by changing a client-side role value.
-7. Authorization is enforced in the backend.
+1. Semua orang memulai sebagai akun User.
+2. Farmer dapat beroperasi sebagai peran pribadi.
+3. Consumer dapat beroperasi sebagai peran pribadi.
+4. Distributor dan Retailer harus beroperasi di bawah suatu Business Entity.
+5. Pembuatan Business Entity memerlukan persetujuan Platform Admin.
+6. Seorang User tidak boleh mendapatkan hak istimewa distributor/retailer hanya dengan mengubah nilai peran di sisi klien.
+7. Otorisasi ditegakkan di bagian backend.
 
-## Entity Membership
+## Keanggotaan Entitas
 
-Recommended conceptual model:
+Model konseptual yang disarankan:
 
 ```text
 User ──< Membership >── BusinessEntity
@@ -73,4 +73,4 @@ User ──< Membership >── BusinessEntity
                     └── EntityRole
 ```
 
-This permits a user to belong to an entity with a defined role without hard-coding all business roles directly into the User table.
+Ini memungkinkan seorang pengguna untuk menjadi bagian dari sebuah entitas dengan peran yang telah ditetapkan tanpa harus melakukan hard-code terhadap semua peran bisnis secara langsung ke dalam tabel User.

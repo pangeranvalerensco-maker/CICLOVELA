@@ -1,21 +1,21 @@
-# Database Requirements
+# Kebutuhan Database
 
-## Mandatory Rules From Project Specification
+## Aturan Wajib Dari Spesifikasi Proyek
 
-- Minimum 6 main tables.
-- Minimum 5 relationships.
-- Primary Keys and Foreign Keys.
-- Minimum normalization through 3NF.
-- `created_at` and `updated_at` on every main table.
-- Soft delete on at least 2 tables.
-- Minimum 20 seed records for every main table.
-- Required relationship types: One-to-One, One-to-Many, Many-to-One, Many-to-Many.
+- Minimal 6 tabel utama.
+- Minimal 5 relasi.
+- Primary Key dan Foreign Key.
+- Minimal normalisasi hingga 3NF.
+- `created_at` dan `updated_at` pada setiap tabel utama.
+- Soft delete pada setidaknya 2 tabel.
+- Minimal 20 data awal (seed records) untuk setiap tabel utama.
+- Jenis relasi yang diwajibkan: One-to-One, One-to-Many, Many-to-One, Many-to-Many.
 
-## Recommended Core Tables
+## Rekomendasi Tabel Inti
 
-The final design is expected to contain more than the minimum because the domain requires separation of concerns.
+Desain akhir diharapkan memiliki lebih dari jumlah minimum karena domain memerlukan pemisahan tanggung jawab (separation of concerns).
 
-Candidate tables:
+Tabel kandidat:
 
 1. users
 2. farmer_profiles
@@ -31,31 +31,31 @@ Candidate tables:
 12. order_items
 13. waste_records
 14. attachments
-15. password_reset_tokens / equivalent authentication support
+15. password_reset_tokens / dukungan autentikasi setara
 
-The exact table list will be finalized during ERD design.
+Daftar tabel yang tepat akan difinalisasi selama perancangan ERD.
 
-## Soft Delete Candidates
+## Kandidat Soft Delete
 
-Recommended:
+Rekomendasi:
 
 - products
 - business_entities
 
-Additional candidates may be used if appropriate.
+Kandidat tambahan dapat digunakan jika diperlukan.
 
-## Seed Data Strategy
+## Strategi Seed Data
 
-Seed data must be realistic enough to demonstrate:
+Seed data harus cukup realistis untuk mendemonstrasikan:
 
-- multiple farmers;
-- multiple entities;
-- distributors and retailers;
-- multiple products;
-- multiple batches with different expiry dates;
-- inbound/outbound inventory movements;
-- different transaction prices;
-- waste events;
-- consumer orders.
+- beberapa farmer;
+- beberapa entitas;
+- distributor dan retailer;
+- beberapa produk;
+- beberapa batch dengan tanggal kedaluwarsa yang berbeda;
+- pergerakan inventory masuk/keluar (inbound/outbound);
+- harga transaksi yang berbeda-beda;
+- peristiwa waste;
+- pesanan konsumen.
 
-Do not generate 20 meaningless rows merely to satisfy a checkbox. The seed dataset should tell a coherent story during the demo.
+Jangan membuat 20 baris tanpa makna sekadar untuk memenuhi kotak centang (checkbox). Kumpulan data awal harus dapat menceritakan alur cerita yang koheren saat demonstrasi.

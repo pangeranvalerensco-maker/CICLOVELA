@@ -1,36 +1,36 @@
-# CICLOVELA - AI AGENT PROJECT INSTRUCTIONS
+# CICLOVELA - INSTRUKSI PROYEK AGEN AI
 
-## FIRST STEP
+## LANGKAH PERTAMA
 
-Before performing any development task, read:
+Sebelum melakukan tugas pengembangan apa pun, baca:
 
 - docs/ai/AI-CONTEXT.md
 - docs/ai/AI-RULES.md
 
-Then read the relevant domain documentation.
+Kemudian baca dokumentasi domain yang relevan.
 
 ---
 
-## PROJECT SOURCE OF TRUTH
+## SUMBER KEBENARAN PROYEK (PROJECT SOURCE OF TRUTH)
 
-The `/docs` directory is the authoritative source
-for project requirements and architecture.
+Direktori `/docs` adalah sumber otoritatif
+untuk persyaratan dan arsitektur proyek.
 
-Do not invent requirements.
+Jangan menciptakan persyaratan sendiri.
 
-Do not silently change requirements.
+Jangan diam-diam mengubah persyaratan.
 
-If requirements are ambiguous or contradictory,
-report the issue before coding.
+Jika persyaratan ambigu atau saling bertentangan,
+laporkan masalah tersebut sebelum menulis kode.
 
 ---
 
-## PROJECT
+## PROYEK
 
-CICLOVELA is an agribusiness supply-chain,
-inventory, batch traceability and waste management system.
+CICLOVELA adalah sistem rantai pasok agribisnis,
+inventaris, keterlacakan batch, dan manajemen limbah (waste management).
 
-Core supply chain:
+Rantai pasok inti:
 
 Farmer
 → Distributor
@@ -39,7 +39,7 @@ Farmer
 
 ---
 
-## TECHNOLOGY
+## TEKNOLOGI
 
 Backend:
 Spring Boot
@@ -47,7 +47,7 @@ Spring Boot
 Database:
 PostgreSQL
 
-Database client:
+Klien database:
 DBeaver
 
 ORM:
@@ -55,34 +55,34 @@ Spring Data JPA / Hibernate
 
 ---
 
-## DEVELOPMENT PRINCIPLE
+## PRINSIP PENGEMBANGAN
 
-Build in phases.
+Bangun secara bertahap.
 
-Prioritize P0 requirements first.
+Prioritaskan persyaratan P0 terlebih dahulu.
 
-Do not implement P1/P2 features
-unless explicitly requested.
+Jangan mengimplementasikan fitur P1/P2
+kecuali diminta secara eksplisit.
 
-Keep implementation simple,
-maintainable and consistent with documentation.
+Pertahankan implementasi agar tetap sederhana,
+mudah dipelihara, dan konsisten dengan dokumentasi.
 
 ---
 
-## BEFORE EVERY MAJOR CHANGE
+## SEBELUM SETIAP PERUBAHAN BESAR
 
-Check relevant documentation.
+Periksa dokumentasi yang relevan.
 
-If the requested change affects:
+Jika perubahan yang diminta memengaruhi:
 - database
-- entity
-- business rules
-- roles
-- authentication
-- inventory
-- transactions
+- entitas
+- aturan bisnis
+- peran (roles)
+- autentikasi
+- inventaris
+- transaksi
 
-review the relevant documentation first.
+tinjau dokumentasi yang relevan terlebih dahulu.
 
-After implementation, update documentation
-when the architecture or approved requirement changes.
+Setelah implementasi, perbarui dokumentasi
+jika arsitektur atau persyaratan yang disetujui berubah.

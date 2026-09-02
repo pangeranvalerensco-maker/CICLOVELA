@@ -1,12 +1,12 @@
-# Business Rules
+# Aturan Bisnis
 
-## Product vs Batch
+## Produk vs Batch
 
-A Product is the general definition. A Batch is a specific lot.
+Sebuah Product adalah definisi umum. Sebuah Batch adalah lot yang spesifik.
 
-One Product can have many Batches.
+Satu Product dapat memiliki banyak Batches.
 
-Example:
+Contoh:
 
 ```text
 Product: Tomato
@@ -14,42 +14,42 @@ Product: Tomato
 └── Batch B — harvested 22 Aug — expires 30 Aug
 ```
 
-Expiry must be stored at batch level when it can vary by production/harvest.
+Kedaluwarsa harus disimpan pada tingkat batch ketika hal tersebut dapat bervariasi berdasarkan produksi/panen.
 
-## Inventory Rule
+## Aturan Inventaris (Inventory Rule)
 
-Current inventory must be explainable from inventory movements.
+Inventory saat ini harus dapat dijelaskan dari pergerakan inventory (inventory movements).
 
-Conceptual formula:
+Formula konseptual:
 
 ```text
 Current Stock = Opening + Inbound - Outbound - Waste + Adjustments
 ```
 
-The exact movement types must be finalized in the domain model before implementation.
+Tipe pergerakan yang persis harus difinalisasi dalam domain model sebelum diimplementasikan.
 
-## Ownership Rule
+## Aturan Kepemilikan (Ownership Rule)
 
-A transfer represents a controlled change or movement of goods from source actor/entity to destination actor/entity.
+Sebuah transfer merepresentasikan perubahan atau pergerakan barang yang terkontrol dari aktor/entitas sumber menuju aktor/entitas tujuan.
 
-The system must record:
+Sistem harus mencatat:
 
-- source;
-- destination;
+- sumber (source);
+- tujuan (destination);
 - batch;
-- quantity;
-- unit;
-- transaction time;
-- transaction price where applicable;
+- kuantitas (quantity);
+- satuan (unit);
+- waktu transaksi (transaction time);
+- harga transaksi (transaction price) jika berlaku;
 - status.
 
-## Price Rule
+## Aturan Harga (Price Rule)
 
-CICLOVELA does not enforce a single market price.
+CICLOVELA tidak memaksakan satu harga pasar yang tunggal.
 
-It records transaction values so the system can show how product value changes through the chain.
+Sistem mencatat nilai transaksi sehingga sistem dapat menunjukkan bagaimana nilai produk berubah di seluruh rantai pasok.
 
-Example:
+Contoh:
 
 ```text
 Farmer → Distributor: Rp10,000/kg
@@ -57,15 +57,15 @@ Distributor → Retailer: Rp14,000/kg
 Retailer → Consumer: Rp20,000/kg
 ```
 
-The system records these as separate transactions, not by overwriting the original price.
+Sistem mencatat ini sebagai transaksi-transaksi yang terpisah, bukan dengan menimpa harga awal.
 
-## Waste Rule
+## Aturan Limbah (Waste Rule)
 
-Waste is a stock-reducing business event.
+Waste adalah peristiwa bisnis yang mengurangi stok.
 
-Waste must reference a batch and quantity.
+Waste harus mereferensikan sebuah batch dan kuantitas.
 
-Waste reasons should be enumerated, e.g.:
+Alasan waste sebaiknya dienumerasi (enum), contoh:
 
 - EXPIRED
 - SPOILED
@@ -74,18 +74,18 @@ Waste reasons should be enumerated, e.g.:
 - UNSOLD
 - OTHER
 
-Waste must be reflected in inventory history.
+Waste harus tercermin dalam riwayat inventory.
 
-## Expiry Rule
+## Aturan Kedaluwarsa (Expiry Rule)
 
-Expiry risk is batch-specific. The system must not assume that all units of a Product expire on the same date.
+Risiko kedaluwarsa bersifat spesifik-batch. Sistem tidak boleh berasumsi bahwa semua unit dari sebuah Product akan kedaluwarsa pada tanggal yang sama.
 
-## Traceability Rule
+## Aturan Keterlacakan (Traceability Rule)
 
-The system must be able to reconstruct the relevant history of a batch from origin through subsequent supply-chain events.
+Sistem harus mampu merekonstruksi riwayat relevan dari sebuah batch dari titik asal melalui peristiwa rantai pasok selanjutnya.
 
-## Data Visibility Rule
+## Aturan Visibilitas Data
 
-Internal transaction values and personal/business data must not automatically become public traceability data.
+Nilai transaksi internal dan data pribadi/bisnis tidak boleh secara otomatis menjadi data keterlacakan publik.
 
-Public/consumer-facing traceability must use an explicit safe projection of internal data.
+Keterlacakan yang menghadap publik/konsumen harus menggunakan proyeksi eksplisit yang aman dari data internal.

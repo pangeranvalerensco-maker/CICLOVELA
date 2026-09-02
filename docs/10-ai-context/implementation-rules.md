@@ -1,10 +1,10 @@
-# CICLOVELA AI Implementation Rules
+# Aturan Implementasi AI CICLOVELA
 
-This document is mandatory for any AI agent working on CICLOVELA.
+Dokumen ini wajib bagi agen AI mana pun yang bekerja di CICLOVELA.
 
-## Source of Truth
+## Sumber Kebenaran (Source of Truth)
 
-Before implementing anything, read:
+Sebelum mengimplementasikan apa pun, baca:
 
 - /CLAUDE.md
 - /docs/00-project-overview.md
@@ -14,7 +14,7 @@ Before implementing anything, read:
 - /docs/04-database/database-design.md
 - /docs/04-database/database-schema.md
 
-Do not invent business rules that are not documented.
+Jangan menciptakan aturan bisnis yang tidak terdokumentasi.
 
 ## Database
 
@@ -34,80 +34,80 @@ Application enum:
 
 Java Enum
 
-PostgreSQL Native ENUM must not be introduced unless explicitly approved.
+PostgreSQL Native ENUM tidak boleh diperkenalkan kecuali disetujui secara eksplisit.
 
-## Inventory
+## Inventaris (Inventory)
 
-Inventory must be tracked by batch.
+Inventaris harus dilacak berdasarkan batch.
 
-Never create a product-level stock field as the authoritative inventory.
+Jangan pernah membuat field stok di level produk sebagai inventaris otoritatif.
 
-Correct concept:
+Konsep yang benar:
 
 Product
 → Batch
 → Inventory
 → Inventory Movement
 
-Any stock-changing operation must be represented by an inventory movement.
+Setiap operasi yang mengubah stok harus direpresentasikan oleh sebuah pergerakan inventaris (inventory movement).
 
-## Waste
+## Limbah (Waste)
 
-Waste is a first-class business feature.
+Limbah adalah fitur bisnis utama (first-class).
 
-Waste must reference the affected batch and inventory.
+Limbah harus merujuk pada batch dan inventaris yang terdampak.
 
-Do not implement waste only as a report.
+Jangan mengimplementasikan limbah hanya sebagai laporan.
 
-## Business Entity
+## Entitas Bisnis (Business Entity)
 
-Distributor and retailer operations require an approved Business Entity.
+Operasi distributor dan pengecer (retailer) memerlukan Business Entity yang telah disetujui.
 
-An unapproved Business Entity must not perform operational transactions.
+Business Entity yang belum disetujui tidak boleh melakukan transaksi operasional.
 
-## Roles
+## Peran (Roles)
 
-Platform roles:
+Peran platform:
 
 - PLATFORM_ADMIN
 - FARMER
 - CONSUMER
 
-Distributor and retailer are business roles, not independent platform user roles.
+Distributor dan retailer adalah peran bisnis, bukan peran pengguna platform yang independen.
 
-They operate through Business Entity membership.
+Mereka beroperasi melalui keanggotaan Business Entity.
 
-## Business Flow
+## Alur Bisnis (Business Flow)
 
 Farmer
 → Distributor
 → Retailer
 → Consumer
 
-The system must preserve transaction traceability across this flow.
+Sistem harus mempertahankan keterlacakan transaksi di seluruh alur ini.
 
-## Development Rules
+## Aturan Pengembangan
 
-Do not:
+Jangan:
 
-- create duplicate entities
-- change database structure without updating documentation
-- bypass existing business rules
-- remove constraints without justification
-- create unnecessary features before MVP requirements are complete
-- implement real-time delivery tracking for MVP
-- make payment gateway integration a prerequisite for core transactions
+- membuat entitas duplikat
+- mengubah struktur database tanpa memperbarui dokumentasi
+- mengabaikan aturan bisnis yang ada
+- menghapus kendala (constraints) tanpa alasan yang jelas
+- membuat fitur yang tidak perlu sebelum persyaratan MVP selesai
+- mengimplementasikan pelacakan pengiriman real-time untuk MVP
+- menjadikan integrasi payment gateway sebagai prasyarat untuk transaksi inti
 
-Prioritize:
+Prioritaskan:
 
 P0 → P1 → P2
 
-P0 must be stable before implementing P1.
+P0 harus stabil sebelum mengimplementasikan P1.
 
-P1 must be stable before implementing P2.
+P1 harus stabil sebelum mengimplementasikan P2.
 
-## Coding Principle
+## Prinsip Pengkodean
 
-Prefer simple, maintainable implementation over unnecessary complexity.
+Pilihlah implementasi yang sederhana dan mudah dipelihara daripada kompleksitas yang tidak perlu.
 
-Do not introduce technologies or architectural patterns unless they provide a clear benefit to CICLOVELA.
+Jangan memperkenalkan teknologi atau pola arsitektur kecuali hal tersebut memberikan manfaat yang jelas bagi CICLOVELA.

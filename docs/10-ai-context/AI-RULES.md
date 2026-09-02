@@ -1,73 +1,73 @@
-# CICLOVELA AI DEVELOPMENT RULES
+# ATURAN PENGEMBANGAN AI CICLOVELA
 
-## RULE 1 - READ BEFORE CODE
+## ATURAN 1 - BACA SEBELUM MENGODE
 
-Before coding, read:
+Sebelum menulis kode, baca:
 
 1. docs/ai/AI-CONTEXT.md
 2. docs/00-project-overview.md
 3. docs/01-project-scope.md
-4. Relevant domain documentation
-5. Relevant database documentation
+4. Dokumentasi domain yang relevan
+5. Dokumentasi database yang relevan
 
-Never start implementation based only on the current chat message.
-
----
-
-## RULE 2 - SOURCE OF TRUTH
-
-The documentation inside /docs is the project's source of truth.
-
-Code must follow the documentation.
-
-If code and documentation conflict:
-
-DO NOT silently change either one.
-
-Report the conflict first.
+Jangan pernah memulai implementasi hanya berdasarkan pesan obrolan (chat) saat ini.
 
 ---
 
-## RULE 3 - NO INVENTED REQUIREMENTS
+## ATURAN 2 - SUMBER KEBENARAN (SOURCE OF TRUTH)
 
-The AI must not invent:
+Dokumentasi di dalam /docs adalah sumber kebenaran proyek.
 
-- entities
-- roles
-- business processes
-- permissions
-- database fields
-- API endpoints
-- integrations
+Kode harus mengikuti dokumentasi.
 
-unless they are required by existing documentation
-or explicitly approved by the project owner.
+Jika kode dan dokumentasi saling bertentangan:
+
+JANGAN diam-diam mengubah salah satunya.
+
+Laporkan konflik tersebut terlebih dahulu.
 
 ---
 
-## RULE 4 - MINIMAL IMPLEMENTATION
+## ATURAN 3 - TIDAK MENCIPTAKAN PERSYARATAN SENDIRI
 
-Prefer the simplest implementation that satisfies
-the documented requirement.
+AI tidak boleh menciptakan:
 
-Do not over-engineer.
+- entitas
+- peran (roles)
+- proses bisnis
+- perizinan (permissions)
+- field database
+- endpoint API
+- integrasi
 
-Do not introduce unnecessary:
-- design patterns
-- frameworks
-- libraries
-- microservices
-- abstractions
+kecuali hal-hal tersebut diwajibkan oleh dokumentasi yang ada
+atau disetujui secara eksplisit oleh pemilik proyek.
 
 ---
 
-## RULE 5 - DATABASE
+## ATURAN 4 - IMPLEMENTASI MINIMAL
+
+Pilihlah implementasi paling sederhana yang memenuhi
+persyaratan yang didokumentasikan.
+
+Jangan melakukan rekayasa berlebihan (over-engineer).
+
+Jangan memperkenalkan hal-hal yang tidak perlu seperti:
+- pola desain (design patterns)
+- kerangka kerja (frameworks)
+- pustaka (libraries)
+- layanan mikro (microservices)
+- abstraksi
+
+---
+
+## ATURAN 5 - DATABASE
 
 Database:
 
 PostgreSQL
 
-Database client:
+Klien database:
 
 DBeaver
 
@@ -79,27 +79,27 @@ ORM:
 
 Spring Data JPA / Hibernate
 
-Hibernate must validate the existing schema.
+Hibernate harus memvalidasi skema yang sudah ada.
 
-Do not use:
+Jangan gunakan:
 
 spring.jpa.hibernate.ddl-auto=create
 
-Recommended:
+Direkomendasikan:
 
 spring.jpa.hibernate.ddl-auto=validate
 
-## RULE 6 - INVENTORY
+## ATURAN 6 - INVENTARIS
 
-Inventory is a critical domain.
+Inventaris adalah domain yang sangat penting.
 
-Never directly modify inventory quantity without
-creating the corresponding inventory movement.
+Jangan pernah memodifikasi kuantitas inventaris secara langsung tanpa
+membuat pergerakan inventaris (inventory movement) yang sesuai.
 
-Inventory movements are historical records.
+Pergerakan inventaris adalah catatan historis.
 
-Inventory movement records are immutable.
+Catatan pergerakan inventaris bersifat kekal (immutable).
 
-All inventory-changing operations must be transactional.
+Semua operasi yang mengubah inventaris harus bersifat transaksional.
 
-Inventory must prevent negative stock.
+Inventaris harus mencegah stok negatif.

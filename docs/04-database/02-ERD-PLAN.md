@@ -1,10 +1,10 @@
-# ERD Planning
+# Perencanaan ERD
 
-## Required Relationship Demonstration
+## Persyaratan Demonstrasi Relasi
 
 ### One-to-One
 
-Candidate:
+Kandidat:
 
 ```text
 User 1──1 FarmerProfile
@@ -18,31 +18,31 @@ Product 1──N Batch
 
 ### Many-to-One
 
-Every Batch belongs to one Product while a Product can have many Batches.
+Setiap Batch merupakan milik satu Product sedangkan sebuah Product dapat memiliki banyak Batch.
 
 ### Many-to-Many
 
-Recommended:
+Rekomendasi:
 
 ```text
 User N──N BusinessEntity
 ```
 
-resolved through `memberships`.
+diselesaikan melalui `memberships`.
 
-## Important Constraint
+## Batasan Penting
 
-Do not create artificial relationships solely to satisfy the assignment. Every relationship should correspond to an actual business concept.
+Jangan membuat relasi buatan yang hanya bertujuan untuk memenuhi tugas. Setiap relasi harus berkorespondensi dengan konsep bisnis yang nyata.
 
-## ERD Finalization Checklist
+## Daftar Periksa Finalisasi ERD
 
-- [ ] Every FK has a clear ownership meaning.
-- [ ] No repeating groups.
-- [ ] No unnecessary duplicated attributes.
-- [ ] 3NF considered.
-- [ ] Timestamp strategy consistent.
-- [ ] Soft delete strategy consistent.
-- [ ] Unique constraints defined.
-- [ ] Indexes defined for common search/filter fields.
-- [ ] Inventory consistency constraints defined.
-- [ ] Transactional boundaries identified.
+- [ ] Setiap FK memiliki makna kepemilikan yang jelas.
+- [ ] Tidak ada kelompok data yang berulang (repeating groups).
+- [ ] Tidak ada atribut duplikat yang tidak diperlukan.
+- [ ] 3NF dipertimbangkan.
+- [ ] Strategi timestamp konsisten.
+- [ ] Strategi soft delete konsisten.
+- [ ] Kendala unik (unique constraints) ditentukan.
+- [ ] Indeks ditentukan untuk bidang pencarian/filter umum.
+- [ ] Kendala konsistensi inventory ditentukan.
+- [ ] Batasan transaksional diidentifikasi.

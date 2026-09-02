@@ -1,14 +1,14 @@
-# CICLOVELA Database Schema
+# Skema Database CICLOVELA
 
-## Entity Overview
+## Gambaran Entitas
 
-CICLOVELA menggunakan entity berikut:
+CICLOVELA menggunakan entitas berikut:
 
 ### users
 
 Menyimpan seluruh pengguna platform.
 
-Role utama:
+Peran utama:
 
 - PLATFORM_ADMIN
 - FARMER
@@ -18,7 +18,7 @@ Role utama:
 
 Mewakili organisasi bisnis yang beroperasi di CICLOVELA.
 
-Business type:
+Tipe bisnis:
 
 - DISTRIBUTOR
 - RETAILER
@@ -45,71 +45,71 @@ Mewakili batch produk tertentu.
 
 Batch menyimpan:
 
-- product
+- produk
 - farmer
-- batch code
-- harvest date
-- initial quantity
-- unit
-- quality grade
-- expiry date
+- kode batch
+- tanggal panen
+- kuantitas awal
+- satuan
+- tingkat kualitas
+- tanggal kedaluwarsa
 - status
 
-Tidak terdapat field production_date.
+Tidak terdapat field tanggal_produksi.
 
-Inventory CICLOVELA berbasis batch.
+Inventaris CICLOVELA berbasis batch.
 
 ### inventory_accounts
 
-Mewakili pemilik inventory.
+Mewakili pemilik inventaris.
 
-Inventory dapat dimiliki oleh:
+Inventaris dapat dimiliki oleh:
 
-- individual user
-- business entity
+- pengguna individu
+- entitas bisnis
 
-Satu inventory account hanya memiliki satu owner.
+Satu akun inventaris hanya memiliki satu pemilik.
 
 ### inventories
 
-Menyimpan quantity aktual suatu batch yang dimiliki oleh inventory account.
+Menyimpan kuantitas aktual suatu batch yang dimiliki oleh akun inventaris.
 
 Relasi utama:
 
-inventory account → batch → quantity
+akun inventaris → batch → kuantitas
 
 ### inventory_movements
 
-Mencatat seluruh perubahan inventory.
+Mencatat seluruh perubahan inventaris.
 
 Contoh:
 
-- purchase in
-- transfer in
-- transfer out
-- sale out
-- waste out
-- adjustment
+- pembelian masuk
+- transfer masuk
+- transfer keluar
+- penjualan keluar
+- limbah keluar
+- penyesuaian
 
-Inventory movement bersifat immutable.
+Pergerakan inventaris bersifat kekal (immutable).
 
 ### purchases
 
-Mencatat transaksi pembelian dari farmer kepada business entity.
+Mencatat transaksi pembelian dari farmer kepada entitas bisnis.
 
-Flow utama:
+Alur utama:
 
 Farmer → Distributor
 
 ### purchase_items
 
-Menyimpan detail batch, quantity, dan harga pada purchase.
+Menyimpan detail batch, kuantitas, dan harga pada pembelian.
 
 ### sales
 
 Mencatat transaksi penjualan.
 
-Flow:
+Alur:
 
 Distributor → Retailer
 
@@ -119,34 +119,34 @@ Retailer → Consumer
 
 ### sale_items
 
-Menyimpan detail batch, quantity, dan harga pada sale.
+Menyimpan detail batch, kuantitas, dan harga pada penjualan.
 
 ### wastes
 
 Mencatat produk yang tidak dapat dijual atau digunakan.
 
-Waste selalu terkait dengan:
+Limbah selalu terkait dengan:
 
 - batch
-- inventory
-- quantity
-- reason
+- inventaris
+- kuantitas
+- alasan
 
-Waste merupakan bagian penting dari inventory management.
+Limbah merupakan bagian penting dari manajemen inventaris.
 
 ### deliveries
 
 Menyimpan informasi pengiriman.
 
-Untuk MVP tidak menggunakan real-time GPS tracking.
+Untuk MVP tidak menggunakan pelacakan GPS real-time.
 
 ### payments
 
 Menyimpan informasi pembayaran.
 
-Payment gateway seperti Midtrans merupakan fitur tambahan dan bukan dependency utama MVP.
+Payment gateway seperti Midtrans merupakan fitur tambahan dan bukan dependensi utama MVP.
 
-## Supply Chain
+## Rantai Pasok
 
 CICLOVELA memiliki alur utama:
 
@@ -158,46 +158,46 @@ Retailer
 ↓
 Consumer
 
-Farmer dapat beroperasi sebagai individual.
+Farmer dapat beroperasi sebagai individu.
 
 Distributor wajib berada di bawah Business Entity.
 
 Retailer wajib berada di bawah Business Entity.
 
-Consumer dapat beroperasi sebagai individual.
+Consumer dapat beroperasi sebagai individu.
 
-## Inventory Principle
+## Prinsip Inventaris
 
-Inventory tidak disimpan hanya berdasarkan product.
+Inventaris tidak disimpan hanya berdasarkan produk.
 
 Contoh:
 
 Tomato
 ├── Batch A
-│   ├── Harvest Date
-│   └── Expiry Date
+│   ├── Tanggal Panen
+│   └── Tanggal Kedaluwarsa
 │
 ├── Batch B
-│   ├── Harvest Date
-│   └── Expiry Date
+│   ├── Tanggal Panen
+│   └── Tanggal Kedaluwarsa
 │
 └── Batch C
-    ├── Harvest Date
-    └── Expiry Date
+    ├── Tanggal Panen
+    └── Tanggal Kedaluwarsa
 
-Setiap batch dapat memiliki expiry date yang berbeda.
+Setiap batch dapat memiliki tanggal kedaluwarsa yang berbeda.
 
-Karena itu inventory harus selalu dapat dilacak sampai ke batch.
+Karena itu inventaris harus selalu dapat dilacak sampai ke batch.
 
-## Price Traceability
+## Keterlacakan Harga
 
-Harga dicatat pada level transaction item.
+Harga dicatat pada level item transaksi.
 
-Purchase price:
+Harga pembelian:
 
 Farmer → Distributor
 
-Sale price:
+Harga penjualan:
 
 Distributor → Retailer
 
@@ -207,11 +207,11 @@ Retailer → Consumer
 
 CICLOVELA tidak menentukan harga jual.
 
-Sistem mencatat harga transaksi agar perbedaan harga antar supply chain dapat ditelusuri.
+Sistem mencatat harga transaksi agar perbedaan harga antar rantai pasok dapat ditelusuri.
 
-## Waste Tracking
+## Pelacakan Limbah
 
-Waste mengurangi inventory batch yang terdampak.
+Limbah mengurangi inventaris batch yang terdampak.
 
 Contoh:
 
@@ -223,8 +223,8 @@ Batch A = 100 KG
 
 Maka:
 
-Available inventory = 30 KG
-Waste = 20 KG
-Sold = 50 KG
+Inventaris tersedia = 30 KG
+Limbah = 20 KG
+Terjual = 50 KG
 
-Waste tidak hanya menjadi laporan, tetapi merupakan bagian dari inventory transaction.
+Limbah tidak hanya menjadi laporan, tetapi merupakan bagian dari transaksi inventaris.

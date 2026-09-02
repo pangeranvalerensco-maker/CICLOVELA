@@ -1,8 +1,8 @@
-# CICLOVELA Database Design
+# Desain Database CICLOVELA
 
 ## Database
 
-CICLOVELA menggunakan PostgreSQL sebagai relational database.
+CICLOVELA menggunakan PostgreSQL sebagai database relasional.
 
 Database digunakan untuk menyimpan data dan menjaga integritas data melalui:
 
@@ -14,7 +14,7 @@ Database digunakan untuk menyimpan data dan menjaga integritas data melalui:
 - Index
 - Transaction
 
-Business logic utama dikelola oleh aplikasi Spring Boot.
+Logika bisnis utama dikelola oleh aplikasi Spring Boot.
 
 ## Identifier
 
@@ -44,34 +44,34 @@ Alasan:
 
 - lebih mudah dikembangkan
 - lebih mudah dimigrasikan
-- tidak mengikat schema PostgreSQL terhadap perubahan business rule
-- tetap memberikan type safety pada Java
+- tidak mengikat skema PostgreSQL terhadap perubahan aturan bisnis
+- tetap memberikan keamanan tipe (type safety) pada Java
 - lebih mudah dipahami ketika database diperiksa
 
-## Database Responsibility
+## Tanggung Jawab Database
 
 Database bertanggung jawab terhadap:
 
 - penyimpanan data
-- hubungan antar entity
+- hubungan antar entitas
 - integritas referensi
-- uniqueness
-- required fields
+- keunikan (uniqueness)
+- field yang diwajibkan (required fields)
 - validasi dasar
-- konsistensi quantity
-- inventory movement integrity
+- konsistensi kuantitas
+- integritas pergerakan inventaris (inventory movement integrity)
 
-## Application Responsibility
+## Tanggung Jawab Aplikasi
 
 Spring Boot bertanggung jawab terhadap:
 
-- authentication
-- authorization
-- role checking
-- business entity approval
-- transaction workflow
-- inventory business logic
-- waste processing
-- delivery workflow
-- payment workflow
-- business validation
+- autentikasi
+- otorisasi
+- pengecekan peran (role checking)
+- persetujuan entitas bisnis (business entity approval)
+- alur kerja transaksi (transaction workflow)
+- logika bisnis inventaris
+- pemrosesan limbah (waste processing)
+- alur kerja pengiriman (delivery workflow)
+- alur kerja pembayaran (payment workflow)
+- validasi bisnis

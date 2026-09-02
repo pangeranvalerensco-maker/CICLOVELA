@@ -1,14 +1,14 @@
-# API Contract Plan
+# Rencana Kontrak API
 
-## Mandatory HTTP Methods
+## Metode HTTP Wajib
 
-The project specification requires REST support for GET, POST, PUT, PATCH, and DELETE.
+Spesifikasi proyek mengharuskan dukungan REST untuk GET, POST, PUT, PATCH, dan DELETE.
 
-## Response Shape
+## Bentuk Respons
 
-The API must use a consistent JSON response strategy.
+API harus menggunakan strategi respons JSON yang konsisten.
 
-Recommended success shape:
+Bentuk sukses yang disarankan:
 
 ```json
 {
@@ -19,7 +19,7 @@ Recommended success shape:
 }
 ```
 
-Recommended error shape:
+Bentuk kesalahan yang disarankan:
 
 ```json
 {
@@ -35,9 +35,9 @@ Recommended error shape:
 }
 ```
 
-The exact shape must be fixed before frontend integration.
+Bentuk yang tepat harus diselesaikan sebelum integrasi frontend.
 
-## Endpoint Families
+## Keluarga Endpoint
 
 ```text
 /auth
@@ -56,28 +56,28 @@ The exact shape must be fixed before frontend integration.
 /attachments
 ```
 
-## List Query Requirements
+## Persyaratan Kueri Daftar
 
-List endpoints must support, where applicable:
+Endpoint daftar harus mendukung, jika memungkinkan:
 
-- search;
-- filters;
-- sorting;
-- pagination.
+- pencarian (search);
+- penyaringan (filters);
+- pengurutan (sorting);
+- paginasi (pagination).
 
-Example:
+Contoh:
 
 ```text
 GET /api/products?page=1&limit=10&search=tomato&category=vegetable&sort=name,asc
 ```
 
-## Status Codes
+## Kode Status
 
-At minimum handle:
+Minimal menangani:
 
 - 200 OK
 - 201 Created
-- 204 No Content where appropriate
+- 204 No Content jika sesuai
 - 400 Bad Request
 - 401 Unauthorized
 - 403 Forbidden
@@ -85,6 +85,6 @@ At minimum handle:
 - 422 Validation Error
 - 500 Internal Server Error
 
-## API Documentation
+## Dokumentasi API
 
-Use Swagger/OpenAPI and ensure all endpoints are testable through the generated documentation.
+Gunakan Swagger/OpenAPI dan pastikan semua endpoint dapat diuji melalui dokumentasi yang dihasilkan.

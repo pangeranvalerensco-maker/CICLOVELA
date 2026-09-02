@@ -411,20 +411,31 @@ Error:
 
 ---
 
-## 13. 21-DAY PLAN (CONDENSED TO ~10 REMAINING DAYS)
+## 13. RENCANA 21 HARI (STATUS TERKINI)
 
-| Day | Focus |
-|---|---|
-| 1 | Freeze requirements, setup all microservice skeletons |
-| 2 | Database schema execution, auth-service (register/login/JWT/logout) |
-| 3 | auth-service (forgot/reset password, RBAC), catalog-service skeleton |
-| 4 | catalog-service (Product, Category, Batch CRUD + validation + pagination) |
-| 5 | inventory-service (BusinessEntity, Membership, Inventory, Movement, Waste) |
-| 6 | order-service (Purchase, Sale, PurchaseItem, SaleItem) + traceability-service |
-| 7 | Frontend foundation (React app, routing, auth state, API client, layout) |
-| 8 | Frontend auth UI + CRUD pages (products, batches, inventory) |
-| 9 | Frontend remaining pages (orders, waste, traceability, dashboard) + seed data |
-| 10 | Integration testing, Swagger, deployment, README, flowcharts, submission prep |
+| Hari | Fokus | Status |
+|---|---|---|
+| 1 | Finalisasi kebutuhan, setup monorepo | SELESAI |
+| 2 | ERD & Database (schema, constraint, index, seed strategy) | SELESAI |
+| 3 | Backend Skeleton (Spring Boot, koneksi DB, struktur project) | SELESAI |
+| 4 | Authentication (Register, Login, JWT, Logout, Forgot/Reset Password) | SELESAI |
+| 5 | RBAC & Business Entity (Roles, Membership, Approval Admin) | SELESAI |
+| 6 | Product & Category (CRUD, validasi, search/filter/sort/pagination) | SELESAI |
+| 7 | Batch (CRUD, expiry, quality, quantity, ownership) | SELESAI |
+| 8 | Inventory Core (Model, Movement, Inbound/Outbound, Waste) | SELESAI |
+| 9 | Supply Transactions (Purchase, Transfer, Price capture) | SELESAI |
+| 10 | Orders/Sales (Order, Order Items, Inventory effect) | SELESAI |
+| 11 | Waste (Waste records, Reasons, Inventory effect) | SELESAI |
+| 12 | Traceability (Batch history, Supply chain timeline) | SELESAI |
+| **13** | **Frontend Foundation (React, Routing, Auth state, API client, Layout)** | **SEDANG DIKERJAKAN** |
+| 14 | Frontend Auth UI & Role Routes (Login, Register, Error pages) | BELUM |
+| 15 | Frontend Product/Batch UI (List, Detail, Create, Edit, Delete) | BELUM |
+| 16 | Frontend Inventory/Supply UI (Inventory, Movement, Receive, Transfer) | BELUM |
+| 17 | Frontend Orders/Waste/Traceability UI + Notifikasi | BELUM |
+| 18 | Dashboard & fitur P1 (Metrik, Aktivitas terbaru, Expiry/Waste) | BELUM |
+| 19 | Integrasi & Seed Data (20+ data per tabel, End-to-end flow) | BELUM |
+| 20 | Testing & Deployment (Security check, Swagger, Deploy, README, Flowchart) | BELUM |
+| 21 | Submission Freeze (Fix critical bugs, Verifikasi deployment & demo) | BELUM |
 
 ---
 

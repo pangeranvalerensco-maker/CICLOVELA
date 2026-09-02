@@ -1,24 +1,24 @@
-# GitHub Workflow
+# Alur Kerja GitHub (GitHub Workflow)
 
-## Repository
+## Repositori
 
-The project must use one public GitHub repository containing frontend and backend because the project rules explicitly require a public monorepo.
+Proyek ini harus menggunakan satu repositori GitHub publik yang berisi frontend dan backend karena aturan proyek secara eksplisit mewajibkan monorepo publik.
 
-## Branches
+## Cabang (Branches)
 
-Recommended:
+Rekomendasi:
 
 ```text
-main       = stable/demo
- develop   = integration
- feature/* = individual work
+main       = stabil/demo
+ develop   = integrasi
+ feature/* = pekerjaan individual
 ```
 
-For a solo project, keep the workflow lightweight. Do not create branch bureaucracy for the sake of looking like a company of 400 people.
+Untuk proyek solo, pertahankan alur kerja yang ringan. Jangan membuat birokrasi cabang hanya agar terlihat seperti perusahaan beranggotakan 400 orang.
 
-## Commit Convention
+## Konvensi Komit (Commit Convention)
 
-Use human-readable commits:
+Gunakan pesan komit yang dapat dibaca manusia:
 
 ```text
 feat: add batch management
@@ -28,22 +28,22 @@ docs: update business rules
 chore: configure swagger
 ```
 
-## AI Contribution Policy
+## Kebijakan Kontribusi AI
 
-AI agents are tools, not project authors. The human developer remains responsible for architecture, requirements, review, testing, and final commits.
+Agen AI adalah alat, bukan pembuat proyek (project authors). Pengembang manusia tetap bertanggung jawab atas arsitektur, persyaratan, peninjauan, pengujian, dan komit akhir.
 
-AI-generated code must be reviewed before merge.
+Kode yang dihasilkan AI harus ditinjau sebelum digabungkan (merge).
 
-Do not create fake commits, fake authorship, or misleading contribution history. The goal is a genuine engineering project, not an archaeological reconstruction of who typed every semicolon.
+Jangan membuat komit palsu, identitas penulis palsu (fake authorship), atau riwayat kontribusi yang menyesatkan. Tujuannya adalah proyek rekayasa perangkat lunak yang sesungguhnya, bukan rekonstruksi arkeologis tentang siapa yang mengetik setiap titik koma.
 
-## Daily Push Rule
+## Aturan Push Harian
 
-At least one meaningful push per work session/day.
+Setidaknya satu push bermakna per sesi kerja/hari.
 
-Each push should represent a coherent state, preferably:
+Setiap push harus mewakili keadaan yang koheren, idealnya:
 
-1. requirement/domain change;
-2. backend implementation;
-3. frontend implementation;
-4. tests/fixes;
-5. documentation.
+1. perubahan persyaratan/domain;
+2. implementasi backend;
+3. implementasi frontend;
+4. pengujian/perbaikan (tests/fixes);
+5. dokumentasi.

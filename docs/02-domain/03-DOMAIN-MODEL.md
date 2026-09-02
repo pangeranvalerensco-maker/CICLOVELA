@@ -1,60 +1,60 @@
-# Domain Model — Conceptual
+# Domain Model — Konseptual
 
-## Core Entities
+## Entitas Inti
 
 ### User
 
-Identity and authentication account.
+Akun identitas dan autentikasi.
 
 ### FarmerProfile
 
-Additional information for Farmer users.
+Informasi tambahan untuk pengguna Farmer.
 
 ### BusinessEntity
 
-Verified organization participating in the supply chain.
+Organisasi terverifikasi yang berpartisipasi dalam rantai pasok.
 
 ### Membership
 
-Relationship between User and BusinessEntity with an entity role.
+Hubungan antara User dan BusinessEntity dengan peran entitas tertentu.
 
 ### Product
 
-General product definition.
+Definisi produk secara umum.
 
 ### Batch
 
-Specific production/harvest lot belonging to a Product.
+Lot produksi/panen spesifik milik sebuah Product.
 
 ### Inventory
 
-Current stock position for an owner/location/batch context.
+Posisi stok saat ini untuk konteks pemilik/lokasi/batch.
 
 ### InventoryMovement
 
-Immutable or append-oriented record describing stock change.
+Catatan kekal atau yang bersifat penambahan terus (append-oriented) yang mendeskripsikan perubahan stok.
 
 ### SupplyTransaction
 
-Purchase/transfer/sale-side business event connecting actors/entities.
+Peristiwa bisnis sisi pembelian/transfer/penjualan yang menghubungkan antar aktor/entitas.
 
 ### Order
 
-Consumer purchase request/order.
+Permintaan pembelian/pesanan oleh konsumen.
 
 ### OrderItem
 
-Product/batch allocation within an Order.
+Alokasi product/batch dalam suatu Order.
 
 ### WasteRecord
 
-Stock reduction caused by waste.
+Pengurangan stok yang disebabkan oleh waste.
 
 ### Attachment
 
-Uploaded image/PDF/document metadata where needed.
+Metadata gambar/PDF/dokumen yang diunggah jika diperlukan.
 
-## Conceptual Relationships
+## Hubungan Konseptual
 
 ```text
 User 1──0..1 FarmerProfile
@@ -68,4 +68,4 @@ OrderItem N──1 Product
 OrderItem N──0..1 Batch
 ```
 
-The final ERD must be normalized and must explicitly demonstrate the project-required One-to-One, One-to-Many, Many-to-One, and Many-to-Many relationships.
+ERD akhir harus dinormalisasi dan secara eksplisit mendemonstrasikan hubungan One-to-One, One-to-Many, Many-to-One, dan Many-to-Many seperti yang diwajibkan oleh proyek ini.

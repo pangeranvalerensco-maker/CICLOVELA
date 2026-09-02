@@ -1,49 +1,49 @@
-# Test Plan
+# Rencana Pengujian
 
-## Critical Business Scenarios
+## Skenario Bisnis Kritis
 
-### Scenario 1 — Farmer Creates Batch
+### Skenario 1 — Farmer Membuat Batch
 
-Farmer creates Product → creates Batch → quantity and expiry are stored → inventory/movement is initialized according to the finalized model.
+Farmer membuat Product → membuat Batch → kuantitas dan kedaluwarsa disimpan → inventory/pergerakan diinisialisasi sesuai dengan model yang telah diselesaikan.
 
-### Scenario 2 — Distributor Receives Batch
+### Skenario 2 — Distributor Menerima Batch
 
-Distributor receives a permitted quantity → transaction recorded → inventory increases → movement recorded.
+Distributor menerima kuantitas yang diizinkan → transaksi dicatat → inventory meningkat → pergerakan dicatat.
 
-### Scenario 3 — Distributor Transfers to Retailer
+### Skenario 3 — Distributor Mentransfer ke Retailer
 
-Distributor transfers quantity → ownership/source/destination recorded → distributor stock decreases → retailer stock increases.
+Distributor mentransfer kuantitas → kepemilikan/sumber/tujuan dicatat → stok distributor menurun → stok retailer meningkat.
 
-### Scenario 4 — Retailer Sells
+### Skenario 4 — Retailer Menjual
 
-Retailer creates sale/order → inventory decreases according to finalized order rules → transaction history preserved.
+Retailer membuat penjualan/pesanan → inventory menurun sesuai aturan pesanan yang telah diselesaikan → riwayat transaksi dipertahankan.
 
-### Scenario 5 — Waste
+### Skenario 5 — Limbah (Waste)
 
-User records waste → batch and quantity validated → inventory decreases → waste record exists → traceability reflects event.
+Pengguna mencatat waste → batch dan kuantitas divalidasi → inventory menurun → catatan waste ada → keterlacakan mencerminkan peristiwa tersebut.
 
-### Scenario 6 — Expiry Difference
+### Skenario 6 — Perbedaan Kedaluwarsa
 
-Two batches of the same product have different expiry dates. The UI/API must preserve the difference.
+Dua batch dari produk yang sama memiliki tanggal kedaluwarsa yang berbeda. UI/API harus mempertahankan perbedaan tersebut.
 
-### Scenario 7 — Unauthorized Access
+### Skenario 7 — Akses Tidak Diotorisasi
 
-Consumer attempts distributor-only operation → 403.
+Konsumen (Consumer) mencoba operasi khusus distributor → 403.
 
-### Scenario 8 — Entity Approval
+### Skenario 8 — Persetujuan Entitas
 
-User requests Business Entity → Platform Admin approves → entity becomes active → permitted membership operations become available.
+Pengguna meminta Business Entity → Platform Admin menyetujui → entitas menjadi aktif → operasi keanggotaan yang diizinkan menjadi tersedia.
 
-## Technical Tests
+## Pengujian Teknis
 
-- authentication;
-- authorization;
+- autentikasi (authentication);
+- otorisasi (authorization);
 - CRUD;
-- validation;
-- pagination;
-- search/filter/sorting;
-- file upload;
-- error handling;
-- soft delete;
-- inventory consistency;
-- API documentation endpoints.
+- validasi;
+- paginasi;
+- pencarian/penyaringan/pengurutan (search/filter/sorting);
+- unggah file;
+- penanganan kesalahan (error handling);
+- hapus sementara (soft delete);
+- konsistensi inventory;
+- endpoint dokumentasi API.

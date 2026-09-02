@@ -1,6 +1,6 @@
-# System Architecture
+# Arsitektur Sistem
 
-## Target Architecture
+## Arsitektur Target
 
 ```text
 React + TypeScript
@@ -32,15 +32,15 @@ ciclovela/
 └── README.md
 ```
 
-## Architectural Rule
+## Aturan Arsitektur
 
-Business rules must not live only in the frontend. The backend is authoritative for permissions, validation, inventory mutations, ownership changes, and transaction integrity.
+Aturan bisnis tidak boleh hanya ada di frontend. Backend adalah penanggung jawab otoritatif atas izin, validasi, mutasi inventory, perubahan kepemilikan, dan integritas transaksi.
 
-## Transaction Integrity
+## Integritas Transaksi
 
-Operations that change inventory and create a corresponding business event should execute transactionally where appropriate.
+Operasi yang mengubah inventory dan membuat peristiwa bisnis yang sesuai harus dijalankan secara transaksional di mana semestinya.
 
-Example:
+Contoh:
 
 ```text
 Receive batch
@@ -50,4 +50,4 @@ Receive batch
 → commit
 ```
 
-If a required step fails, the operation must not leave inconsistent inventory.
+Jika langkah yang diperlukan gagal, operasi tidak boleh meninggalkan inventory dalam kondisi tidak konsisten.

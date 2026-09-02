@@ -1,137 +1,137 @@
-# Product Requirements Document
+# Dokumen Kebutuhan Produk
 
-## Problem
+## Masalah
 
-Agricultural goods can pass through multiple actors before reaching consumers. Without structured records, it becomes difficult to determine the origin of a batch, current stock, ownership changes, price changes, expiry risk, and waste.
+Barang pertanian dapat melewati beberapa pelaku sebelum mencapai konsumen. Tanpa catatan yang terstruktur, menjadi sulit untuk menentukan asal mula suatu batch, stok saat ini, perubahan kepemilikan, perubahan harga, risiko kedaluwarsa, dan limbah.
 
-## Product Goal
+## Tujuan Produk
 
-Build a fullstack platform that provides controlled management and traceability of agricultural products throughout the supply chain.
+Membangun platform fullstack yang menyediakan manajemen terkontrol dan keterlacakan produk pertanian di seluruh rantai pasok.
 
-## Core User Journeys
+## Perjalanan Pengguna Inti
 
 ### Farmer
 
-Register → create product/batch → define quantity/quality/expiry → offer/transfer to distributor → view batch history.
+Daftar → buat product/batch → tentukan kuantitas/kualitas/kedaluwarsa → tawarkan/transfer ke distributor → lihat riwayat batch.
 
 ### Distributor
 
-Join approved Business Entity → receive/purchase batch → inventory increases → record transfer/sale to retailer → inventory decreases → record waste when applicable.
+Bergabung dengan Business Entity yang disetujui → terima/beli batch → inventory meningkat → catat transfer/penjualan ke pengecer → inventory menurun → catat waste jika berlaku.
 
 ### Retailer
 
-Join approved Business Entity → receive batch → manage inventory → sell to consumer → record waste.
+Bergabung dengan Business Entity yang disetujui → terima batch → kelola inventory → jual ke konsumen → catat waste.
 
 ### Consumer
 
-Register/login → browse available products → view permitted product information → place order → view order status → view permitted traceability.
+Daftar/login → telusuri produk yang tersedia → lihat informasi produk yang diizinkan → buat pesanan → lihat status pesanan → lihat keterlacakan yang diizinkan.
 
 ### Platform Admin
 
-Login → review Business Entity requests → approve/reject → manage platform-level data → inspect audit-relevant activity.
+Login → tinjau permintaan Business Entity → setujui/tolak → kelola data tingkat platform → periksa aktivitas yang relevan untuk audit.
 
-## Functional Requirements
+## Kebutuhan Fungsional
 
-### Authentication
+### Autentikasi
 
 - Register
 - Login
 - Logout
-- Forgot password
-- Reset password
-- JWT-based authentication
-- Protected routes
-- Role-based authorization
+- Lupa kata sandi
+- Atur ulang kata sandi
+- Autentikasi berbasis JWT
+- Rute yang dilindungi
+- Otorisasi berbasis peran
 
-### Business Entity
+### Entitas Bisnis (Business Entity)
 
-- Create request
-- Admin approval/rejection
-- Entity profile
-- Entity membership
-- Member role assignment
-- Entity status
+- Buat permintaan
+- Persetujuan/penolakan oleh Admin
+- Profil entitas
+- Keanggotaan entitas
+- Penugasan peran anggota
+- Status entitas
 
-### Product
+### Produk (Product)
 
-- Create
-- Read/list/detail
-- Update
-- Soft delete
-- Search
+- Buat (Create)
+- Baca/daftar/detail (Read/list/detail)
+- Perbarui (Update)
+- Hapus sementara (Soft delete)
+- Pencarian (Search)
 - Filter
-- Sort
-- Pagination
-- Optional product image/document upload
+- Urutkan (Sort)
+- Paginasi (Pagination)
+- Unggahan opsional gambar/dokumen produk
 
 ### Batch
 
-- Create
-- Read/list/detail
-- Update
-- Soft delete where appropriate
-- Quantity
-- Harvest/production date
-- Expiry date
-- Quality grade
-- Current owner
-- Current location where needed
+- Buat (Create)
+- Baca/daftar/detail (Read/list/detail)
+- Perbarui (Update)
+- Hapus sementara jika sesuai (Soft delete)
+- Kuantitas
+- Tanggal panen/produksi
+- Tanggal kedaluwarsa
+- Nilai kualitas
+- Pemilik saat ini
+- Lokasi saat ini jika diperlukan
 
-### Inventory
+### Inventaris (Inventory)
 
-- View current stock
-- View stock by product
-- View stock by batch
-- View stock by owner/entity
-- Inventory movement history
-- Prevent impossible negative stock
+- Lihat stok saat ini
+- Lihat stok berdasarkan produk
+- Lihat stok berdasarkan batch
+- Lihat stok berdasarkan pemilik/entitas
+- Riwayat pergerakan inventaris
+- Cegah stok negatif yang tidak mungkin terjadi
 
-### Supply Chain
+### Rantai Pasok (Supply Chain)
 
-- Receive/purchase batch
-- Transfer batch/quantity between actors
-- Record source and destination
-- Record transaction price
-- Preserve transaction history
+- Terima/beli batch
+- Transfer batch/kuantitas antar pelaku
+- Catat sumber dan tujuan
+- Catat harga transaksi
+- Pertahankan riwayat transaksi
 
-### Order / Sale
+### Pesanan / Penjualan (Order / Sale)
 
-- Create order
-- Order items
-- Order status
-- Inventory reservation/deduction according to finalized business rules
-- Consumer order history
+- Buat pesanan
+- Item pesanan
+- Status pesanan
+- Reservasi/pengurangan inventaris sesuai aturan bisnis yang diselesaikan
+- Riwayat pesanan konsumen
 
-### Waste
+### Limbah (Waste)
 
-- Record waste
-- Record batch
-- Record quantity
-- Record reason
-- Record timestamp
-- Calculate waste rate
-- Include waste in inventory movement/history
+- Catat waste
+- Catat batch
+- Catat kuantitas
+- Catat alasan
+- Catat stempel waktu (timestamp)
+- Hitung tingkat waste
+- Sertakan waste dalam pergerakan/riwayat inventaris
 
-### Traceability
+### Keterlacakan (Traceability)
 
-- Batch history
-- Origin
-- Ownership changes
-- Supply-chain events
-- Quantity changes
-- Waste events
-- Public/consumer-safe information boundary
+- Riwayat batch
+- Asal mula
+- Perubahan kepemilikan
+- Peristiwa rantai pasok
+- Perubahan kuantitas
+- Peristiwa waste
+- Batas informasi publik/aman bagi konsumen
 
-## Non-Functional Requirements
+## Kebutuhan Non-Fungsional
 
-- Responsive UI
-- Consistent API responses
-- Validation on client and server
-- Secure authentication
-- Role-based authorization
-- Pagination/search/filter/sorting
-- API documentation
-- Error handling
+- UI responsif
+- Respons API konsisten
+- Validasi di klien dan server
+- Autentikasi aman
+- Otorisasi berbasis peran
+- Paginasi/pencarian/filter/pengurutan
+- Dokumentasi API
+- Penanganan kesalahan (Error handling)
 - Soft delete
 - Seed data
-- Public GitHub monorepo
+- Monorepo publik di GitHub

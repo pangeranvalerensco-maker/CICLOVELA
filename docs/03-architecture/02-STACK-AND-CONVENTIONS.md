@@ -1,4 +1,4 @@
-# Stack & Coding Conventions
+# Stack & Konvensi Pengkodean
 
 ## Backend
 
@@ -7,7 +7,7 @@
 - Spring Security
 - Spring Data JPA
 - Bean Validation
-- PostgreSQL driver
+- Driver PostgreSQL
 - OpenAPI/Swagger
 
 ## Frontend
@@ -15,16 +15,16 @@
 - React
 - TypeScript
 - Client-side routing
-- API client layer
-- Form validation
-- Toast notifications
-- Responsive layout
+- Lapisan API client
+- Validasi form
+- Notifikasi toast
+- Tata letak responsif
 
-## API Convention
+## Konvensi API
 
-Use resource-oriented REST endpoints.
+Gunakan endpoint REST yang berorientasi pada sumber daya (resource).
 
-Example:
+Contoh:
 
 ```text
 GET    /api/products
@@ -35,10 +35,10 @@ PATCH  /api/products/{id}
 DELETE /api/products/{id}
 ```
 
-## Naming
+## Penamaan
 
-Backend Java classes use PascalCase. Database tables/columns use snake_case. API JSON naming must be consistent across the project.
+Kelas Java pada backend menggunakan PascalCase. Tabel/kolom database menggunakan snake_case. Penamaan JSON API harus konsisten di seluruh proyek.
 
-## No Hidden Magic
+## Dilarang Ada Kode Tersembunyi (No Hidden Magic)
 
-AI-generated code must be understandable and documented when business logic is non-trivial. Avoid unnecessary abstractions that add complexity without helping the domain.
+Kode yang dihasilkan AI harus dapat dipahami dan didokumentasikan jika logika bisnisnya kompleks. Hindari abstraksi yang tidak perlu, yang menambah kerumitan tanpa memberikan manfaat pada domain.

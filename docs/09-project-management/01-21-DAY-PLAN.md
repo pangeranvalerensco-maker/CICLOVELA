@@ -1,168 +1,168 @@
-# 21-Day Implementation Plan
+# Rencana Implementasi 21 Hari
 
-The official project deadline in the provided specification is Friday, 18 September 2026 at 22:00 WIB. The schedule below deliberately aims to finish the functional build before the deadline so the final days are not spent praying to Git merge conflicts.
+Tenggat waktu resmi proyek berdasarkan spesifikasi yang diberikan adalah Jumat, 18 September 2026 pukul 22:00 WIB. Jadwal di bawah ini sengaja dibuat agar pengerjaan fitur fungsional selesai sebelum tenggat waktu, sehingga hari-hari terakhir tidak dihabiskan untuk berdoa menghadapi merge conflict Git.
 
-## Day 1 — Freeze Requirements
+## Hari 1 — Penetapan Persyaratan (Freeze Requirements)
 
-- Read all docs.
-- Freeze stack.
-- Freeze roles.
-- Freeze P0 scope.
-- Freeze domain vocabulary.
-- Create GitHub repository and monorepo.
+- Membaca seluruh dokumen.
+- Menetapkan stack teknologi.
+- Menetapkan peran (roles).
+- Menetapkan cakupan P0.
+- Menetapkan kosakata domain.
+- Membuat repositori GitHub dan monorepo.
 
-## Day 2 — ERD & Database
+## Hari 2 — ERD & Database
 
-- Final ERD.
+- Finalisasi ERD.
 - Constraints.
-- Indexes.
-- Timestamp fields.
+- Indeks.
+- Field timestamp.
 - Soft delete.
-- Seed strategy.
+- Strategi seed data.
 
-## Day 3 — Backend Skeleton
+## Hari 3 — Kerangka Backend (Backend Skeleton)
 
 - Spring Boot.
-- PostgreSQL connection.
-- Project structure.
-- Global response/error handling.
+- Koneksi PostgreSQL.
+- Struktur proyek.
+- Penanganan respons/kesalahan global.
 - OpenAPI.
 
-## Day 4 — Authentication
+## Hari 4 — Autentikasi
 
 - Register.
 - Login.
 - JWT.
 - Logout.
-- Forgot/reset password flow.
+- Alur lupa/atur ulang kata sandi (Forgot/reset password).
 
-## Day 5 — RBAC & Business Entity
+## Hari 5 — RBAC & Business Entity
 
 - Roles.
-- Membership.
-- Entity creation request.
-- Admin approval.
+- Keanggotaan (Membership).
+- Permintaan pembuatan entitas.
+- Persetujuan Admin.
 
-## Day 6 — Product & Category
+## Hari 6 — Product & Category
 
 - CRUD.
-- Validation.
+- Validasi.
 - Search/filter/sort/pagination.
-- Upload support.
+- Dukungan unggah file.
 
-## Day 7 — Batch
+## Hari 7 — Batch
 
 - Batch CRUD.
-- Expiry.
-- Quality.
-- Quantity.
-- Ownership.
+- Kedaluwarsa (Expiry).
+- Kualitas (Quality).
+- Kuantitas (Quantity).
+- Kepemilikan (Ownership).
 
-## Day 8 — Inventory Core
+## Hari 8 — Inti Inventaris (Inventory Core)
 
-- Inventory model.
+- Model inventory.
 - Inventory movement.
-- Inbound/outbound rules.
-- Consistency tests.
+- Aturan masuk/keluar (Inbound/outbound rules).
+- Pengujian konsistensi.
 
-## Day 9 — Supply Transactions
+## Hari 9 — Transaksi Pasokan (Supply Transactions)
 
 - Receive/purchase.
 - Transfer.
-- Price capture.
-- Ownership changes.
+- Pencatatan harga.
+- Perubahan kepemilikan.
 
-## Day 10 — Orders/Sales
+## Hari 10 — Pesanan/Penjualan (Orders/Sales)
 
 - Order.
 - Order items.
-- Inventory effect.
-- Permissions.
+- Efek pada inventory.
+- Perizinan (Permissions).
 
-## Day 11 — Waste
+## Hari 11 — Limbah (Waste)
 
 - Waste records.
-- Reasons.
-- Inventory effect.
-- Waste rate.
+- Alasan waste (Reasons).
+- Efek pada inventory.
+- Tingkat waste (Waste rate).
 
-## Day 12 — Traceability
+## Hari 12 — Keterlacakan (Traceability)
 
-- Batch history.
-- Supply chain timeline.
-- Safe public/internal projection.
+- Riwayat batch.
+- Timeline rantai pasok.
+- Proyeksi aman untuk publik/internal.
 
-## Day 13 — Frontend Foundation
+## Hari 13 — Fondasi Frontend
 
-- React app.
+- Aplikasi React.
 - Routing.
-- Auth state.
+- State autentikasi.
 - API client.
-- Layout.
-- Responsive foundation.
+- Tata letak (Layout).
+- Fondasi responsif.
 
-## Day 14 — Auth & Roles UI
+## Hari 14 — UI Autentikasi & Peran
 
 - Login/register.
-- Forgot/reset.
-- Private routes.
-- Role routes.
-- Error pages.
+- Lupa/atur ulang (Forgot/reset).
+- Rute privat.
+- Rute peran.
+- Halaman kesalahan (Error pages).
 
-## Day 15 — Product/Batch UI
+## Hari 15 — UI Product/Batch
 
 - List/detail/create/edit/delete.
 - Search/filter/sort.
 - Pagination.
-- Validation.
+- Validasi.
 
-## Day 16 — Inventory/Supply UI
+## Hari 16 — UI Inventory/Supply
 
 - Inventory.
-- Movement history.
-- Receive.
+- Riwayat pergerakan (Movement history).
+- Terima (Receive).
 - Transfer.
 
-## Day 17 — Orders/Waste/Traceability UI
+## Hari 17 — UI Orders/Waste/Traceability
 
 - Orders.
 - Waste.
 - Traceability.
-- Notifications.
+- Notifikasi.
 
-## Day 18 — Dashboard & P1
+## Hari 18 — Dasbor & P1
 
-- Real backend metrics.
-- Recent activity.
-- Expiry/waste indicators.
-- Price history if stable.
+- Metrik nyata dari backend.
+- Aktivitas terkini.
+- Indikator kedaluwarsa/waste.
+- Riwayat harga jika sudah stabil.
 
-## Day 19 — Integration & Seed
+## Hari 19 — Integrasi & Seed Data
 
-- 20+ coherent seed rows per main table.
-- End-to-end flows.
-- Fix data integrity issues.
+- Lebih dari 20 baris data seed koheren per tabel utama.
+- Alur end-to-end.
+- Perbaikan masalah integritas data.
 
-## Day 20 — Testing & Deployment
+## Hari 20 — Pengujian & Deployment
 
-- Full test pass.
-- Security check.
+- Pengujian menyeluruh.
+- Pengecekan keamanan.
 - Swagger.
 - Deployment.
 - README.
-- Flowcharts.
+- Diagram alir (Flowcharts).
 
-## Day 21 — Submission Freeze
+## Hari 21 — Pembekuan Submission (Submission Freeze)
 
-- No major new features.
-- Fix critical bugs only.
-- Verify GitHub public access.
-- Verify frontend/backend deployment.
-- Verify README.
-- Verify demo accounts.
-- Verify documentation.
-- Final presentation/demo rehearsal.
+- Tidak ada fitur utama baru.
+- Hanya perbaikan bug kritis.
+- Verifikasi akses publik GitHub.
+- Verifikasi deployment frontend/backend.
+- Verifikasi README.
+- Verifikasi akun demo.
+- Verifikasi dokumentasi.
+- Gladi bersih presentasi/demo akhir.
 
-## After Day 21 / Buffer
+## Setelah Hari 21 / Waktu Cadangan (Buffer)
 
-Use remaining time only for critical bug fixes, deployment issues, and optional P1/P2 improvements that do not destabilize the core.
+Gunakan waktu tersisa hanya untuk perbaikan bug kritis, masalah deployment, dan perbaikan opsional P1/P2 yang tidak merusak stabilitas inti.
