@@ -1,0 +1,33 @@
+{
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "entities": "Business Entities",
+    "users": "Users",
+    "categories": "Product Categories",
+    "all_products": "All Products",
+    "catalog": "Product Catalog",
+    "batches": "Harvest Batches",
+    "inventory": "Inventory",
+    "sales": "Sales (Outbound)",
+    "purchases": "Purchases (Inbound)",
+    "waste": "Waste Management",
+    "business_profile": "Business Profile",
+    "traceability": "Traceability",
+    "settings": "Settings",
+    "help": "Help",
+    "logout": "Logout",
+    "main_menu": "Main Menu"
+  },
+  "dashboard": {
+    "welcome": "Welcome back",
+    "subtitle": "monitor your commodity movements today.",
+    "total_inventory": "Total Inventory",
+    "inbound": "Inbound Transactions",
+    "outbound": "Outbound Transactions",
+    "waste": "Recorded Waste",
+    "inventory_trend": "Inventory Movement Trend",
+    "waste_trend": "Waste & Damage Trend",
+    "recent_activity": "Recent Activity",
+    "expiry_warning": "Expiry Warning"
+  }
+}

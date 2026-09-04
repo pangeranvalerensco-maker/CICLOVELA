@@ -31,6 +31,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final EmailService emailService;
 
     private final Map<String, UUID> resetTokenStore = new ConcurrentHashMap<>();
 
@@ -111,7 +112,10 @@ public class AuthService {
         String resetToken = UUID.randomUUID().toString();
         resetTokenStore.put(resetToken, user.getId());
 
-        return resetToken;
+        // Send Email instead of just returning token
+        emailService.sendResetPasswordEmail(user.getEmail(), resetToken);
+
+        return "Token telah dikirim ke email";
     }
 
     @Transactional

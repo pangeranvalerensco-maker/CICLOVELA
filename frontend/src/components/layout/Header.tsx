@@ -1,14 +1,21 @@
 import { useAuth } from '../../context/AuthContext';
-import { Bell, Search, Menu } from 'lucide-react';
+import { Bell, Search, Menu, Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const Header = () => {
   const { user } = useAuth();
+  const { i18n } = useTranslation();
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'id' ? 'en' : 'id';
+    i18n.changeLanguage(newLang);
+  };
 
   const formatRole = (role?: string) => {
     if (!role) return '';
     if (role === 'PLATFORM_ADMIN') return 'Administrator';
-    if (role === 'FARMER') return 'Petani';
-    return 'Pelaku Bisnis';
+    if (role === 'FARMER') return i18n.language === 'id' ? 'Petani' : 'Farmer';
+    return i18n.language === 'id' ? 'Pelaku Bisnis' : 'Business Actor';
   };
 
   return (
@@ -24,15 +31,25 @@ const Header = () => {
           <Search size={16} className="text-gray-400 mr-2" />
           <input 
             type="text" 
-            placeholder="Cari transaksi, batch, dll..." 
+            placeholder={i18n.language === 'id' ? "Cari transaksi, batch, dll..." : "Search transactions, batches, etc..."}
             className="bg-transparent border-none outline-none text-sm w-full text-gray-700 placeholder-gray-400"
           />
         </div>
       </div>
       
-      <div className="flex items-center gap-4 sm:gap-6">
+      <div className="flex items-center gap-2 sm:gap-4">
+        {/* Language Toggle */}
+        <button 
+          onClick={toggleLanguage}
+          className="flex items-center gap-1.5 p-2 text-sm font-bold text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+          title="Ganti Bahasa / Change Language"
+        >
+          <Globe size={18} />
+          <span>{i18n.language === 'en' ? 'EN' : 'ID'}</span>
+        </button>
+
         {/* Notifications */}
-        <button className="relative p-2 text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-colors">
+        <button className="relative p-2 text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-colors ml-2">
           <Bell size={20} />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
         </button>

@@ -8,7 +8,6 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [resetToken, setResetToken] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,13 +18,9 @@ const ForgotPassword = () => {
 
     try {
       setLoading(true);
-      const res = await authApi.forgotPassword({ email });
+      await authApi.forgotPassword({ email });
       setSuccess(true);
-      // Di MVP, token langsung dikembalikan untuk testing
-      if (res.data.data) {
-        setResetToken(res.data.data);
-      }
-      toast.success('Permintaan reset password berhasil');
+      toast.success('Permintaan reset password berhasil dikirim');
     } catch (err: any) {
       toast.error(err.response?.data?.message || 'Gagal, periksa kembali email Anda');
     } finally {
@@ -42,21 +37,8 @@ const ForgotPassword = () => {
           </div>
           <h2 className="text-2xl font-bold text-gray-900">Periksa Email Anda</h2>
           <p className="text-gray-600 mt-2">
-            Kami telah mengirimkan instruksi untuk mereset password Anda.
+            Kami telah mengirimkan instruksi dan tautan untuk mereset password Anda ke email <strong>{email}</strong>.
           </p>
-          
-          {resetToken && (
-            <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-md text-left">
-              <p className="text-xs text-yellow-800 font-semibold mb-1">MODE PENGEMBANG (MVP):</p>
-              <p className="text-sm text-yellow-700 break-all">{resetToken}</p>
-              <Link 
-                to={`/reset-password?token=${resetToken}`}
-                className="mt-2 inline-block text-sm font-medium text-emerald-600 hover:underline"
-              >
-                Gunakan token ini sekarang &rarr;
-              </Link>
-            </div>
-          )}
           
           <div className="mt-6">
             <Link to="/login" className="text-emerald-600 font-medium hover:text-emerald-500">

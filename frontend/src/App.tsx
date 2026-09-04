@@ -8,8 +8,20 @@ import Register from './pages/auth/Register';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 import Layout from './components/layout/Layout';
+import Products from './pages/products/Products';
+import Batches from './pages/batches/Batches';
+import Inventories from './pages/inventories/Inventories';
+import Purchases from './pages/transactions/Purchases';
+import Sales from './pages/transactions/Sales';
+import Waste from './pages/waste/Waste';
+import Traceability from './pages/traceability/Traceability';
+import BusinessProfile from './pages/business/BusinessProfile';
 
 import Dashboard from './pages/dashboard/Dashboard';
+import Landing from './pages/Landing';
+
+import Categories from './pages/admin/Categories';
+import Entities from './pages/admin/Entities';
 
 const NotFound = () => <div className="min-h-screen flex items-center justify-center text-gray-500 text-2xl">404 - Halaman Tidak Ditemukan</div>;
 const Forbidden = () => <div className="min-h-screen flex items-center justify-center text-red-600 text-2xl">403 - Akses Ditolak</div>;
@@ -18,7 +30,7 @@ function AppRoutes() {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -31,20 +43,20 @@ function AppRoutes() {
           
           {/* Admin Routes */}
           <Route element={<RoleRoute allowedRoles={['PLATFORM_ADMIN']} />}>
-            <Route path="/admin/entities" element={<div>Manajemen Entitas Bisnis</div>} />
-            <Route path="/admin/users" element={<div>Manajemen Pengguna</div>} />
-            <Route path="/admin/categories" element={<div>Kategori Produk</div>} />
+            <Route path="/admin/entities" element={<Entities />} />
+            <Route path="/admin/users" element={<div>Manajemen Pengguna (WIP)</div>} />
+            <Route path="/admin/categories" element={<Categories />} />
           </Route>
           
-          {/* Other Feature Routes - Placeholder for next days */}
-          <Route path="/products" element={<div>Produk</div>} />
-          <Route path="/batches" element={<div>Batch Panen</div>} />
-          <Route path="/inventories" element={<div>Inventaris</div>} />
-          <Route path="/business" element={<div>Entitas Bisnis Saya</div>} />
-          <Route path="/transactions/purchases" element={<div>Pembelian (Purchase)</div>} />
-          <Route path="/transactions/sales" element={<div>Penjualan (Sales)</div>} />
-          <Route path="/waste" element={<div>Pencatatan Limbah</div>} />
-          <Route path="/traceability" element={<div>Lacak Produk</div>} />
+          {/* Other Feature Routes */}
+          <Route path="/products" element={<Products />} />
+          <Route path="/batches" element={<Batches />} />
+          <Route path="/inventories" element={<Inventories />} />
+          <Route path="/business" element={<BusinessProfile />} />
+          <Route path="/transactions/purchases" element={<Purchases />} />
+          <Route path="/transactions/sales" element={<Sales />} />
+          <Route path="/waste" element={<Waste />} />
+          <Route path="/traceability" element={<Traceability />} />
         </Route>
       </Route>
 
@@ -67,3 +79,4 @@ function App() {
 }
 
 export default App;
+

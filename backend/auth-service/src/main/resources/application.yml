@@ -17,6 +17,19 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
+  # P1: SMTP Email Service for Reset Password
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: pangeranvalerensco@gmail.com
+    password: "ilktiocuehxhxysf" # tanpa spasi
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 server:
   port: 8081
 

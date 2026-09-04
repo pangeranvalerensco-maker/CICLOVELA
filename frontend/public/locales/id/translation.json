@@ -1,0 +1,33 @@
+{
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "entities": "Entitas Bisnis",
+    "users": "Pengguna",
+    "categories": "Kategori Produk",
+    "all_products": "Semua Produk",
+    "catalog": "Katalog Produk",
+    "batches": "Batch Panen",
+    "inventory": "Inventaris",
+    "sales": "Penjualan (Outbound)",
+    "purchases": "Pembelian (Inbound)",
+    "waste": "Pencatatan Limbah",
+    "business_profile": "Profil Bisnis",
+    "traceability": "Lacak Produk",
+    "settings": "Pengaturan",
+    "help": "Bantuan",
+    "logout": "Keluar Aplikasi",
+    "main_menu": "Menu Utama"
+  },
+  "dashboard": {
+    "welcome": "Selamat datang kembali",
+    "subtitle": "pantau pergerakan komoditas Anda hari ini.",
+    "total_inventory": "Total Inventaris",
+    "inbound": "Transaksi Masuk",
+    "outbound": "Transaksi Keluar",
+    "waste": "Limbah Tercatat",
+    "inventory_trend": "Tren Pergerakan Inventaris",
+    "waste_trend": "Tren Limbah & Kerusakan",
+    "recent_activity": "Aktivitas Terbaru",
+    "expiry_warning": "Peringatan Kedaluwarsa"
+  }
+}
