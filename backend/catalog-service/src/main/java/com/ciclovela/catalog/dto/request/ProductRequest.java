@@ -24,4 +24,5 @@ public class ProductRequest {
 
     private Integer shelfLifeDays;
     private RecordStatus status;
+    private String imageUrl;
 }

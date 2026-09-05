@@ -31,18 +31,47 @@ public class InventoryService {
     private final InventoryAccountRepository accountRepository;
     private final InventoryMovementRepository movementRepository;
     private final WasteRepository wasteRepository;
+    private final com.ciclovela.inventory.repository.BusinessMembershipRepository membershipRepository;
 
     @Transactional(readOnly = true)
-    public Page<InventoryResponse> getInventories(UUID accountId, UUID batchId, Pageable pageable) {
-        return inventoryRepository.findAllWithFilters(accountId, batchId, pageable)
+    public Page<InventoryResponse> getInventories(UUID accountId, UUID batchId, UUID actorId, Pageable pageable) {
+        java.util.List<UUID> allowedEntities = membershipRepository.findByUserId(actorId).stream()
+                .filter(m -> "ACTIVE".equals(m.getStatus().name()))
+                .map(m -> m.getBusinessEntity().getId())
+                .toList();
+
+        // Workaround for empty IN clause in PostgreSQL
+        if (allowedEntities.isEmpty()) {
+            allowedEntities = java.util.List.of(UUID.randomUUID());
+        }
+
+        return inventoryRepository.findAllSecured(accountId, batchId, actorId, allowedEntities, pageable)
                 .map(this::toResponse);
     }
 
     @Transactional(readOnly = true)
-    public InventoryResponse getInventoryDetail(UUID id) {
-        return inventoryRepository.findById(id)
-                .map(this::toResponse)
+    public InventoryResponse getInventoryDetail(UUID id, UUID actorId) {
+        Inventory inventory = inventoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Inventory tidak ditemukan"));
+        
+        validateInventoryOwnership(inventory, actorId);
+        return toResponse(inventory);
+    }
+
+    private void validateInventoryOwnership(Inventory inventory, UUID actorId) {
+        InventoryAccount account = inventory.getInventoryAccount();
+        if (account.getOwnerUserId() != null) {
+            if (!account.getOwnerUserId().equals(actorId)) {
+                throw new com.ciclovela.inventory.exception.AccessDeniedException("Anda tidak berhak mengakses inventory ini.");
+            }
+        } else if (account.getOwnerBusinessEntity() != null) {
+            boolean isMember = membershipRepository.findByUserIdAndBusinessEntityId(actorId, account.getOwnerBusinessEntity().getId())
+                    .map(m -> "ACTIVE".equals(m.getStatus().name()))
+                    .orElse(false);
+            if (!isMember) {
+                throw new com.ciclovela.inventory.exception.AccessDeniedException("Anda bukan anggota aktif dari bisnis pemilik inventory ini.");
+            }
+        }
     }
 
     /**

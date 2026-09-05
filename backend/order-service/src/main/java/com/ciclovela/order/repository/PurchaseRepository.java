@@ -17,10 +17,13 @@ public interface PurchaseRepository extends JpaRepository<Purchase, UUID> {
     @Query("SELECT p FROM Purchase p WHERE " +
             "(:buyerEntityId IS NULL OR p.buyerEntityId = :buyerEntityId) AND " +
             "(:sellerFarmerId IS NULL OR p.sellerFarmerId = :sellerFarmerId) AND " +
-            "(:status IS NULL OR p.status = :status)")
-    Page<Purchase> findAllWithFilters(
+            "(:status IS NULL OR p.status = :status) AND " +
+            "(p.sellerFarmerId = :actorId OR p.buyerEntityId IN :allowedEntityIds)")
+    Page<Purchase> findAllSecured(
             @Param("buyerEntityId") UUID buyerEntityId,
             @Param("sellerFarmerId") UUID sellerFarmerId,
             @Param("status") TransactionStatus status,
+            @Param("actorId") UUID actorId,
+            @Param("allowedEntityIds") java.util.List<UUID> allowedEntityIds,
             Pageable pageable);
 }

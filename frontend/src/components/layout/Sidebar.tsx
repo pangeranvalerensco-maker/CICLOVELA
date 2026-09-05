@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { 
@@ -7,7 +7,7 @@ import {
   LogOut, Settings, HelpCircle
 } from 'lucide-react';
 
-const Sidebar = () => {
+const Sidebar = ({ open = false, onClose }: { open?: boolean; onClose?: () => void }) => {
   const { user, logout } = useAuth();
   const { t } = useTranslation();
   
@@ -54,15 +54,17 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="w-64 bg-[#0f172a] text-slate-300 flex flex-col h-full shrink-0 shadow-xl z-20 relative">
+    <>
+      {open && <div onClick={onClose} className="fixed inset-0 bg-black/50 z-30 lg:hidden" />}
+      <aside className={`w-64 bg-[#0f172a] text-slate-300 flex flex-col h-full shrink-0 shadow-xl z-40 fixed lg:static inset-y-0 left-0 transition-transform duration-200 ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
       {/* Brand Logo */}
       <div className="h-16 flex items-center px-6 bg-[#0b1120] border-b border-slate-800/50">
-        <div className="flex items-center gap-3">
+        <Link to="/" className="flex items-center gap-3" title="Kembali ke beranda">
           <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
             <Tractor size={20} className="text-white" />
           </div>
           <h1 className="text-lg font-bold tracking-wide text-white">CICLOVELA</h1>
-        </div>
+        </Link>
       </div>
 
       {/* User Info Quick View */}
@@ -90,6 +92,7 @@ const Sidebar = () => {
             <NavLink
               key={link.to}
               to={link.to}
+              onClick={onClose}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-sm font-medium ${
                   isActive 
@@ -123,7 +126,8 @@ const Sidebar = () => {
           {t('sidebar.logout')}
         </button>
       </div>
-    </aside>
+      </aside>
+    </>
   );
 };
 

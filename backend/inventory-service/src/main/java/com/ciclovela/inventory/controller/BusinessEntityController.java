@@ -1,6 +1,7 @@
 package com.ciclovela.inventory.controller;
 
 import com.ciclovela.inventory.dto.request.BusinessEntityRequest;
+import com.ciclovela.inventory.dto.request.MembershipRequest;
 import com.ciclovela.inventory.dto.response.ApiResponse;
 import com.ciclovela.inventory.dto.response.BusinessEntityResponse;
 import com.ciclovela.inventory.enums.EntityStatus;
@@ -61,5 +62,16 @@ public class BusinessEntityController {
         
         BusinessEntityResponse data = service.approveEntity(id, adminId);
         return ResponseEntity.ok(ApiResponse.success("Entitas bisnis berhasil disetujui", data));
+    }
+
+    @PostMapping("/{id}/members")
+    @PreAuthorize("hasRole('ENTITY_ADMIN')")
+    public ResponseEntity<ApiResponse<Void>> addMember(
+            @PathVariable UUID id,
+            @Valid @RequestBody MembershipRequest request,
+            @AuthenticationPrincipal UUID actorId) {
+        
+        service.addMember(id, request, actorId);
+        return ResponseEntity.ok(ApiResponse.success("Anggota berhasil ditambahkan ke entitas bisnis", null));
     }
 }

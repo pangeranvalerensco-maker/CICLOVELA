@@ -18,11 +18,14 @@ public interface SaleRepository extends JpaRepository<Sale, UUID> {
             "(:sellerEntityId IS NULL OR s.sellerEntityId = :sellerEntityId) AND " +
             "(:buyerEntityId IS NULL OR s.buyerEntityId = :buyerEntityId) AND " +
             "(:buyerUserId IS NULL OR s.buyerUserId = :buyerUserId) AND " +
-            "(:status IS NULL OR s.status = :status)")
-    Page<Sale> findAllWithFilters(
+            "(:status IS NULL OR s.status = :status) AND " +
+            "(s.buyerUserId = :actorId OR s.sellerEntityId IN :allowedEntityIds OR s.buyerEntityId IN :allowedEntityIds)")
+    Page<Sale> findAllSecured(
             @Param("sellerEntityId") UUID sellerEntityId,
             @Param("buyerEntityId") UUID buyerEntityId,
             @Param("buyerUserId") UUID buyerUserId,
             @Param("status") TransactionStatus status,
+            @Param("actorId") UUID actorId,
+            @Param("allowedEntityIds") java.util.List<UUID> allowedEntityIds,
             Pageable pageable);
 }

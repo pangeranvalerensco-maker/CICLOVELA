@@ -28,6 +28,7 @@ public class SaleService {
     private final InventoryMovementRefRepository movementRefRepository;
     private final BusinessEntityRefRepository businessEntityRefRepository;
     private final BusinessMembershipRefRepository businessMembershipRefRepository;
+    private final BatchRefRepository batchRefRepository;
 
     private void validateMembership(UUID userId, UUID entityId) {
         BusinessMembershipRef membership = businessMembershipRefRepository.findByUserIdAndBusinessEntityIdAndStatus(userId, entityId, "ACTIVE")
@@ -38,16 +39,34 @@ public class SaleService {
     }
 
     @Transactional(readOnly = true)
-    public Page<SaleResponse> getAllSales(UUID sellerEntityId, UUID buyerEntityId, UUID buyerUserId, TransactionStatus status, Pageable pageable) {
-        return saleRepository.findAllWithFilters(sellerEntityId, buyerEntityId, buyerUserId, status, pageable)
+    public Page<SaleResponse> getAllSales(UUID sellerEntityId, UUID buyerEntityId, UUID buyerUserId, TransactionStatus status, UUID actorId, Pageable pageable) {
+        java.util.List<UUID> allowedEntities = businessMembershipRefRepository.findAll().stream()
+                .filter(m -> m.getUserId().equals(actorId) && "ACTIVE".equals(m.getStatus()))
+                .map(BusinessMembershipRef::getBusinessEntityId)
+                .toList();
+
+        if (allowedEntities.isEmpty()) {
+            allowedEntities = java.util.List.of(UUID.randomUUID());
+        }
+
+        return saleRepository.findAllSecured(sellerEntityId, buyerEntityId, buyerUserId, status, actorId, allowedEntities, pageable)
                 .map(this::toResponse);
     }
 
     @Transactional(readOnly = true)
-    public SaleResponse getSale(UUID id) {
-        return saleRepository.findById(id)
-                .map(this::toResponse)
+    public SaleResponse getSale(UUID id, UUID actorId) {
+        Sale sale = saleRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Penjualan tidak ditemukan"));
+
+        boolean isBuyerConsumer = actorId.equals(sale.getBuyerUserId());
+        boolean isSellerMember = businessMembershipRefRepository.findByUserIdAndBusinessEntityIdAndStatus(actorId, sale.getSellerEntityId(), "ACTIVE").isPresent();
+        boolean isBuyerEntityMember = sale.getBuyerEntityId() != null && businessMembershipRefRepository.findByUserIdAndBusinessEntityIdAndStatus(actorId, sale.getBuyerEntityId(), "ACTIVE").isPresent();
+
+        if (!isBuyerConsumer && !isSellerMember && !isBuyerEntityMember) {
+            throw new com.ciclovela.order.exception.AccessDeniedException("Anda tidak berhak melihat transaksi ini.");
+        }
+
+        return toResponse(sale);
     }
 
     @Transactional
@@ -70,11 +89,19 @@ public class SaleService {
 
         // B2B Flow Validation (Distributor -> Retailer)
         if (request.getBuyerEntityId() != null) {
+            if (!"DISTRIBUTOR".equals(seller.getBusinessType())) {
+                throw new BadRequestException(
+                        "Hanya DISTRIBUTOR yang dapat melakukan penjualan B2B kepada RETAILER."
+                );
+            }
+
             BusinessEntityRef buyer = businessEntityRefRepository.findById(request.getBuyerEntityId())
                     .orElseThrow(() -> new ResourceNotFoundException("Entitas pembeli tidak ditemukan"));
-            
+
             if (!"RETAILER".equals(buyer.getBusinessType())) {
-                throw new BadRequestException("Penjualan B2B hanya diperbolehkan kepada entitas bertipe RETAILER.");
+                throw new BadRequestException(
+                        "Penjualan B2B hanya diperbolehkan kepada entitas bertipe RETAILER."
+                );
             }
         }
         
@@ -98,6 +125,15 @@ public class SaleService {
 
         BigDecimal total = BigDecimal.ZERO;
         for (OrderItemRequest itemReq : request.getItems()) {
+            // Business Rule: Batch Expired tidak boleh dijual
+            BatchRef batch = batchRefRepository.findById(itemReq.getBatchId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Batch dengan ID " + itemReq.getBatchId() + " tidak ditemukan"));
+            
+            if ("EXPIRED".equals(batch.getStatus()) || 
+                (batch.getExpiryDate() != null && batch.getExpiryDate().isBefore(java.time.LocalDate.now()))) {
+                throw new BadRequestException("Tidak dapat menjual barang yang sudah kedaluwarsa (Batch: " + itemReq.getBatchId() + ")");
+            }
+
             BigDecimal subtotal = itemReq.getQuantity().multiply(itemReq.getUnitPrice());
             SaleItem item = SaleItem.builder()
                     .sale(sale)
@@ -165,7 +201,7 @@ public class SaleService {
                     .referenceType("SALE")
                     .referenceId(sale.getId())
                     .description("Penjualan: " + sale.getTransactionCode())
-                    .createdBy(actorId != null ? actorId : sale.getSellerEntityId())
+                    .createdBy(actorId)
                     .build();
             movementRefRepository.save(outMovement);
 
@@ -196,7 +232,7 @@ public class SaleService {
                         .referenceType("SALE")
                         .referenceId(sale.getId())
                         .description("Diterima dari: " + sale.getTransactionCode())
-                        .createdBy(actorId != null ? actorId : sale.getBuyerEntityId())
+                        .createdBy(actorId)
                         .build();
                 movementRefRepository.save(inMovement);
             }

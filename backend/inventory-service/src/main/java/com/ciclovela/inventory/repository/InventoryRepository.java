@@ -18,9 +18,12 @@ public interface InventoryRepository extends JpaRepository<Inventory, UUID> {
     
     @Query("SELECT i FROM Inventory i WHERE " +
             "(:accountId IS NULL OR i.inventoryAccount.id = :accountId) AND " +
-            "(:batchId IS NULL OR i.batchId = :batchId)")
-    Page<Inventory> findAllWithFilters(
+            "(:batchId IS NULL OR i.batchId = :batchId) AND " +
+            "(i.inventoryAccount.ownerUserId = :actorId OR i.inventoryAccount.ownerBusinessEntity.id IN :allowedEntityIds)")
+    Page<Inventory> findAllSecured(
             @Param("accountId") UUID accountId,
             @Param("batchId") UUID batchId,
+            @Param("actorId") UUID actorId,
+            @Param("allowedEntityIds") java.util.List<UUID> allowedEntityIds,
             Pageable pageable);
 }

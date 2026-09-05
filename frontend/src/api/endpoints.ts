@@ -27,6 +27,7 @@ export const batchApi = {
 export const inventoryApi = {
   getAll: (params?: any) => api.get('/inventories', { params }),
   getById: (id: string) => api.get(`/inventories/${id}`),
+  getDashboardStats: () => api.get('/inventories/dashboard-stats'),
 };
 
 export const wasteApi = {

@@ -55,6 +55,7 @@ public class ProductService {
                 .description(request.getDescription())
                 .unit(request.getUnit())
                 .shelfLifeDays(request.getShelfLifeDays())
+                .imageUrl(request.getImageUrl())
                 .status(request.getStatus() != null ? request.getStatus() : RecordStatus.ACTIVE)
                 .createdBy(userId)
                 .build();
@@ -85,6 +86,7 @@ public class ProductService {
         product.setDescription(request.getDescription());
         product.setUnit(request.getUnit());
         product.setShelfLifeDays(request.getShelfLifeDays());
+        product.setImageUrl(request.getImageUrl());
         
         if (request.getStatus() != null) {
             product.setStatus(request.getStatus());
@@ -121,6 +123,7 @@ public class ProductService {
                 .unit(product.getUnit().name())
                 .shelfLifeDays(product.getShelfLifeDays())
                 .status(product.getStatus().name())
+                .imageUrl(product.getImageUrl())
                 .createdBy(product.getCreatedBy())
                 .createdAt(product.getCreatedAt())
                 .build();

@@ -17,6 +17,7 @@ public class ProductResponse {
     private String unit;
     private Integer shelfLifeDays;
     private String status;
+    private String imageUrl;
     private UUID createdBy;
     private OffsetDateTime createdAt;
 }

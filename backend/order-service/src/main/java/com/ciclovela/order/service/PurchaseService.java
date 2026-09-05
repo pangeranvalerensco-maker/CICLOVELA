@@ -40,16 +40,33 @@ public class PurchaseService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PurchaseResponse> getAllPurchases(UUID buyerEntityId, UUID sellerFarmerId, TransactionStatus status, Pageable pageable) {
-        return purchaseRepository.findAllWithFilters(buyerEntityId, sellerFarmerId, status, pageable)
+    public Page<PurchaseResponse> getAllPurchases(UUID buyerEntityId, UUID sellerFarmerId, TransactionStatus status, UUID actorId, Pageable pageable) {
+        java.util.List<UUID> allowedEntities = businessMembershipRefRepository.findAll().stream()
+                .filter(m -> m.getUserId().equals(actorId) && "ACTIVE".equals(m.getStatus()))
+                .map(BusinessMembershipRef::getBusinessEntityId)
+                .toList();
+
+        if (allowedEntities.isEmpty()) {
+            allowedEntities = java.util.List.of(UUID.randomUUID());
+        }
+
+        return purchaseRepository.findAllSecured(buyerEntityId, sellerFarmerId, status, actorId, allowedEntities, pageable)
                 .map(this::toResponse);
     }
 
     @Transactional(readOnly = true)
-    public PurchaseResponse getPurchase(UUID id) {
-        return purchaseRepository.findById(id)
-                .map(this::toResponse)
+    public PurchaseResponse getPurchase(UUID id, UUID actorId) {
+        Purchase purchase = purchaseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Pembelian tidak ditemukan"));
+        
+        boolean isSeller = purchase.getSellerFarmerId().equals(actorId);
+        boolean isBuyerMember = businessMembershipRefRepository.findByUserIdAndBusinessEntityIdAndStatus(actorId, purchase.getBuyerEntityId(), "ACTIVE").isPresent();
+        
+        if (!isSeller && !isBuyerMember) {
+            throw new com.ciclovela.order.exception.AccessDeniedException("Anda tidak berhak melihat transaksi ini.");
+        }
+
+        return toResponse(purchase);
     }
 
     @Transactional

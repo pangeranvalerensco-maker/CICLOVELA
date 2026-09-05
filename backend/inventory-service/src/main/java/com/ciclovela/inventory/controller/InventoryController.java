@@ -25,20 +25,23 @@ public class InventoryController {
     private final InventoryService service;
 
     @GetMapping("/inventories")
+    @PreAuthorize("hasAnyRole('FARMER', 'DISTRIBUTOR', 'RETAILER', 'ENTITY_ADMIN')")
     public ResponseEntity<ApiResponse<Page<InventoryResponse>>> getInventories(
             @RequestParam(required = false) UUID accountId,
             @RequestParam(required = false) UUID batchId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "10") int size,
+            @AuthenticationPrincipal UUID actorId) {
         
         Pageable pageable = PageRequest.of(page, size);
-        Page<InventoryResponse> pageResult = service.getInventories(accountId, batchId, pageable);
+        Page<InventoryResponse> pageResult = service.getInventories(accountId, batchId, actorId, pageable);
         return ResponseEntity.ok(ApiResponse.success("Berhasil mengambil data inventory", pageResult));
     }
 
     @GetMapping("/inventories/{id}")
-    public ResponseEntity<ApiResponse<InventoryResponse>> getInventory(@PathVariable UUID id) {
-        return ResponseEntity.ok(ApiResponse.success("Berhasil mengambil detail inventory", service.getInventoryDetail(id)));
+    @PreAuthorize("hasAnyRole('FARMER', 'DISTRIBUTOR', 'RETAILER', 'ENTITY_ADMIN')")
+    public ResponseEntity<ApiResponse<InventoryResponse>> getInventory(@PathVariable UUID id, @AuthenticationPrincipal UUID actorId) {
+        return ResponseEntity.ok(ApiResponse.success("Berhasil mengambil detail inventory", service.getInventoryDetail(id, actorId)));
     }
 
     @GetMapping("/inventories/dashboard-stats")
@@ -47,6 +50,7 @@ public class InventoryController {
     }
 
     @PostMapping("/waste-records")
+    @PreAuthorize("hasAnyRole('FARMER', 'DISTRIBUTOR', 'RETAILER', 'ENTITY_ADMIN')")
     public ResponseEntity<ApiResponse<Void>> recordWaste(
             @Valid @RequestBody WasteRequest request,
             @AuthenticationPrincipal UUID userId) {

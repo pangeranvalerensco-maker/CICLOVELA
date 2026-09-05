@@ -4,6 +4,7 @@ import { Package, Plus, Pencil, Trash2 } from 'lucide-react';
 import { productApi, categoryApi } from '../../api/endpoints';
 import DataTable from '../../components/ui/DataTable';
 import Modal from '../../components/ui/Modal';
+import FileUpload from '../../components/ui/FileUpload';
 import { useAuth } from '../../context/AuthContext';
 
 const Products = () => {
@@ -20,7 +21,7 @@ const Products = () => {
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    name: '', sku: '', description: '', unit: 'KG', shelfLifeDays: '', categoryId: ''
+    name: '', sku: '', description: '', unit: 'KG', shelfLifeDays: '', categoryId: '', imageUrl: ''
   });
   const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -94,11 +95,11 @@ const Products = () => {
       setFormData({
         name: item.name, sku: item.sku || '', description: item.description || '', 
         unit: item.unit, shelfLifeDays: item.shelfLifeDays?.toString() || '', 
-        categoryId: item.category.id
+        categoryId: item.category.id, imageUrl: item.imageUrl || ''
       });
     } else {
       setEditingId(null);
-      setFormData({ name: '', sku: '', description: '', unit: 'KG', shelfLifeDays: '', categoryId: categories[0]?.id || '' });
+      setFormData({ name: '', sku: '', description: '', unit: 'KG', shelfLifeDays: '', categoryId: categories[0]?.id || '', imageUrl: '' });
     }
     setIsModalOpen(true);
   };
@@ -197,9 +198,16 @@ const Products = () => {
               <label className="block text-sm font-medium text-slate-700 mb-1">Deskripsi</label>
               <textarea rows={3} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm" placeholder="Deskripsi opsional..." />
             </div>
+            <div className="col-span-2 border-t border-slate-100 pt-4 mt-2">
+              <FileUpload 
+                label="Foto Produk (Opsional)"
+                acceptedTypes="image/jpeg,image/png"
+                onUploadSuccess={(url) => setFormData({...formData, imageUrl: url})}
+              />
+            </div>
           </div>
           
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+          <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 mt-4">
             <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">Batal</button>
             <button type="submit" className="px-4 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors">Simpan Produk</button>
           </div>

@@ -1,27 +1,43 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Search, MapPin, Calendar, Clock, Package, Tractor, AlertTriangle, ArrowDownRight, ArrowUpRight, BarChart3 } from 'lucide-react';
 import { traceabilityApi } from '../../api/endpoints';
 
+import { useTranslation } from 'react-i18next';
+
 const Traceability = () => {
+  const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
   const [batchCode, setBatchCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any>(null);
 
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!batchCode.trim()) return;
-
+  const doSearch = async (code: string) => {
+    if (!code.trim()) return;
     try {
       setLoading(true);
       setData(null);
-      const res = await traceabilityApi.getByBatchCode(batchCode.trim());
+      const res = await traceabilityApi.getByBatchCode(code.trim());
       setData(res.data.data);
     } catch (err: any) {
-      toast.error(err.response?.data?.message || 'Data tidak ditemukan');
+      toast.error(err.response?.data?.message || 'Data tidak ditemukan. Gunakan kode batch, bukan ID produk.');
     } finally {
       setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    const code = searchParams.get('code');
+    if (code) {
+      setBatchCode(code);
+      doSearch(code);
+    }
+  }, []);
+
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    doSearch(batchCode);
   };
 
   const getEventIcon = (type: string) => {
@@ -51,14 +67,14 @@ const Traceability = () => {
   };
 
   return (
-    <div className="animate-in fade-in duration-500 max-w-4xl mx-auto pb-12">
-      <div className="text-center mb-10">
+    <div className="animate-in fade-in duration-500 max-w-4xl mx-auto pb-12 w-full flex-1 px-4">
+      <div className="text-center mb-10 mt-10">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mb-4">
           <BarChart3 size={32} />
         </div>
-        <h1 className="text-3xl font-extrabold text-slate-900">Lacak Produk Anda</h1>
+        <h1 className="text-3xl font-extrabold text-slate-900">{t('traceability.title')}</h1>
         <p className="text-slate-500 mt-2 max-w-xl mx-auto">
-          Masukkan kode batch yang tertera pada kemasan produk untuk melihat perjalanan produk dari petani hingga ke tangan Anda.
+          {t('traceability.subtitle')}
         </p>
       </div>
 
@@ -67,7 +83,7 @@ const Traceability = () => {
           type="text"
           value={batchCode}
           onChange={(e) => setBatchCode(e.target.value)}
-          placeholder="Contoh: BATCH-001"
+          placeholder={t('traceability.search_ph')}
           className="w-full pl-6 pr-32 py-4 text-lg border-2 border-slate-200 rounded-full focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all shadow-sm font-mono font-bold text-slate-700"
         />
         <button 
@@ -75,7 +91,7 @@ const Traceability = () => {
           disabled={loading}
           className="absolute right-2 top-2 bottom-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 rounded-full font-semibold transition-colors flex items-center gap-2 disabled:opacity-70"
         >
-          {loading ? 'Mencari...' : <><Search size={20} /> Lacak</>}
+          {loading ? t('traceability.searching') : <><Search size={20} /> {t('traceability.btn')}</>}
         </button>
       </form>
 
@@ -87,7 +103,7 @@ const Traceability = () => {
             <div className="bg-slate-900 px-6 py-4 flex items-center justify-between">
               <h2 className="text-white font-semibold flex items-center gap-2">
                 <Tractor size={20} className="text-emerald-400" /> 
-                Informasi Asal (Origin)
+                {t('traceability.origin_title')}
               </h2>
               <span className="px-3 py-1 bg-white/10 text-white text-xs font-mono rounded-full border border-white/20">
                 {data.batchCode}
@@ -96,13 +112,13 @@ const Traceability = () => {
             <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div>
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Produk</p>
+                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">{t('traceability.product')}</p>
                   <p className="text-lg font-bold text-slate-800 flex items-center gap-2">
                     <Package size={20} className="text-emerald-600" /> {data.productName}
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Petani / Produsen</p>
+                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">{t('traceability.farmer')}</p>
                   <p className="text-base font-semibold text-slate-700 flex items-center gap-2">
                     <MapPin size={18} className="text-rose-500" /> {data.farmerName}
                   </p>
@@ -110,7 +126,7 @@ const Traceability = () => {
               </div>
               <div className="space-y-4">
                 <div>
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Tanggal Panen & Kedaluwarsa</p>
+                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">{t('traceability.dates')}</p>
                   <div className="flex items-center gap-4 text-sm font-medium text-slate-700">
                     <span className="flex items-center gap-1"><Calendar size={16} className="text-blue-500"/> {new Date(data.harvestDate).toLocaleDateString('id-ID')}</span>
                     <span className="text-slate-300">→</span>
@@ -118,7 +134,7 @@ const Traceability = () => {
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Kualitas & Kuantitas Awal</p>
+                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">{t('traceability.quality')}</p>
                   <div className="flex items-center gap-3">
                     <span className="px-2.5 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded">Grade {data.qualityGrade}</span>
                     <span className="text-sm font-bold text-slate-700">{data.initialQuantity} {data.unit}</span>
@@ -132,7 +148,7 @@ const Traceability = () => {
           <div>
             <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
               <Clock size={20} className="text-blue-600" />
-              Perjalanan Produk (Supply Chain)
+              {t('traceability.timeline')}
             </h3>
             
             <div className="relative pl-4 md:pl-0">
@@ -148,8 +164,8 @@ const Traceability = () => {
                   </div>
                   <div className="absolute md:relative left-0 md:left-auto w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-emerald-50 z-10 shrink-0 mt-1 md:mt-1.5 shadow-sm"></div>
                   <div className="flex-1 bg-white p-5 rounded-xl border border-slate-200 shadow-sm ml-6 md:ml-0">
-                    <h4 className="font-bold text-slate-800">Produk Selesai Dipanen</h4>
-                    <p className="text-sm text-slate-500 mt-1">Dicatat ke dalam sistem oleh {data.farmerName}</p>
+                    <h4 className="font-bold text-slate-800">{t('traceability.harvested')}</h4>
+                    <p className="text-sm text-slate-500 mt-1">{t('traceability.recorded_by')} {data.farmerName}</p>
                   </div>
                 </div>
 

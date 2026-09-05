@@ -1,6 +1,7 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { PrivateRoute, RoleRoute } from './components/ProtectedRoute';
 
 import Login from './pages/auth/Login';
@@ -8,6 +9,7 @@ import Register from './pages/auth/Register';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 import Layout from './components/layout/Layout';
+import PublicLayout from './components/layout/PublicLayout';
 import Products from './pages/products/Products';
 import Batches from './pages/batches/Batches';
 import Inventories from './pages/inventories/Inventories';
@@ -22,6 +24,13 @@ import Landing from './pages/Landing';
 
 import Categories from './pages/admin/Categories';
 import Entities from './pages/admin/Entities';
+import Catalog from './pages/catalog/Catalog';
+import CatalogDetail from './pages/catalog/CatalogDetail';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
+import Contact from './pages/Contact';
+import Partners from './pages/Partners';
+import Impact from './pages/Impact';
 
 const NotFound = () => <div className="min-h-screen flex items-center justify-center text-gray-500 text-2xl">404 - Halaman Tidak Ditemukan</div>;
 const Forbidden = () => <div className="min-h-screen flex items-center justify-center text-red-600 text-2xl">403 - Akses Ditolak</div>;
@@ -29,13 +38,23 @@ const Forbidden = () => <div className="min-h-screen flex items-center justify-c
 function AppRoutes() {
   return (
     <Routes>
-      {/* Public Routes */}
-      <Route path="/" element={<Landing />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
-      
+      {/* Public Routes dengan header/footer seragam */}
+      <Route element={<PublicLayout />}>
+        <Route path="/" element={<Landing />} />
+        <Route path="/catalog" element={<Catalog />} />
+        <Route path="/catalog/:id" element={<CatalogDetail />} />
+        <Route path="/traceability" element={<Traceability />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/partners" element={<Partners />} />
+        <Route path="/impact" element={<Impact />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+      </Route>
+
       {/* Private Routes dengan Layout Utama */}
       <Route element={<PrivateRoute />}>
         <Route element={<Layout />}>
@@ -56,7 +75,6 @@ function AppRoutes() {
           <Route path="/transactions/purchases" element={<Purchases />} />
           <Route path="/transactions/sales" element={<Sales />} />
           <Route path="/waste" element={<Waste />} />
-          <Route path="/traceability" element={<Traceability />} />
         </Route>
       </Route>
 
@@ -69,12 +87,14 @@ function AppRoutes() {
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Toaster position="top-right" />
-        <AppRoutes />
-      </BrowserRouter>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <Toaster position="top-right" />
+          <AppRoutes />
+        </BrowserRouter>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

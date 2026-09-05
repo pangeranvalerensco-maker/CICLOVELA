@@ -1,6 +1,7 @@
 package com.ciclovela.inventory.service;
 
 import com.ciclovela.inventory.dto.request.BusinessEntityRequest;
+import com.ciclovela.inventory.dto.request.MembershipRequest;
 import com.ciclovela.inventory.dto.response.BusinessEntityResponse;
 import com.ciclovela.inventory.entity.BusinessEntity;
 import com.ciclovela.inventory.entity.BusinessMembership;
@@ -109,6 +110,35 @@ public class BusinessEntityService {
         });
 
         return toResponse(entityRepository.save(entity));
+    }
+
+    @Transactional
+    public void addMember(UUID entityId, MembershipRequest request, UUID actorId) {
+        BusinessEntity entity = entityRepository.findById(entityId)
+                .orElseThrow(() -> new ResourceNotFoundException("Entitas Bisnis tidak ditemukan"));
+
+        // Verifikasi bahwa aktor adalah ENTITY_ADMIN dari entity ini
+        boolean isAdmin = membershipRepository.findByUserIdAndBusinessEntityId(actorId, entityId)
+                .map(m -> "ACTIVE".equals(m.getStatus().name()) && m.getRole() == MembershipRole.ENTITY_ADMIN)
+                .orElse(false);
+
+        if (!isAdmin) {
+            throw new com.ciclovela.inventory.exception.AccessDeniedException("Anda bukan admin dari entitas bisnis ini.");
+        }
+
+        if (membershipRepository.existsByUserIdAndBusinessEntityId(request.getUserId(), entityId)) {
+            throw new BadRequestException("User sudah menjadi bagian dari entitas ini.");
+        }
+
+        BusinessMembership membership = BusinessMembership.builder()
+                .userId(request.getUserId())
+                .businessEntity(entity)
+                .role(request.getRole())
+                .status(MembershipStatus.ACTIVE)
+                .joinedAt(OffsetDateTime.now())
+                .build();
+        
+        membershipRepository.save(membership);
     }
 
     private BusinessEntityResponse toResponse(BusinessEntity e) {

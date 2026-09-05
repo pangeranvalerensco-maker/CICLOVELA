@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,22 +26,26 @@ public class PurchaseController {
     private final PurchaseService service;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('FARMER', 'DISTRIBUTOR', 'RETAILER', 'ENTITY_ADMIN')")
     public ResponseEntity<ApiResponse<Page<PurchaseResponse>>> getAll(
             @RequestParam(required = false) UUID buyerEntityId,
             @RequestParam(required = false) UUID sellerFarmerId,
             @RequestParam(required = false) TransactionStatus status,
-            @PageableDefault(size = 10) Pageable pageable) {
+            @PageableDefault(size = 10) Pageable pageable,
+            @AuthenticationPrincipal UUID actorId) {
 
-        Page<PurchaseResponse> page = service.getAllPurchases(buyerEntityId, sellerFarmerId, status, pageable);
+        Page<PurchaseResponse> page = service.getAllPurchases(buyerEntityId, sellerFarmerId, status, actorId, pageable);
         return ResponseEntity.ok(ApiResponse.success("Berhasil mengambil data pembelian", page));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<PurchaseResponse>> getById(@PathVariable UUID id) {
-        return ResponseEntity.ok(ApiResponse.success("Berhasil mengambil detail pembelian", service.getPurchase(id)));
+    @PreAuthorize("hasAnyRole('FARMER', 'DISTRIBUTOR', 'RETAILER', 'ENTITY_ADMIN')")
+    public ResponseEntity<ApiResponse<PurchaseResponse>> getById(@PathVariable UUID id, @AuthenticationPrincipal UUID actorId) {
+        return ResponseEntity.ok(ApiResponse.success("Berhasil mengambil detail pembelian", service.getPurchase(id, actorId)));
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('DISTRIBUTOR', 'ENTITY_ADMIN')")
     public ResponseEntity<ApiResponse<PurchaseResponse>> create(
             @Valid @RequestBody PurchaseRequest request,
             @AuthenticationPrincipal UUID userId) {
@@ -50,6 +55,7 @@ public class PurchaseController {
     }
 
     @PatchMapping("/{id}/status")
+    @PreAuthorize("hasAnyRole('FARMER', 'DISTRIBUTOR', 'ENTITY_ADMIN')")
     public ResponseEntity<ApiResponse<PurchaseResponse>> updateStatus(
             @PathVariable UUID id,
             @RequestParam TransactionStatus status,

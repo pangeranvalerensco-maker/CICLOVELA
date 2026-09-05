@@ -20,9 +20,13 @@ api.interceptors.response.use(
   (error) => {
     // Tangani 401 secara global
     if (error.response && error.response.status === 401) {
-      // Hanya redirect jika bukan dari halaman login/register
-      if (!window.location.pathname.includes('/login') && 
-          !window.location.pathname.includes('/register')) {
+      // Jangan redirect jika user sedang berada di halaman publik
+      const publicPaths = ['/login', '/register', '/catalog', '/traceability', '/partners', '/impact', '/terms', '/privacy', '/contact', '/'];
+      const currentPath = window.location.pathname;
+      
+      const isPublicPath = publicPaths.some(path => currentPath === path || currentPath.startsWith(path + '/'));
+      
+      if (!isPublicPath) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         window.location.href = '/login';

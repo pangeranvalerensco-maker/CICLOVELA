@@ -1,7 +1,7 @@
 import { useAuth } from '../../context/AuthContext';
 import { 
   Tractor, Package, ArrowUpRight, ArrowDownRight, 
-  TrendingUp, Clock, AlertTriangle, CheckCircle2,
+  TrendingUp, AlertTriangle, CheckCircle2,
   AlertOctagon
 } from 'lucide-react';
 import { 
@@ -10,17 +10,25 @@ import {
 } from 'recharts';
 
 import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from 'react';
+import { inventoryApi } from '../../api/endpoints';
 
 const Dashboard = () => {
   const { user } = useAuth();
   const { t } = useTranslation();
+  const [liveStats, setLiveStats] = useState<any>(null);
 
-  // Data Dummy Statistik (Di dunia nyata ambil dari API backend)
+  useEffect(() => {
+    inventoryApi.getDashboardStats()
+      .then((res) => setLiveStats(res.data?.data))
+      .catch(() => setLiveStats(null));
+  }, []);
+
   const stats = [
-    { title: t('dashboard.total_inventory'), value: '2,450 KG', change: '+12.5%', isUp: true, icon: Package, color: 'text-blue-600', bg: 'bg-blue-100' },
-    { title: t('dashboard.inbound'), value: '18', change: '+4.2%', isUp: true, icon: ArrowDownRight, color: 'text-emerald-600', bg: 'bg-emerald-100' },
-    { title: t('dashboard.outbound'), value: '24', change: '-2.4%', isUp: false, icon: ArrowUpRight, color: 'text-violet-600', bg: 'bg-violet-100' },
-    { title: t('dashboard.waste'), value: '12 KG', change: '-18.1%', isUp: true, icon: AlertTriangle, color: 'text-rose-600', bg: 'bg-rose-100' },
+    { title: t('dashboard.total_inventory'), value: liveStats ? `${liveStats.totalInventoryQuantity}` : '2,450 KG', change: '+12.5%', isUp: true, icon: Package, color: 'text-blue-600', bg: 'bg-blue-100' },
+    { title: t('dashboard.inbound'), value: liveStats ? `${liveStats.inboundTransactions}` : '18', change: '+4.2%', isUp: true, icon: ArrowDownRight, color: 'text-emerald-600', bg: 'bg-emerald-100' },
+    { title: t('dashboard.outbound'), value: liveStats ? `${liveStats.outboundTransactions}` : '24', change: '-2.4%', isUp: false, icon: ArrowUpRight, color: 'text-violet-600', bg: 'bg-violet-100' },
+    { title: t('dashboard.waste'), value: liveStats ? `${liveStats.totalWasteRecorded}` : '12 KG', change: '-18.1%', isUp: true, icon: AlertTriangle, color: 'text-rose-600', bg: 'bg-rose-100' },
   ];
 
   const recentActivities = [
@@ -30,7 +38,7 @@ const Dashboard = () => {
     { id: 4, action: 'Batch Baru Terdaftar', target: 'Bawang Merah (100 KG)', time: '2 hari yang lalu', status: 'success', icon: Tractor },
   ];
 
-  const chartData = [
+  const chartData = liveStats?.inventoryTrend ?? [
     { name: 'Sen', masuk: 400, keluar: 240, limbah: 20 },
     { name: 'Sel', masuk: 300, keluar: 139, limbah: 15 },
     { name: 'Rab', masuk: 200, keluar: 880, limbah: 40 },

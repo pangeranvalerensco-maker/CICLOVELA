@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,23 +26,27 @@ public class SaleController {
     private final SaleService service;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('DISTRIBUTOR', 'RETAILER', 'ENTITY_ADMIN', 'CONSUMER')")
     public ResponseEntity<ApiResponse<Page<SaleResponse>>> getAll(
             @RequestParam(required = false) UUID sellerEntityId,
             @RequestParam(required = false) UUID buyerEntityId,
             @RequestParam(required = false) UUID buyerUserId,
             @RequestParam(required = false) TransactionStatus status,
-            @PageableDefault(size = 10) Pageable pageable) {
+            @PageableDefault(size = 10) Pageable pageable,
+            @AuthenticationPrincipal UUID actorId) {
 
-        Page<SaleResponse> page = service.getAllSales(sellerEntityId, buyerEntityId, buyerUserId, status, pageable);
+        Page<SaleResponse> page = service.getAllSales(sellerEntityId, buyerEntityId, buyerUserId, status, actorId, pageable);
         return ResponseEntity.ok(ApiResponse.success("Berhasil mengambil data penjualan", page));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<SaleResponse>> getById(@PathVariable UUID id) {
-        return ResponseEntity.ok(ApiResponse.success("Berhasil mengambil detail penjualan", service.getSale(id)));
+    @PreAuthorize("hasAnyRole('DISTRIBUTOR', 'RETAILER', 'ENTITY_ADMIN', 'CONSUMER')")
+    public ResponseEntity<ApiResponse<SaleResponse>> getById(@PathVariable UUID id, @AuthenticationPrincipal UUID actorId) {
+        return ResponseEntity.ok(ApiResponse.success("Berhasil mengambil detail penjualan", service.getSale(id, actorId)));
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('DISTRIBUTOR', 'RETAILER', 'ENTITY_ADMIN')")
     public ResponseEntity<ApiResponse<SaleResponse>> create(
             @Valid @RequestBody SaleRequest request,
             @AuthenticationPrincipal UUID userId) {
@@ -51,6 +56,7 @@ public class SaleController {
     }
 
     @PatchMapping("/{id}/status")
+    @PreAuthorize("hasAnyRole('DISTRIBUTOR', 'RETAILER', 'ENTITY_ADMIN', 'CONSUMER')")
     public ResponseEntity<ApiResponse<SaleResponse>> updateStatus(
             @PathVariable UUID id,
             @RequestParam TransactionStatus status,

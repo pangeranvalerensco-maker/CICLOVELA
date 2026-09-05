@@ -1,10 +1,12 @@
 import { useAuth } from '../../context/AuthContext';
-import { Bell, Search, Menu, Globe } from 'lucide-react';
+import { Bell, Search, Menu, Globe, Sun, Moon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../../context/ThemeContext';
 
-const Header = () => {
+const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
   const { user } = useAuth();
   const { i18n } = useTranslation();
+  const { theme, toggleTheme } = useTheme();
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'id' ? 'en' : 'id';
@@ -21,8 +23,7 @@ const Header = () => {
   return (
     <header className="bg-white h-16 flex items-center justify-between px-4 sm:px-6 shadow-sm border-b border-gray-200 z-10">
       <div className="flex items-center gap-4">
-        {/* Mobile menu button (placeholder for responsive) */}
-        <button className="lg:hidden p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+        <button onClick={onMenuClick} className="lg:hidden p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors" aria-label="Buka menu">
           <Menu size={20} />
         </button>
         
@@ -46,6 +47,15 @@ const Header = () => {
         >
           <Globe size={18} />
           <span>{i18n.language === 'en' ? 'EN' : 'ID'}</span>
+        </button>
+
+        {/* Theme Toggle */}
+        <button
+          onClick={toggleTheme}
+          className="p-2 text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-colors"
+          title={theme === 'dark' ? 'Mode terang' : 'Mode gelap'}
+        >
+          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
         </button>
 
         {/* Notifications */}
