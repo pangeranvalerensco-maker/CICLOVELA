@@ -42,8 +42,10 @@ public class SaleController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<SaleResponse>> create(@Valid @RequestBody SaleRequest request) {
-        SaleResponse data = service.createSale(request);
+    public ResponseEntity<ApiResponse<SaleResponse>> create(
+            @Valid @RequestBody SaleRequest request,
+            @AuthenticationPrincipal UUID userId) {
+        SaleResponse data = service.createSale(request, userId);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("Penjualan berhasil dibuat", data));
     }

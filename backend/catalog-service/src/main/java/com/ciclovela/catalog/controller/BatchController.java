@@ -57,16 +57,20 @@ public class BatchController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('FARMER')")
     public ResponseEntity<ApiResponse<BatchResponse>> update(
-            @PathVariable UUID id, @Valid @RequestBody BatchRequest request) {
+            @PathVariable UUID id, 
+            @Valid @RequestBody BatchRequest request,
+            @AuthenticationPrincipal UUID userId) {
         
         return ResponseEntity.ok(ApiResponse.success(
-                "Batch berhasil diperbarui", service.updateBatch(id, request)));
+                "Batch berhasil diperbarui", service.updateBatch(id, request, userId)));
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN', 'FARMER')")
-    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable UUID id) {
-        service.softDeleteBatch(id);
+    public ResponseEntity<ApiResponse<Void>> delete(
+            @PathVariable UUID id,
+            @AuthenticationPrincipal UUID userId) {
+        service.softDeleteBatch(id, userId);
         return ResponseEntity.ok(ApiResponse.success("Batch berhasil dihapus", null));
     }
 }

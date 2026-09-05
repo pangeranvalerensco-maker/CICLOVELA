@@ -69,9 +69,13 @@ public class BatchService {
     }
 
     @Transactional
-    public BatchResponse updateBatch(UUID id, BatchRequest request) {
+    public BatchResponse updateBatch(UUID id, BatchRequest request, UUID farmerId) {
         Batch batch = batchRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Batch tidak ditemukan"));
+
+        if (!batch.getFarmerId().equals(farmerId)) {
+            throw new com.ciclovela.catalog.exception.AccessDeniedException("Anda tidak memiliki hak untuk mengubah batch ini");
+        }
 
         if (!request.getBatchCode().equalsIgnoreCase(batch.getBatchCode()) &&
                 batchRepository.existsByBatchCodeIgnoreCase(request.getBatchCode())) {
@@ -89,12 +93,9 @@ public class BatchService {
         batch.setProduct(product);
         batch.setHarvestDate(request.getHarvestDate());
         
-        // initial quantity technically shouldn't change after creation according to business rules,
-        // but allowing it here before any inventory movements exist. 
-        // Real constraint is in inventory-service
-        batch.setInitialQuantity(request.getInitialQuantity());
+        // Aturan: initial_quantity tidak boleh diubah setelah pembuatan.
+        // Penghapusan batch.setInitialQuantity() dan batch.setUnit().
         
-        batch.setUnit(request.getUnit());
         if (request.getQualityGrade() != null) {
             batch.setQualityGrade(request.getQualityGrade());
         }
@@ -104,10 +105,14 @@ public class BatchService {
     }
 
     @Transactional
-    public void softDeleteBatch(UUID id) {
+    public void softDeleteBatch(UUID id, UUID farmerId) {
         Batch batch = batchRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Batch tidak ditemukan"));
         
+        if (!batch.getFarmerId().equals(farmerId)) {
+            throw new com.ciclovela.catalog.exception.AccessDeniedException("Anda tidak memiliki hak untuk menghapus batch ini");
+        }
+
         batch.setDeletedAt(OffsetDateTime.now());
         batch.setStatus(BatchStatus.CANCELLED);
         batchRepository.save(batch);

@@ -67,6 +67,12 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error("Anda tidak memiliki akses ke resource ini"));
     }
 
+    @ExceptionHandler(com.ciclovela.catalog.exception.AccessDeniedException.class)
+    public ResponseEntity<ApiResponse<Void>> handleCustomAccessDenied(com.ciclovela.catalog.exception.AccessDeniedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(ApiResponse.error(ex.getMessage()));
+    }
+
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ApiResponse<Void>> handleNoResource(NoResourceFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)

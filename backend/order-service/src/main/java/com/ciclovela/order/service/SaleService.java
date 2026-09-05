@@ -26,6 +26,16 @@ public class SaleService {
     private final InventoryRefRepository inventoryRefRepository;
     private final InventoryAccountRefRepository accountRefRepository;
     private final InventoryMovementRefRepository movementRefRepository;
+    private final BusinessEntityRefRepository businessEntityRefRepository;
+    private final BusinessMembershipRefRepository businessMembershipRefRepository;
+
+    private void validateMembership(UUID userId, UUID entityId) {
+        BusinessMembershipRef membership = businessMembershipRefRepository.findByUserIdAndBusinessEntityIdAndStatus(userId, entityId, "ACTIVE")
+                .orElseThrow(() -> new com.ciclovela.order.exception.AccessDeniedException("Anda bukan anggota aktif dari entitas bisnis ini."));
+        if ("STAFF".equals(membership.getRole())) {
+            throw new com.ciclovela.order.exception.AccessDeniedException("Staff tidak memiliki wewenang untuk transaksi supply chain.");
+        }
+    }
 
     @Transactional(readOnly = true)
     public Page<SaleResponse> getAllSales(UUID sellerEntityId, UUID buyerEntityId, UUID buyerUserId, TransactionStatus status, Pageable pageable) {
@@ -41,12 +51,38 @@ public class SaleService {
     }
 
     @Transactional
-    public SaleResponse createSale(SaleRequest request) {
+    public SaleResponse createSale(SaleRequest request, UUID actorId) {
+        validateMembership(actorId, request.getSellerEntityId());
+
+        BusinessEntityRef seller = businessEntityRefRepository.findById(request.getSellerEntityId())
+                .orElseThrow(() -> new ResourceNotFoundException("Entitas penjual tidak ditemukan"));
+
+        if (!"APPROVED".equals(seller.getVerificationStatus()) || !"ACTIVE".equals(seller.getStatus())) {
+            throw new BadRequestException("Entitas penjual belum disetujui atau tidak aktif.");
+        }
+
         if (request.getBuyerEntityId() == null && request.getBuyerUserId() == null) {
             throw new BadRequestException("Pembeli wajib diisi (buyerEntityId atau buyerUserId)");
         }
         if (request.getBuyerEntityId() != null && request.getBuyerUserId() != null) {
             throw new BadRequestException("Hanya boleh mengisi salah satu: buyerEntityId atau buyerUserId");
+        }
+
+        // B2B Flow Validation (Distributor -> Retailer)
+        if (request.getBuyerEntityId() != null) {
+            BusinessEntityRef buyer = businessEntityRefRepository.findById(request.getBuyerEntityId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Entitas pembeli tidak ditemukan"));
+            
+            if (!"RETAILER".equals(buyer.getBusinessType())) {
+                throw new BadRequestException("Penjualan B2B hanya diperbolehkan kepada entitas bertipe RETAILER.");
+            }
+        }
+        
+        // B2C Flow Validation
+        if (request.getBuyerUserId() != null) {
+            if (!"RETAILER".equals(seller.getBusinessType())) {
+                throw new BadRequestException("Hanya RETAILER yang dapat melakukan penjualan langsung kepada Consumer (User).");
+            }
         }
 
         String code = "SAL-" + System.currentTimeMillis();
@@ -86,7 +122,18 @@ public class SaleService {
         TransactionStatus current = sale.getStatus();
         validateTransition(current, newStatus);
 
-        if (newStatus == TransactionStatus.COMPLETED) {
+        if (newStatus == TransactionStatus.CONFIRMED || (current == TransactionStatus.PENDING && newStatus == TransactionStatus.CANCELLED)) {
+            // Yang boleh confirm adalah Pembeli (Buyer)
+            if (sale.getBuyerEntityId() != null) {
+                validateMembership(actorId, sale.getBuyerEntityId());
+            } else if (sale.getBuyerUserId() != null) {
+                if (!sale.getBuyerUserId().equals(actorId)) {
+                    throw new com.ciclovela.order.exception.AccessDeniedException("Anda bukan pembeli dari transaksi ini.");
+                }
+            }
+        } else if (newStatus == TransactionStatus.COMPLETED) {
+            // Yang menyelesaikan adalah Penjual (Seller) saat barang diserahkan
+            validateMembership(actorId, sale.getSellerEntityId());
             completeSale(sale, actorId);
         }
 

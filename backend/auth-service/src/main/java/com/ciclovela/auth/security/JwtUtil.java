@@ -23,14 +23,19 @@ public class JwtUtil {
         this.expirationMs = expirationMs;
     }
 
-    public String generateToken(UUID userId, String email, String role) {
+    public String generateToken(UUID userId, String email, String role, java.util.List<String> entityRoles) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + expirationMs);
+
+        String combinedRoles = role;
+        if (entityRoles != null && !entityRoles.isEmpty()) {
+            combinedRoles = role + "," + String.join(",", entityRoles);
+        }
 
         return Jwts.builder()
                 .subject(userId.toString())
                 .claim("email", email)
-                .claim("role", role)
+                .claim("role", combinedRoles)
                 .issuedAt(now)
                 .expiration(expiry)
                 .signWith(key)

@@ -14,12 +14,14 @@ import com.ciclovela.auth.exception.DuplicateResourceException;
 import com.ciclovela.auth.exception.ResourceNotFoundException;
 import com.ciclovela.auth.exception.UnauthorizedException;
 import com.ciclovela.auth.repository.UserRepository;
+import com.ciclovela.auth.repository.BusinessMembershipRefRepository;
 import com.ciclovela.auth.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,11 +31,18 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final BusinessMembershipRefRepository membershipRefRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final EmailService emailService;
 
     private final Map<String, UUID> resetTokenStore = new ConcurrentHashMap<>();
+
+    private List<String> getEntityRoles(UUID userId) {
+        return membershipRefRepository.findByUserIdAndStatus(userId, "ACTIVE").stream()
+                .map(com.ciclovela.auth.entity.BusinessMembershipRef::getRole)
+                .toList();
+    }
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
@@ -67,7 +76,8 @@ public class AuthService {
 
         user = userRepository.save(user);
 
-        String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole().name());
+        List<String> entityRoles = getEntityRoles(user.getId());
+        String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole().name(), entityRoles);
 
         return AuthResponse.builder()
                 .id(user.getId())
@@ -94,7 +104,8 @@ public class AuthService {
             throw new UnauthorizedException("Akun Anda tidak aktif");
         }
 
-        String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole().name());
+        List<String> entityRoles = getEntityRoles(user.getId());
+        String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole().name(), entityRoles);
 
         return AuthResponse.builder()
                 .id(user.getId())

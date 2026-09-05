@@ -63,9 +63,13 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponse updateProduct(UUID id, ProductRequest request) {
+    public ProductResponse updateProduct(UUID id, ProductRequest request, UUID userId) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Produk tidak ditemukan"));
+
+        if (!product.getCreatedBy().equals(userId)) {
+            throw new com.ciclovela.catalog.exception.AccessDeniedException("Anda tidak memiliki hak untuk mengubah produk ini");
+        }
 
         if (request.getSku() != null && !request.getSku().equalsIgnoreCase(product.getSku()) &&
                 productRepository.existsBySkuIgnoreCase(request.getSku())) {
@@ -90,10 +94,14 @@ public class ProductService {
     }
 
     @Transactional
-    public void softDeleteProduct(UUID id) {
+    public void softDeleteProduct(UUID id, UUID userId) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Produk tidak ditemukan"));
         
+        if (!product.getCreatedBy().equals(userId)) {
+            throw new com.ciclovela.catalog.exception.AccessDeniedException("Anda tidak memiliki hak untuk menghapus produk ini");
+        }
+
         product.setDeletedAt(OffsetDateTime.now());
         productRepository.save(product);
     }

@@ -41,8 +41,10 @@ public class PurchaseController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<PurchaseResponse>> create(@Valid @RequestBody PurchaseRequest request) {
-        PurchaseResponse data = service.createPurchase(request);
+    public ResponseEntity<ApiResponse<PurchaseResponse>> create(
+            @Valid @RequestBody PurchaseRequest request,
+            @AuthenticationPrincipal UUID userId) {
+        PurchaseResponse data = service.createPurchase(request, userId);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("Pembelian berhasil dibuat", data));
     }

@@ -2,6 +2,7 @@ package com.ciclovela.inventory.controller;
 
 import com.ciclovela.inventory.dto.request.WasteRequest;
 import com.ciclovela.inventory.dto.response.ApiResponse;
+import com.ciclovela.inventory.dto.response.DashboardStatsResponse;
 import com.ciclovela.inventory.dto.response.InventoryResponse;
 import com.ciclovela.inventory.service.InventoryService;
 import jakarta.validation.Valid;
@@ -38,6 +39,11 @@ public class InventoryController {
     @GetMapping("/inventories/{id}")
     public ResponseEntity<ApiResponse<InventoryResponse>> getInventory(@PathVariable UUID id) {
         return ResponseEntity.ok(ApiResponse.success("Berhasil mengambil detail inventory", service.getInventoryDetail(id)));
+    }
+
+    @GetMapping("/inventories/dashboard-stats")
+    public ResponseEntity<ApiResponse<DashboardStatsResponse>> getDashboardStats(@AuthenticationPrincipal UUID userId) {
+        return ResponseEntity.ok(ApiResponse.success("Berhasil memuat statistik", service.getDashboardStats(userId)));
     }
 
     @PostMapping("/waste-records")

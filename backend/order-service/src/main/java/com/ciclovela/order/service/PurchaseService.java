@@ -26,6 +26,18 @@ public class PurchaseService {
     private final InventoryRefRepository inventoryRefRepository;
     private final InventoryAccountRefRepository accountRefRepository;
     private final InventoryMovementRefRepository movementRefRepository;
+    private final BusinessEntityRefRepository businessEntityRefRepository;
+    private final BusinessMembershipRefRepository businessMembershipRefRepository;
+    private final UserRefRepository userRefRepository;
+
+    private void validateMembership(UUID userId, UUID entityId) {
+        BusinessMembershipRef membership = businessMembershipRefRepository.findByUserIdAndBusinessEntityIdAndStatus(userId, entityId, "ACTIVE")
+                .orElseThrow(() -> new com.ciclovela.order.exception.AccessDeniedException("Anda bukan anggota aktif dari entitas bisnis ini."));
+        
+        if ("STAFF".equals(membership.getRole())) {
+            throw new com.ciclovela.order.exception.AccessDeniedException("Staff tidak memiliki wewenang untuk transaksi supply chain.");
+        }
+    }
 
     @Transactional(readOnly = true)
     public Page<PurchaseResponse> getAllPurchases(UUID buyerEntityId, UUID sellerFarmerId, TransactionStatus status, Pageable pageable) {
@@ -41,7 +53,26 @@ public class PurchaseService {
     }
 
     @Transactional
-    public PurchaseResponse createPurchase(PurchaseRequest request) {
+    public PurchaseResponse createPurchase(PurchaseRequest request, UUID actorId) {
+        validateMembership(actorId, request.getBuyerEntityId());
+
+        UserRef seller = userRefRepository.findById(request.getSellerFarmerId())
+                .orElseThrow(() -> new ResourceNotFoundException("Petani penjual tidak ditemukan"));
+        if (!"FARMER".equals(seller.getRole())) {
+            throw new BadRequestException("Penjual pada transaksi Purchase harus merupakan seorang FARMER.");
+        }
+
+        BusinessEntityRef entity = businessEntityRefRepository.findById(request.getBuyerEntityId())
+                .orElseThrow(() -> new ResourceNotFoundException("Entitas pembeli tidak ditemukan"));
+        
+        if (!"APPROVED".equals(entity.getVerificationStatus()) || !"ACTIVE".equals(entity.getStatus())) {
+            throw new BadRequestException("Entitas pembeli belum disetujui (Approved) atau tidak berstatus Active.");
+        }
+        
+        if (!"DISTRIBUTOR".equals(entity.getBusinessType())) {
+            throw new BadRequestException("Hanya entitas bertipe DISTRIBUTOR yang dapat melakukan Purchase langsung dari Petani.");
+        }
+
         String code = "PUR-" + System.currentTimeMillis();
 
         Purchase purchase = Purchase.builder()
@@ -78,7 +109,14 @@ public class PurchaseService {
         TransactionStatus current = purchase.getStatus();
         validateTransition(current, newStatus);
 
-        if (newStatus == TransactionStatus.COMPLETED) {
+        if (newStatus == TransactionStatus.CONFIRMED || (current == TransactionStatus.PENDING && newStatus == TransactionStatus.CANCELLED)) {
+            // Yang boleh confirm atau tolak di awal adalah FARMER (Penjual)
+            if (!purchase.getSellerFarmerId().equals(actorId)) {
+                throw new com.ciclovela.order.exception.AccessDeniedException("Hanya petani penjual yang dapat mengkonfirmasi transaksi ini.");
+            }
+        } else if (newStatus == TransactionStatus.COMPLETED) {
+            // Yang boleh komplit adalah Pembeli (Distributor)
+            validateMembership(actorId, purchase.getBuyerEntityId());
             completePurchase(purchase, actorId);
         }
 
@@ -113,7 +151,7 @@ public class PurchaseService {
                     .referenceType("PURCHASE")
                     .referenceId(purchase.getId())
                     .description("Pembelian dari farmer: " + purchase.getTransactionCode())
-                    .createdBy(actorId != null ? actorId : purchase.getBuyerEntityId()) // Fallback to entity ID if token is empty during manual testing
+                    .createdBy(actorId != null ? actorId : purchase.getBuyerEntityId())
                     .build();
             movementRefRepository.save(movement);
         }

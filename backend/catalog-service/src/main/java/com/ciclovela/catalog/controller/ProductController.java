@@ -54,18 +54,22 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('PLATFORM_ADMIN', 'FARMER')")
+    @PreAuthorize("hasRole('FARMER')")
     public ResponseEntity<ApiResponse<ProductResponse>> update(
-            @PathVariable UUID id, @Valid @RequestBody ProductRequest request) {
+            @PathVariable UUID id, 
+            @Valid @RequestBody ProductRequest request,
+            @AuthenticationPrincipal UUID userId) {
         
         return ResponseEntity.ok(ApiResponse.success(
-                "Produk berhasil diperbarui", service.updateProduct(id, request)));
+                "Produk berhasil diperbarui", service.updateProduct(id, request, userId)));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('PLATFORM_ADMIN')")
-    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable UUID id) {
-        service.softDeleteProduct(id);
+    @PreAuthorize("hasRole('FARMER')")
+    public ResponseEntity<ApiResponse<Void>> delete(
+            @PathVariable UUID id,
+            @AuthenticationPrincipal UUID userId) {
+        service.softDeleteProduct(id, userId);
         return ResponseEntity.ok(ApiResponse.success("Produk berhasil dihapus", null));
     }
 }

@@ -83,6 +83,9 @@ public class BusinessEntity {
     @Column(name = "deleted_at")
     private OffsetDateTime deletedAt;
 
+    @OneToMany(mappedBy = "businessEntity", fetch = FetchType.LAZY)
+    private java.util.List<BusinessMembership> memberships;
+
     @PrePersist
     protected void onCreate() {
         createdAt = OffsetDateTime.now();
