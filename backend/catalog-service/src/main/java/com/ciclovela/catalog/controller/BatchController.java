@@ -37,6 +37,13 @@ public class BatchController {
         return ResponseEntity.ok(ApiResponse.success("Berhasil mengambil data batch", page));
     }
 
+    @GetMapping("/active")
+    public ResponseEntity<ApiResponse<java.util.List<BatchResponse>>> getActiveForDropdown(
+            @RequestParam(required = false) UUID farmerId) {
+        return ResponseEntity.ok(ApiResponse.success(
+                "Berhasil mengambil batch aktif", service.getActiveBatches(farmerId)));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<BatchResponse>> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(ApiResponse.success(

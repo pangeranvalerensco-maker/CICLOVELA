@@ -2,6 +2,7 @@ package com.ciclovela.auth.controller;
 
 import com.ciclovela.auth.dto.request.UpdateUserStatusRequest;
 import com.ciclovela.auth.dto.response.ApiResponse;
+import com.ciclovela.auth.dto.response.UserOptionResponse;
 import com.ciclovela.auth.dto.response.UserResponse;
 import com.ciclovela.auth.enums.UserRole;
 import com.ciclovela.auth.enums.UserStatus;
@@ -34,6 +35,14 @@ public class UserController {
 
         Page<UserResponse> page = userService.getAllUsers(search, role, status, pageable);
         return ResponseEntity.ok(ApiResponse.success("Berhasil mengambil data pengguna", page));
+    }
+
+    @GetMapping("/directory")
+    @PreAuthorize("hasAnyRole('DISTRIBUTOR', 'RETAILER', 'ENTITY_ADMIN')")
+    public ResponseEntity<ApiResponse<java.util.List<UserOptionResponse>>> getDirectory(
+            @RequestParam UserRole role) {
+        return ResponseEntity.ok(ApiResponse.success(
+                "Berhasil mengambil direktori pengguna", userService.getDirectory(role)));
     }
 
     @PatchMapping("/{id}/status")

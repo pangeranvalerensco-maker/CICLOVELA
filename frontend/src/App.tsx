@@ -21,9 +21,11 @@ import BusinessProfile from './pages/business/BusinessProfile';
 
 import Dashboard from './pages/dashboard/Dashboard';
 import Landing from './pages/Landing';
+import PageTitle from './components/PageTitle';
 
 import Categories from './pages/admin/Categories';
 import Entities from './pages/admin/Entities';
+import Users from './pages/admin/Users';
 import Catalog from './pages/catalog/Catalog';
 import CatalogDetail from './pages/catalog/CatalogDetail';
 import Terms from './pages/Terms';
@@ -31,13 +33,17 @@ import Privacy from './pages/Privacy';
 import Contact from './pages/Contact';
 import Partners from './pages/Partners';
 import Impact from './pages/Impact';
+import Settings from './pages/settings/Settings';
+import Help from './pages/help/Help';
 
 const NotFound = () => <div className="min-h-screen flex items-center justify-center text-gray-500 text-2xl">404 - Halaman Tidak Ditemukan</div>;
 const Forbidden = () => <div className="min-h-screen flex items-center justify-center text-red-600 text-2xl">403 - Akses Ditolak</div>;
 
 function AppRoutes() {
   return (
-    <Routes>
+    <>
+      <PageTitle />
+      <Routes>
       {/* Public Routes dengan header/footer seragam */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Landing />} />
@@ -63,7 +69,7 @@ function AppRoutes() {
           {/* Admin Routes */}
           <Route element={<RoleRoute allowedRoles={['PLATFORM_ADMIN']} />}>
             <Route path="/admin/entities" element={<Entities />} />
-            <Route path="/admin/users" element={<div>Manajemen Pengguna (WIP)</div>} />
+            <Route path="/admin/users" element={<Users />} />
             <Route path="/admin/categories" element={<Categories />} />
           </Route>
           
@@ -75,13 +81,16 @@ function AppRoutes() {
           <Route path="/transactions/purchases" element={<Purchases />} />
           <Route path="/transactions/sales" element={<Sales />} />
           <Route path="/waste" element={<Waste />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/help" element={<Help />} />
         </Route>
       </Route>
 
       {/* Error Pages */}
       <Route path="/403" element={<Forbidden />} />
       <Route path="*" element={<NotFound />} />
-    </Routes>
+      </Routes>
+    </>
   );
 }
 

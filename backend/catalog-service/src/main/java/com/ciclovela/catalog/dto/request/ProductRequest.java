@@ -10,8 +10,10 @@ import java.util.UUID;
 
 @Data
 public class ProductRequest {
-    @NotNull(message = "Kategori wajib diisi")
+    
     private UUID categoryId;
+    
+    private String newCategoryName;
 
     @NotBlank(message = "Nama produk wajib diisi")
     private String name;

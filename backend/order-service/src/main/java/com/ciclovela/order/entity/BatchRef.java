@@ -19,6 +19,12 @@ public class BatchRef {
     @Id
     private UUID id;
 
+    @Column(name = "batch_code")
+    private String batchCode;
+
+    @Column(name = "product_id")
+    private UUID productId;
+
     @Column(name = "expiry_date")
     private LocalDate expiryDate;
 

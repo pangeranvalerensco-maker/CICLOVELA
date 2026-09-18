@@ -23,8 +23,10 @@ public class ProductCategoryService {
     private final ProductCategoryRepository repository;
 
     @Transactional(readOnly = true)
-    public Page<ProductCategoryResponse> getAllCategories(Pageable pageable) {
-        return repository.findAll(pageable).map(this::toResponse);
+    public Page<ProductCategoryResponse> getAllCategories(String search, RecordStatus status, Pageable pageable) {
+        boolean searchFlag = search != null && !search.trim().isEmpty();
+        String safeSearch = search == null ? "" : search;
+        return repository.findAllWithFilters(safeSearch, searchFlag, status, pageable).map(this::toResponse);
     }
 
     @Transactional(readOnly = true)

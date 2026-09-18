@@ -23,7 +23,7 @@ spring:
         - id: auth-service
           uri: http://localhost:8081
           predicates:
-            - Path=/api/auth/**
+            - Path=/api/auth/**,/api/users/**
         - id: catalog-service
           uri: http://localhost:8082
           predicates:
@@ -31,7 +31,7 @@ spring:
         - id: inventory-service
           uri: http://localhost:8083
           predicates:
-            - Path=/api/inventories/**,/api/business-entities/**,/api/waste-records/**
+            - Path=/api/inventories/**,/api/business-entities/**,/api/waste-records/**,/api/memberships/**
         - id: order-service
           uri: http://localhost:8084
           predicates:

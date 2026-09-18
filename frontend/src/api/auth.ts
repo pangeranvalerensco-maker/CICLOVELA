@@ -6,4 +6,5 @@ export const authApi = {
   forgotPassword: (data: any) => api.post('/auth/forgot-password', data),
   resetPassword: (data: any) => api.post('/auth/reset-password', data),
   getMe: () => api.get('/auth/me'),
+  updateMe: (data: any) => api.put('/auth/me', data),
 };

@@ -4,6 +4,7 @@ import com.ciclovela.auth.dto.request.ForgotPasswordRequest;
 import com.ciclovela.auth.dto.request.LoginRequest;
 import com.ciclovela.auth.dto.request.RegisterRequest;
 import com.ciclovela.auth.dto.request.ResetPasswordRequest;
+import com.ciclovela.auth.dto.request.UpdateProfileRequest;
 import com.ciclovela.auth.dto.response.AuthResponse;
 import com.ciclovela.auth.dto.response.UserResponse;
 import com.ciclovela.auth.entity.User;
@@ -154,6 +155,23 @@ public class AuthService {
                 .orElseThrow(() -> new ResourceNotFoundException("Pengguna tidak ditemukan"));
 
         return toUserResponse(user);
+    }
+
+    @Transactional
+    public UserResponse updateProfile(UUID userId, UpdateProfileRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Pengguna tidak ditemukan"));
+
+        user.setName(request.getName());
+        user.setPhone(request.getPhone());
+        user.setGender(request.getGender());
+        user.setDateOfBirth(request.getDateOfBirth());
+        user.setAddress(request.getAddress());
+        user.setCity(request.getCity());
+        user.setProvince(request.getProvince());
+        user.setPostalCode(request.getPostalCode());
+
+        return toUserResponse(userRepository.save(user));
     }
 
     public static UserResponse toUserResponse(User user) {

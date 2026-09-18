@@ -12,4 +12,6 @@ import java.util.UUID;
 public interface WasteRepository extends JpaRepository<Waste, UUID> {
     
     Page<Waste> findByInventoryId(UUID inventoryId, Pageable pageable);
+
+    Page<Waste> findByInventoryIdInOrderByRecordedAtDesc(java.util.List<UUID> inventoryIds, Pageable pageable);
 }

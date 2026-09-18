@@ -28,13 +28,19 @@ public class BusinessEntityController {
     private final BusinessEntityService service;
 
     @GetMapping
-    @PreAuthorize("hasRole('PLATFORM_ADMIN')")
     public ResponseEntity<ApiResponse<Page<BusinessEntityResponse>>> getAll(
             @RequestParam(required = false) String search,
             @RequestParam(required = false) VerificationStatus verificationStatus,
             @RequestParam(required = false) EntityStatus status,
             @PageableDefault(size = 10) Pageable pageable) {
-        
+
+        // Publik (tanpa login / bukan admin) hanya boleh melihat yang APPROVED
+        boolean isAdmin = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication() != null
+                && org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+                        .anyMatch(a -> a.getAuthority().equals("ROLE_PLATFORM_ADMIN"));
+        if (!isAdmin && verificationStatus != VerificationStatus.APPROVED) {
+            verificationStatus = VerificationStatus.APPROVED;
+        }
         Page<BusinessEntityResponse> page = service.getAllEntities(search, verificationStatus, status, pageable);
         return ResponseEntity.ok(ApiResponse.success("Berhasil mengambil data entitas bisnis", page));
     }

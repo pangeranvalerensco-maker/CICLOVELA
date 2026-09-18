@@ -26,9 +26,11 @@ public class ProductCategoryController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<Page<ProductCategoryResponse>>> getAll(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) com.ciclovela.catalog.enums.RecordStatus status,
             @PageableDefault(size = 10) Pageable pageable) {
         
-        Page<ProductCategoryResponse> page = service.getAllCategories(pageable);
+        Page<ProductCategoryResponse> page = service.getAllCategories(search, status, pageable);
         return ResponseEntity.ok(ApiResponse.success("Berhasil mengambil data kategori", page));
     }
 
@@ -39,7 +41,7 @@ public class ProductCategoryController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('PLATFORM_ADMIN')")
+    @PreAuthorize("hasAnyRole('PLATFORM_ADMIN', 'FARMER')")
     public ResponseEntity<ApiResponse<ProductCategoryResponse>> create(
             @Valid @RequestBody ProductCategoryRequest request) {
         

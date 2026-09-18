@@ -44,6 +44,14 @@ body {
   background-color: #f8fafc;
 }
 
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
 /* Transisi halaman yang halus */
 @keyframes page-fade-slide {
   from {
@@ -69,7 +77,7 @@ body {
   }
 }
 
-/* Tema gelap (class-based) */
+/* Tema gelap (class-based) - clean approach without :not(:hover) */
 @custom-variant dark (&:where(.dark, .dark *));
 
 .dark {
@@ -81,59 +89,149 @@ body {
   color: #e2e8f0;
 }
 
-.dark .bg-slate-50,
-.dark .bg-gray-50 {
-  background-color: #0f172a;
+/* Override specific Tailwind bg utility classes in dark mode */
+.dark .bg-slate-50 {
+  background-color: #1e293b !important;
 }
 
-.dark .bg-slate-100,
+.dark .bg-gray-50 {
+  background-color: #1e293b !important;
+}
+
+.dark .bg-slate-100 {
+  background-color: #1e293b !important;
+}
+
 .dark .bg-gray-100 {
-  background-color: #1e293b;
+  background-color: #1e293b !important;
 }
 
 .dark .bg-white {
-  background-color: #1e293b;
-  border-color: #334155;
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
 }
 
-.dark .text-slate-900,
-.dark .text-slate-800,
-.dark .text-gray-900,
-.dark .text-gray-800,
+.dark .bg-rose-50 {
+  background-color: rgba(225, 29, 72, 0.1) !important;
+}
+
+.dark .bg-emerald-50 {
+  background-color: rgba(16, 185, 129, 0.1) !important;
+}
+
+.dark .bg-blue-50 {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+.dark .bg-amber-50 {
+  background-color: rgba(245, 158, 11, 0.1) !important;
+}
+
+/* Override text colors in dark mode */
+.dark .text-slate-900 {
+  color: #f1f5f9 !important;
+}
+
+.dark .text-slate-800 {
+  color: #f1f5f9 !important;
+}
+
+.dark .text-gray-900 {
+  color: #f1f5f9 !important;
+}
+
+.dark .text-gray-800 {
+  color: #f1f5f9 !important;
+}
+
 .dark .text-black {
-  color: #f1f5f9;
+  color: #f1f5f9 !important;
 }
 
-.dark .text-slate-700,
-.dark .text-slate-600,
-.dark .text-gray-700,
+.dark .text-slate-700 {
+  color: #e2e8f0 !important;
+}
+
+.dark .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+.dark .text-gray-700 {
+  color: #e2e8f0 !important;
+}
+
 .dark .text-gray-600 {
-  color: #cbd5e1;
+  color: #cbd5e1 !important;
 }
 
-.dark .text-slate-500,
-.dark .text-slate-400,
-.dark .text-gray-500,
+.dark .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+.dark .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+.dark .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
 .dark .text-gray-400 {
-  color: #94a3b8;
+  color: #94a3b8 !important;
 }
 
-.dark .border-slate-200,
-.dark .border-slate-100,
-.dark .border-gray-200,
+/* Override border colors in dark mode */
+.dark .border-slate-200 {
+  border-color: #334155 !important;
+}
+
+.dark .border-slate-100 {
+  border-color: #334155 !important;
+}
+
+.dark .border-gray-200 {
+  border-color: #334155 !important;
+}
+
 .dark .border-gray-300 {
-  border-color: #334155;
+  border-color: #334155 !important;
 }
 
+/* Override form elements in dark mode */
 .dark input,
 .dark select,
 .dark textarea {
-  background-color: #0f172a;
-  color: #f1f5f9;
-  border-color: #334155;
+  background-color: #0f172a !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
 }
 
 .dark input::placeholder,
 .dark textarea::placeholder {
-  color: #64748b;
+  color: #64748b !important;
+}
+
+/* Dark mode select options fix */
+.dark select option {
+  background-color: #1e293b;
+  color: #f1f5f9;
+}
+
+.dark select option:hover {
+  background-color: #334155 !important;
+}
+
+/* Dark mode ring/focus colors */
+.dark .ring-slate-100 {
+  --tw-ring-color: #334155 !important;
+}
+
+.dark .ring-gray-100 {
+  --tw-ring-color: #334155 !important;
+}
+
+/* Force Hover Menu Dark Mode */
+.dark .menu-item:not(.active-menu-item):hover {
+  background-color: #1e293b !important;
+  color: #f1f5f9 !important;
 }

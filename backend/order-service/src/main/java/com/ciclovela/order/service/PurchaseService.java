@@ -18,6 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class PurchaseService {
@@ -29,6 +32,7 @@ public class PurchaseService {
     private final BusinessEntityRefRepository businessEntityRefRepository;
     private final BusinessMembershipRefRepository businessMembershipRefRepository;
     private final UserRefRepository userRefRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     private void validateMembership(UUID userId, UUID entityId) {
         BusinessMembershipRef membership = businessMembershipRefRepository.findByUserIdAndBusinessEntityIdAndStatus(userId, entityId, "ACTIVE")
@@ -40,7 +44,7 @@ public class PurchaseService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PurchaseResponse> getAllPurchases(UUID buyerEntityId, UUID sellerFarmerId, TransactionStatus status, UUID actorId, Pageable pageable) {
+    public Page<PurchaseResponse> getAllPurchases(String search, UUID buyerEntityId, UUID sellerFarmerId, TransactionStatus status, java.time.OffsetDateTime startDate, java.time.OffsetDateTime endDate, UUID actorId, Pageable pageable) {
         java.util.List<UUID> allowedEntities = businessMembershipRefRepository.findAll().stream()
                 .filter(m -> m.getUserId().equals(actorId) && "ACTIVE".equals(m.getStatus()))
                 .map(BusinessMembershipRef::getBusinessEntityId)
@@ -50,7 +54,13 @@ public class PurchaseService {
             allowedEntities = java.util.List.of(UUID.randomUUID());
         }
 
-        return purchaseRepository.findAllSecured(buyerEntityId, sellerFarmerId, status, actorId, allowedEntities, pageable)
+        boolean searchFlag = search != null && !search.trim().isEmpty();
+        String safeSearch = search == null ? "" : search;
+        boolean startFlag = startDate != null;
+        boolean endFlag = endDate != null;
+        java.time.OffsetDateTime safeStart = startDate != null ? startDate : java.time.OffsetDateTime.parse("1970-01-01T00:00:00Z");
+        java.time.OffsetDateTime safeEnd = endDate != null ? endDate : java.time.OffsetDateTime.parse("9999-12-31T23:59:59Z");
+        return purchaseRepository.findAllSecured(safeSearch, searchFlag, buyerEntityId, sellerFarmerId, status, safeStart, safeEnd, startFlag, endFlag, actorId, allowedEntities, pageable)
                 .map(this::toResponse);
     }
 
@@ -196,13 +206,28 @@ public class PurchaseService {
                 .totalAmount(p.getTotalAmount())
                 .notes(p.getNotes())
                 .items(p.getItems().stream()
-                        .map(i -> PurchaseResponse.ItemResponse.builder()
+                        .map(i -> {
+                            String bCode = "";
+                            String pName = "";
+                            try {
+                                Map<String, Object> batchInfo = jdbcTemplate.queryForMap(
+                                    "SELECT b.batch_code, pr.name FROM batches b JOIN products pr ON b.product_id = pr.id WHERE b.id = CAST(? AS UUID)", 
+                                    i.getBatchId().toString()
+                                );
+                                bCode = String.valueOf(batchInfo.get("batch_code"));
+                                pName = String.valueOf(batchInfo.get("name"));
+                            } catch (Exception e) {}
+                            
+                            return PurchaseResponse.ItemResponse.builder()
                                 .id(i.getId())
                                 .batchId(i.getBatchId())
+                                .batchCode(bCode)
+                                .productName(pName)
                                 .quantity(i.getQuantity())
                                 .unitPrice(i.getUnitPrice())
                                 .subtotal(i.getSubtotal())
-                                .build())
+                                .build();
+                        })
                         .toList())
                 .createdAt(p.getCreatedAt())
                 .build();

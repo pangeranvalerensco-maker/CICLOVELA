@@ -15,6 +15,10 @@ export default defineConfig({
         target: 'http://localhost:8081',
         changeOrigin: true,
       },
+      '/api/users': {
+        target: 'http://localhost:8081',
+        changeOrigin: true,
+      },
       '/api/categories': {
         target: 'http://localhost:8082',
         changeOrigin: true,
@@ -32,6 +36,10 @@ export default defineConfig({
         changeOrigin: true,
       },
       '/api/business-entities': {
+        target: 'http://localhost:8083',
+        changeOrigin: true,
+      },
+      '/api/memberships': {
         target: 'http://localhost:8083',
         changeOrigin: true,
       },

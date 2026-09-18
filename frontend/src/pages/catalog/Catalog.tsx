@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Search, Package } from 'lucide-react';
 import { productApi } from '../../api/endpoints';
 
@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 const Catalog = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [data, setData] = useState<any[]>([]);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
@@ -59,27 +60,34 @@ const Catalog = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
             {data.map((p: any) => (
-              <div key={p.id} className="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl hover:border-emerald-300 transition-all group flex flex-col">
-                <div className="h-48 overflow-hidden relative">
+              <button 
+                key={p.id} 
+                onClick={() => navigate(`/catalog/${p.id}`)}
+                className="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl hover:border-emerald-300 transition-all group flex flex-col text-left cursor-pointer w-full"
+              >
+                <div className="h-48 w-full overflow-hidden relative">
                   <img src={getImageUrl(p)} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   <h3 className="absolute bottom-4 left-5 right-5 font-extrabold text-white text-xl leading-tight">{p.name}</h3>
                 </div>
-                <div className="p-5 flex-1 flex flex-col">
+                <div className="p-5 flex-1 flex flex-col w-full">
                   <p className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md w-max mb-3">
                     {p.category?.name} • {p.unit}
                   </p>
                   {p.description && <p className="text-sm text-slate-600 line-clamp-2 flex-1">{p.description}</p>}
-                  <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
-                    <Link to={`/catalog/${p.id}`} className="text-sm font-bold text-slate-700 hover:text-emerald-700 transition-colors">
-                      Lihat detail →
-                    </Link>
-                    <Link to="/traceability" className="text-xs font-bold bg-slate-900 text-white px-3 py-1.5 rounded-lg hover:bg-emerald-600 transition-colors">
+                  <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4 w-full">
+                    <span className="text-sm font-bold text-slate-700 group-hover:text-emerald-700 transition-colors">
+                      {t('catalog.detail')}
+                    </span>
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); navigate('/traceability'); }} 
+                      className="text-xs font-bold bg-slate-900 text-white px-3 py-1.5 rounded-lg hover:bg-emerald-600 transition-colors"
+                    >
                       {t('catalog.trace')}
-                    </Link>
+                    </button>
                   </div>
                 </div>
-              </div>
+              </button>
             ))}
             {data.length === 0 && <p className="text-slate-400">Tidak ada produk aktif.</p>}
           </div>
@@ -89,4 +97,5 @@ const Catalog = () => {
 };
 
 export default Catalog;
+
 

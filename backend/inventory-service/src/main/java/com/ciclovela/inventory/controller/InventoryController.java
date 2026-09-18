@@ -3,7 +3,9 @@ package com.ciclovela.inventory.controller;
 import com.ciclovela.inventory.dto.request.WasteRequest;
 import com.ciclovela.inventory.dto.response.ApiResponse;
 import com.ciclovela.inventory.dto.response.DashboardStatsResponse;
+import com.ciclovela.inventory.dto.response.InventoryOptionResponse;
 import com.ciclovela.inventory.dto.response.InventoryResponse;
+import com.ciclovela.inventory.dto.response.WasteResponse;
 import com.ciclovela.inventory.service.InventoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,14 +30,24 @@ public class InventoryController {
     @PreAuthorize("hasAnyRole('FARMER', 'DISTRIBUTOR', 'RETAILER', 'ENTITY_ADMIN')")
     public ResponseEntity<ApiResponse<Page<InventoryResponse>>> getInventories(
             @RequestParam(required = false) UUID accountId,
-            @RequestParam(required = false) UUID batchId,
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) String accountType,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @AuthenticationPrincipal UUID actorId) {
         
         Pageable pageable = PageRequest.of(page, size);
-        Page<InventoryResponse> pageResult = service.getInventories(accountId, batchId, actorId, pageable);
+        Page<InventoryResponse> pageResult = service.getInventories(accountId, search, accountType, actorId, pageable);
         return ResponseEntity.ok(ApiResponse.success("Berhasil mengambil data inventory", pageResult));
+    }
+
+    @GetMapping("/inventories/options")
+    @PreAuthorize("hasAnyRole('DISTRIBUTOR', 'RETAILER', 'ENTITY_ADMIN')")
+    public ResponseEntity<ApiResponse<java.util.List<InventoryOptionResponse>>> getInventoryOptions(
+            @RequestParam UUID entityId,
+            @AuthenticationPrincipal UUID actorId) {
+        return ResponseEntity.ok(ApiResponse.success(
+                "Berhasil mengambil opsi inventaris", service.getInventoryOptions(entityId, actorId)));
     }
 
     @GetMapping("/inventories/{id}")
@@ -47,6 +59,17 @@ public class InventoryController {
     @GetMapping("/inventories/dashboard-stats")
     public ResponseEntity<ApiResponse<DashboardStatsResponse>> getDashboardStats(@AuthenticationPrincipal UUID userId) {
         return ResponseEntity.ok(ApiResponse.success("Berhasil memuat statistik", service.getDashboardStats(userId)));
+    }
+
+    @GetMapping("/waste-records")
+    @PreAuthorize("hasAnyRole('FARMER', 'DISTRIBUTOR', 'RETAILER', 'ENTITY_ADMIN')")
+    public ResponseEntity<ApiResponse<Page<WasteResponse>>> getWasteRecords(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @AuthenticationPrincipal UUID actorId) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(ApiResponse.success(
+                "Berhasil mengambil riwayat waste", service.getWasteRecords(actorId, pageable)));
     }
 
     @PostMapping("/waste-records")

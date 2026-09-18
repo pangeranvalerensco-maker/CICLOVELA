@@ -27,6 +27,8 @@ public class PurchaseResponse {
     public static class ItemResponse {
         private UUID id;
         private UUID batchId;
+        private String batchCode;
+        private String productName;
         private BigDecimal quantity;
         private BigDecimal unitPrice;
         private BigDecimal subtotal;

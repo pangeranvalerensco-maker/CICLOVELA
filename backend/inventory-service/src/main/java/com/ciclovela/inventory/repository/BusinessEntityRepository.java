@@ -16,11 +16,12 @@ import java.util.UUID;
 public interface BusinessEntityRepository extends JpaRepository<BusinessEntity, UUID> {
     
     @Query("SELECT e FROM BusinessEntity e WHERE " +
-            "(:search IS NULL OR LOWER(e.name) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(e.legalName) LIKE LOWER(CONCAT('%', :search, '%'))) AND " +
+            "(:searchFlag = false OR LOWER(e.name) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(e.legalName) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(e.city) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(e.province) LIKE LOWER(CONCAT('%', :search, '%'))) AND " +
             "(:verificationStatus IS NULL OR e.verificationStatus = :verificationStatus) AND " +
             "(:status IS NULL OR e.status = :status)")
     Page<BusinessEntity> findAllWithFilters(
             @Param("search") String search,
+            @Param("searchFlag") boolean searchFlag,
             @Param("verificationStatus") VerificationStatus verificationStatus,
             @Param("status") EntityStatus status,
             Pageable pageable);

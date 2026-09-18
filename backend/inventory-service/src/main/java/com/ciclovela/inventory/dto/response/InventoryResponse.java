@@ -14,6 +14,9 @@ public class InventoryResponse {
     private UUID accountId;
     private String accountType; // USER or BUSINESS_ENTITY
     private UUID batchId;
+    private String batchCode;
+    private String productName;
+    private String imageUrl;
     private BigDecimal quantity;
     private BigDecimal reservedQuantity;
     private BigDecimal availableQuantity;

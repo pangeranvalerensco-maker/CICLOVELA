@@ -15,14 +15,22 @@ import java.util.UUID;
 public interface InventoryRepository extends JpaRepository<Inventory, UUID> {
     
     Optional<Inventory> findByInventoryAccountIdAndBatchId(UUID accountId, UUID batchId);
+
+    java.util.List<Inventory> findByInventoryAccountIdOrderByUpdatedAtDesc(UUID accountId);
     
     @Query("SELECT i FROM Inventory i WHERE " +
             "(:accountId IS NULL OR i.inventoryAccount.id = :accountId) AND " +
-            "(:batchId IS NULL OR i.batchId = :batchId) AND " +
+            "(:searchFlag = false OR i.batchId IN :batchIds) AND " +
+            "(:accountType IS NULL OR " +
+            "   (:accountType = 'USER' AND i.inventoryAccount.ownerUserId IS NOT NULL) OR " +
+            "   (:accountType = 'BUSINESS_ENTITY' AND i.inventoryAccount.ownerBusinessEntity IS NOT NULL)" +
+            ") AND " +
             "(i.inventoryAccount.ownerUserId = :actorId OR i.inventoryAccount.ownerBusinessEntity.id IN :allowedEntityIds)")
     Page<Inventory> findAllSecured(
             @Param("accountId") UUID accountId,
-            @Param("batchId") UUID batchId,
+            @Param("searchFlag") boolean searchFlag,
+            @Param("batchIds") java.util.List<UUID> batchIds,
+            @Param("accountType") String accountType,
             @Param("actorId") UUID actorId,
             @Param("allowedEntityIds") java.util.List<UUID> allowedEntityIds,
             Pageable pageable);

@@ -34,7 +34,9 @@ public class BusinessEntityService {
 
     @Transactional(readOnly = true)
     public Page<BusinessEntityResponse> getAllEntities(String search, VerificationStatus verificationStatus, EntityStatus status, Pageable pageable) {
-        return entityRepository.findAllWithFilters(search, verificationStatus, status, pageable)
+        boolean searchFlag = search != null && !search.trim().isEmpty();
+        String safeSearch = search == null ? "" : search;
+        return entityRepository.findAllWithFilters(safeSearch, searchFlag, verificationStatus, status, pageable)
                 .map(this::toResponse);
     }
 

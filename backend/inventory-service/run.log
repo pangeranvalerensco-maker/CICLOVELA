@@ -1,0 +1,88 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------< com.ciclovela:inventory-service >-------------------
+[INFO] Building inventory-service 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.1.1:run (default-cli) > test-compile @ inventory-service >>>
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ inventory-service ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ inventory-service ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 43 source files with javac [debug parameters release 21] to target\classes
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[INFO] /E:/PROJEKAN 1 BULAN/CICLOVELA/backend/inventory-service/src/main/java/com/ciclovela/inventory/exception/GlobalExceptionHandler.java: E:\PROJEKAN 1 BULAN\CICLOVELA\backend\inventory-service\src\main\java\com\ciclovela\inventory\exception\GlobalExceptionHandler.java uses or overrides a deprecated API.
+[INFO] /E:/PROJEKAN 1 BULAN/CICLOVELA/backend/inventory-service/src/main/java/com/ciclovela/inventory/exception/GlobalExceptionHandler.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ inventory-service ---
+[INFO] skip non existing resourceDirectory E:\PROJEKAN 1 BULAN\CICLOVELA\backend\inventory-service\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ inventory-service ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target\test-classes
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[INFO] 
+[INFO] <<< spring-boot:4.1.1:run (default-cli) < test-compile @ inventory-service <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.1.1:run (default-cli) @ inventory-service ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-09-16T16:14:43.742+07:00  INFO 21072 --- [inventory-service] [           main] c.c.i.InventoryServiceApplication        : Starting InventoryServiceApplication using Java 21.0.8 with PID 21072 (E:\PROJEKAN 1 BULAN\CICLOVELA\backend\inventory-service\target\classes started by PANGERAN VALERENSCO in E:\PROJEKAN 1 BULAN\CICLOVELA\backend\inventory-service)
+2026-09-16T16:14:43.781+07:00  INFO 21072 --- [inventory-service] [           main] c.c.i.InventoryServiceApplication        : No active profile set, falling back to 1 default profile: "default"
+2026-09-16T16:14:55.956+07:00  INFO 21072 --- [inventory-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-16T16:14:56.817+07:00  INFO 21072 --- [inventory-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 810 ms. Found 6 JPA repository interfaces.
+2026-09-16T16:15:03.721+07:00  INFO 21072 --- [inventory-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8083 (http)
+2026-09-16T16:15:04.168+07:00  INFO 21072 --- [inventory-service] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-09-16T16:15:04.170+07:00  INFO 21072 --- [inventory-service] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-09-16T16:15:05.992+07:00  INFO 21072 --- [inventory-service] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 21824 ms
+2026-09-16T16:15:09.569+07:00  INFO 21072 --- [inventory-service] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-09-16T16:15:10.094+07:00  INFO 21072 --- [inventory-service] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-09-16T16:15:13.376+07:00  INFO 21072 --- [inventory-service] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-16T16:15:13.788+07:00  INFO 21072 --- [inventory-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-09-16T16:15:16.662+07:00  INFO 21072 --- [inventory-service] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1123d461
+2026-09-16T16:15:16.674+07:00  INFO 21072 --- [inventory-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-09-16T16:15:17.556+07:00  WARN 21072 --- [inventory-service] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-09-16T16:15:18.031+07:00  INFO 21072 --- [inventory-service] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/ciclovela]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.2
+	Default catalog/schema: ciclovela/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-16T16:15:32.774+07:00  INFO 21072 --- [inventory-service] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-16T16:15:33.281+07:00  INFO 21072 --- [inventory-service] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-16T16:15:33.919+07:00  INFO 21072 --- [inventory-service] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-09-16T16:15:46.954+07:00  WARN 21072 --- [inventory-service] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-09-16T16:15:52.109+07:00  INFO 21072 --- [inventory-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8083 (http) with context path '/'
+2026-09-16T16:15:52.170+07:00  INFO 21072 --- [inventory-service] [           main] c.c.i.InventoryServiceApplication        : Started InventoryServiceApplication in 70.733 seconds (process running for 73.303)

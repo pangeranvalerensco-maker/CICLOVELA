@@ -15,11 +15,12 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     boolean existsBySkuIgnoreCase(String sku);
 
     @Query("SELECT p FROM Product p WHERE " +
-            "(:search IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(p.sku) LIKE LOWER(CONCAT('%', :search, '%'))) AND " +
+            "(:searchFlag = false OR LOWER(p.name) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(p.sku) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(p.category.name) LIKE LOWER(CONCAT('%', :search, '%'))) AND " +
             "(:categoryId IS NULL OR p.category.id = :categoryId) AND " +
             "(:status IS NULL OR p.status = :status)")
     Page<Product> findAllWithFilters(
             @Param("search") String search,
+            @Param("searchFlag") boolean searchFlag,
             @Param("categoryId") UUID categoryId,
             @Param("status") com.ciclovela.catalog.enums.RecordStatus status,
             Pageable pageable);

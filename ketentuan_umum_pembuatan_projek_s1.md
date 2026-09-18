@@ -202,18 +202,36 @@ TATA CARA PENGUMPULAN PROYEK
 Ketentuan Pengumpulan
 • Proyek berupa aplikasi Fullstack yang terdiri dari Frontend dan Backend.
 • Frontend dan Backend wajib berada dalam satu repository GitHub
-(monorepo) .
-• Repository GitHub wajib dapat diakses (Public ).
+(monorepo).
+• Repository GitHub wajib dapat diakses secara Public.
 • Setiap proyek wajib memiliki file README.md yang berisi minimal:
-❖ Judul aplikasi
-❖ Deskripsi singkat aplikasi
-❖ Fitur utama
-❖ Teknologi yang digunakan
-❖ Struktur folder proyek
-❖ Cara instalasi dan menjalankan aplikasi
-• Akun demo (apabila diperlukan) seperti username dan password.
-• Wajib menyertakan dokumentasi perancangan sistem berupa Flowchart .
-• Batas pengumpulan proyek adalah Jumat, 18 September 2026 Pukul 22.00
-WIB.
-• Pengumpulan dilakukan melalui Google Form berikut :
+o Judul aplikasi
+o Deskripsi singkat aplikasi
+o Fitur utama
+o Teknologi yang digunakan
+o Struktur folder proyek
+o Cara instalasi dan menjalankan aplikasi
+• Wajib mencantumkan akun demo apabila diperlukan, seperti username/email
+dan password.
+• Wajib menyertakan dokumentasi perancangan sistem berupa Flowchart.
+Pengumpulan Proyek
+Batas akhir pengumpulan proyek adalah:
+Jumat, 18 September 2026 pukul 22.00 WIB
+Pengumpulan proyek dilakukan melalui Google Form berikut:
 https://forms.gle/TeMvXvpMzH1v93vNA
+Video Penjelasan Proyek
+Setiap peserta juga wajib membuat video rekam layar (screen recording) yang berisi
+penjelasan mengenai proyek yang telah dibuat.
+Video minimal menjelaskan:
+• Gambaran singkat dan tujuan aplikasi.
+• Fitur-fitur utama yang telah dibuat.
+• Demo penggunaan aplikasi.
+• Penjelasan singkat mengenai Frontend dan Backend.
+• Alur kerja aplikasi dari sisi pengguna.
+• Penjelasan bagian atau fitur unggulan dari proyek.
+Video dikumpulkan melalui folder Google Drive berikut:
+https://drive.google.com/drive/folders/1TCJp86VldSTtU3EQM -
+JAIawSLGZMXg_t?usp=sharing
+Batas akhir pengumpulan video: Minggu, 20 September 2026.
+Pastikan proyek dan video sudah dikumpulkan sesuai batas waktu yang telah
+ditentukan.

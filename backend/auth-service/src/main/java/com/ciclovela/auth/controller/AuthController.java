@@ -4,6 +4,7 @@ import com.ciclovela.auth.dto.request.ForgotPasswordRequest;
 import com.ciclovela.auth.dto.request.LoginRequest;
 import com.ciclovela.auth.dto.request.RegisterRequest;
 import com.ciclovela.auth.dto.request.ResetPasswordRequest;
+import com.ciclovela.auth.dto.request.UpdateProfileRequest;
 import com.ciclovela.auth.dto.response.ApiResponse;
 import com.ciclovela.auth.dto.response.AuthResponse;
 import com.ciclovela.auth.dto.response.UserResponse;
@@ -58,5 +59,13 @@ public class AuthController {
     public ResponseEntity<ApiResponse<UserResponse>> me(@AuthenticationPrincipal User user) {
         UserResponse data = authService.getProfile(user.getId());
         return ResponseEntity.ok(ApiResponse.success("Profil berhasil dimuat", data));
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<ApiResponse<UserResponse>> updateMe(
+            @AuthenticationPrincipal User user,
+            @Valid @RequestBody UpdateProfileRequest request) {
+        UserResponse data = authService.updateProfile(user.getId(), request);
+        return ResponseEntity.ok(ApiResponse.success("Profil berhasil diperbarui", data));
     }
 }

@@ -28,14 +28,17 @@ public class SaleController {
     @GetMapping
     @PreAuthorize("hasAnyRole('DISTRIBUTOR', 'RETAILER', 'ENTITY_ADMIN', 'CONSUMER')")
     public ResponseEntity<ApiResponse<Page<SaleResponse>>> getAll(
+            @RequestParam(required = false) String search,
             @RequestParam(required = false) UUID sellerEntityId,
             @RequestParam(required = false) UUID buyerEntityId,
             @RequestParam(required = false) UUID buyerUserId,
             @RequestParam(required = false) TransactionStatus status,
+            @RequestParam(required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) java.time.OffsetDateTime startDate,
+            @RequestParam(required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) java.time.OffsetDateTime endDate,
             @PageableDefault(size = 10) Pageable pageable,
             @AuthenticationPrincipal UUID actorId) {
 
-        Page<SaleResponse> page = service.getAllSales(sellerEntityId, buyerEntityId, buyerUserId, status, actorId, pageable);
+        Page<SaleResponse> page = service.getAllSales(search, sellerEntityId, buyerEntityId, buyerUserId, status, startDate, endDate, actorId, pageable);
         return ResponseEntity.ok(ApiResponse.success("Berhasil mengambil data penjualan", page));
     }
 

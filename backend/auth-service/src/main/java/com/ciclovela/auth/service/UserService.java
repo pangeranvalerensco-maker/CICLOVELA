@@ -1,6 +1,7 @@
 package com.ciclovela.auth.service;
 
 import com.ciclovela.auth.dto.request.UpdateUserStatusRequest;
+import com.ciclovela.auth.dto.response.UserOptionResponse;
 import com.ciclovela.auth.dto.response.UserResponse;
 import com.ciclovela.auth.entity.User;
 import com.ciclovela.auth.enums.UserRole;
@@ -24,8 +25,25 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Page<UserResponse> getAllUsers(String search, UserRole role, UserStatus status, Pageable pageable) {
-        return userRepository.findAllWithFilters(search, role, status, pageable)
+        boolean searchFlag = search != null && !search.trim().isEmpty();
+        String safeSearch = search == null ? "" : search;
+        return userRepository.findAllWithFilters(safeSearch, searchFlag, role, status, pageable)
                 .map(AuthService::toUserResponse);
+    }
+
+    @Transactional(readOnly = true)
+    public java.util.List<UserOptionResponse> getDirectory(UserRole role) {
+        if (role != UserRole.FARMER && role != UserRole.CONSUMER) {
+            throw new BadRequestException("Direktori hanya mendukung role FARMER atau CONSUMER");
+        }
+        return userRepository.findByRoleAndStatusOrderByNameAsc(role, UserStatus.ACTIVE).stream()
+                .map(user -> UserOptionResponse.builder()
+                        .id(user.getId())
+                        .name(user.getName())
+                        .email(user.getEmail())
+                        .role(user.getRole().name())
+                        .build())
+                .toList();
     }
 
     @Transactional

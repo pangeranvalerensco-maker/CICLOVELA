@@ -27,10 +27,12 @@ export const batchApi = {
 export const inventoryApi = {
   getAll: (params?: any) => api.get('/inventories', { params }),
   getById: (id: string) => api.get(`/inventories/${id}`),
+  getOptions: (entityId: string) => api.get('/inventories/options', { params: { entityId } }),
   getDashboardStats: () => api.get('/inventories/dashboard-stats'),
 };
 
 export const wasteApi = {
+  getAll: (params?: any) => api.get('/waste-records', { params }),
   create: (data: any) => api.post('/waste-records', data),
 };
 
@@ -39,6 +41,10 @@ export const businessApi = {
   getById: (id: string) => api.get(`/business-entities/${id}`),
   createRequest: (data: any) => api.post('/business-entities/requests', data),
   approve: (id: string) => api.post(`/business-entities/${id}/approve`),
+};
+
+export const membershipApi = {
+  getMine: () => api.get('/memberships/me'),
 };
 
 export const purchaseApi = {
@@ -53,6 +59,11 @@ export const saleApi = {
   getById: (id: string) => api.get(`/sales/${id}`),
   create: (data: any) => api.post('/sales', data),
   updateStatus: (id: string, status: string) => api.patch(`/sales/${id}/status`, null, { params: { status } }),
+};
+
+export const userApi = {
+  getAll: (params?: any) => api.get('/users', { params }),
+  getDirectory: (role: string) => api.get('/users/directory', { params: { role } }),
 };
 
 export const traceabilityApi = {

@@ -8,6 +8,7 @@ import com.ciclovela.catalog.entity.ProductCategory;
 import com.ciclovela.catalog.enums.RecordStatus;
 import com.ciclovela.catalog.exception.DuplicateResourceException;
 import com.ciclovela.catalog.exception.ResourceNotFoundException;
+import com.ciclovela.catalog.exception.BadRequestException;
 import com.ciclovela.catalog.repository.ProductCategoryRepository;
 import com.ciclovela.catalog.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,9 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public Page<ProductResponse> getAllProducts(String search, UUID categoryId, RecordStatus status, Pageable pageable) {
-        return productRepository.findAllWithFilters(search, categoryId, status, pageable)
+        boolean searchFlag = search != null && !search.trim().isEmpty();
+        String safeSearch = search == null ? "" : search;
+        return productRepository.findAllWithFilters(safeSearch, searchFlag, categoryId, status, pageable)
                 .map(this::toResponse);
     }
 
@@ -41,17 +44,38 @@ public class ProductService {
 
     @Transactional
     public ProductResponse createProduct(ProductRequest request, UUID userId) {
-        if (request.getSku() != null && productRepository.existsBySkuIgnoreCase(request.getSku())) {
-            throw new DuplicateResourceException("SKU sudah digunakan");
+        String finalSku = request.getSku();
+        if (finalSku == null || finalSku.trim().isEmpty()) {
+            // Auto generate SKU jika kosong
+            finalSku = "PRD-" + System.currentTimeMillis() % 1000000;
+        } else {
+            if (productRepository.existsBySkuIgnoreCase(finalSku)) {
+                throw new DuplicateResourceException("SKU sudah digunakan");
+            }
         }
 
-        ProductCategory category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Kategori tidak ditemukan"));
+        ProductCategory category;
+        if (request.getCategoryId() != null) {
+            category = categoryRepository.findById(request.getCategoryId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Kategori tidak ditemukan"));
+        } else if (request.getNewCategoryName() != null && !request.getNewCategoryName().trim().isEmpty()) {
+            if (categoryRepository.existsByNameIgnoreCase(request.getNewCategoryName().trim())) {
+                throw new DuplicateResourceException("Nama kategori sudah digunakan. Silakan pilih dari dropdown.");
+            }
+            category = ProductCategory.builder()
+                    .name(request.getNewCategoryName().trim())
+                    .description("Ditambahkan otomatis")
+                    .status(RecordStatus.ACTIVE)
+                    .build();
+            category = categoryRepository.save(category);
+        } else {
+            throw new BadRequestException("Kategori wajib diisi");
+        }
 
         Product product = Product.builder()
                 .category(category)
                 .name(request.getName())
-                .sku(request.getSku())
+                .sku(finalSku)
                 .description(request.getDescription())
                 .unit(request.getUnit())
                 .shelfLifeDays(request.getShelfLifeDays())
@@ -72,17 +96,35 @@ public class ProductService {
             throw new com.ciclovela.catalog.exception.AccessDeniedException("Anda tidak memiliki hak untuk mengubah produk ini");
         }
 
-        if (request.getSku() != null && !request.getSku().equalsIgnoreCase(product.getSku()) &&
-                productRepository.existsBySkuIgnoreCase(request.getSku())) {
+        String finalSku = request.getSku();
+        if (finalSku == null || finalSku.trim().isEmpty()) {
+            finalSku = product.getSku(); // Jika diubah jadi kosong, biarkan SKU lama
+        } else if (!finalSku.equalsIgnoreCase(product.getSku()) &&
+                productRepository.existsBySkuIgnoreCase(finalSku)) {
             throw new DuplicateResourceException("SKU sudah digunakan");
         }
 
-        ProductCategory category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Kategori tidak ditemukan"));
+        ProductCategory category;
+        if (request.getCategoryId() != null) {
+            category = categoryRepository.findById(request.getCategoryId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Kategori tidak ditemukan"));
+        } else if (request.getNewCategoryName() != null && !request.getNewCategoryName().trim().isEmpty()) {
+            if (categoryRepository.existsByNameIgnoreCase(request.getNewCategoryName().trim())) {
+                throw new DuplicateResourceException("Nama kategori sudah digunakan. Silakan pilih dari dropdown.");
+            }
+            category = ProductCategory.builder()
+                    .name(request.getNewCategoryName().trim())
+                    .description("Ditambahkan otomatis")
+                    .status(RecordStatus.ACTIVE)
+                    .build();
+            category = categoryRepository.save(category);
+        } else {
+            throw new BadRequestException("Kategori wajib diisi");
+        }
 
         product.setCategory(category);
         product.setName(request.getName());
-        product.setSku(request.getSku());
+        product.setSku(finalSku);
         product.setDescription(request.getDescription());
         product.setUnit(request.getUnit());
         product.setShelfLifeDays(request.getShelfLifeDays());

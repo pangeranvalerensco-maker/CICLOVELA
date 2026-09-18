@@ -8,7 +8,7 @@ const Layout = () => {
   const location = useLocation();
 
   return (
-    <div className="flex h-screen bg-[#f1f5f9] overflow-hidden font-sans">
+    <div className="flex h-screen bg-[#f1f5f9] dark:bg-slate-950 overflow-hidden font-sans">
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex flex-col flex-1 w-full overflow-hidden">
