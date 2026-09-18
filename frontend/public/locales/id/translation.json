@@ -188,7 +188,8 @@
     "validation_email": "Format email tidak valid",
     "validation_phone": "Format nomor telepon tidak valid",
     "validation_match": "Konfirmasi tidak sama",
-    "validation_positive": "Harus lebih dari 0"
+    "validation_positive": "Harus lebih dari 0",
+    "validation_date": "Tanggal kedaluwarsa tidak boleh sebelum tanggal panen"
   },
   "errors": {
     "back_home": "Kembali ke beranda",

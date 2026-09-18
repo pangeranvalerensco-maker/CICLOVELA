@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AlertTriangle, Lock, SearchX, ServerCrash, RotateCw } from 'lucide-react';
 
@@ -47,7 +47,6 @@ export const NotFound = () => {
 
 export const ServerError = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   return (
     <div className={shell}>
       <div className="max-w-md w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm p-8 text-center">

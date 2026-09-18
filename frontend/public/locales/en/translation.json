@@ -188,7 +188,8 @@
     "validation_email": "Invalid email format",
     "validation_phone": "Invalid phone number format",
     "validation_match": "Confirmation does not match",
-    "validation_positive": "Must be greater than 0"
+    "validation_positive": "Must be greater than 0",
+    "validation_date": "Expiry date cannot be before harvest date"
   },
   "errors": {
     "back_home": "Back to home",

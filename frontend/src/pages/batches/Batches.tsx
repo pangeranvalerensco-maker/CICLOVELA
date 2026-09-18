@@ -8,6 +8,8 @@ import ConfirmDialog from '../../components/ui/ConfirmDialog';
 import DetailModal from '../../components/ui/DetailModal';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
+import { notify } from '../../utils/notify';
+import { hasMaxLength, isPositiveNumber, isRequired } from '../../utils/validation';
 
 const Batches = () => {
   const { user } = useAuth();
@@ -75,6 +77,18 @@ const Batches = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isRequired(formData.batchCode) || !hasMaxLength(formData.batchCode, 80)) {
+      notify.warning(t('common.validation_required'));
+      return;
+    }
+    if (!editingId && !isPositiveNumber(formData.initialQuantity)) {
+      notify.warning(t('common.validation_positive'));
+      return;
+    }
+    if (formData.expiryDate < formData.harvestDate) {
+      notify.warning(t('common.validation_date'));
+      return;
+    }
     try {
       const payload = {
         ...formData,
@@ -244,7 +258,7 @@ const Batches = () => {
             
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Kode Batch *</label>
-              <input type="text" required value={formData.batchCode} onChange={e => setFormData({...formData, batchCode: e.target.value})} className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm font-mono font-bold text-emerald-700 dark:text-emerald-400 bg-white dark:bg-slate-800" placeholder="KODE-BATCH" />
+              <input type="text" required minLength={3} maxLength={80} value={formData.batchCode} onChange={e => setFormData({...formData, batchCode: e.target.value})} className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm font-mono font-bold text-emerald-700 dark:text-emerald-400 bg-white dark:bg-slate-800" placeholder="KODE-BATCH" />
             </div>
 
             <div>

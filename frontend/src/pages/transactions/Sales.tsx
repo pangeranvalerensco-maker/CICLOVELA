@@ -6,6 +6,8 @@ import DataTable from '../../components/ui/DataTable';
 import Modal from '../../components/ui/Modal';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
+import { notify } from '../../utils/notify';
+import { isPositiveNumber } from '../../utils/validation';
 
 const Sales = () => {
   const { t } = useTranslation();
@@ -95,7 +97,10 @@ const Sales = () => {
     }
     try {
       const res = await inventoryApi.getOptions(entityId);
-      setSellerStocks(res.data?.data || []);
+      const stocks = res.data?.data || [];
+      setSellerStocks(stocks);
+      if (stocks.length === 0) notify.warning(t('common.no_data'));
+      else notify.info(`${stocks.length} stok gudang dimuat`);
     } catch (err) {
       toast.error('Gagal memuat stok penjual');
     }
@@ -103,6 +108,10 @@ const Sales = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isPositiveNumber(formData.quantity) || !isPositiveNumber(formData.unitPrice)) {
+      notify.warning(t('common.validation_positive'));
+      return;
+    }
     try {
       if (buyerType === 'ENTITY' && !formData.buyerEntityId) {
         toast.error('Pilih entitas pembeli terlebih dahulu');
