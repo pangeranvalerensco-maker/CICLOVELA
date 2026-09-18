@@ -1,159 +1,162 @@
-<mxfile host="app.diagrams.net" modified="2026-09-18T00:00:00.000Z" agent="Claude" version="24.0.0">
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.0.4 Chrome/138.0.7204.97 Electron/37.2.1 Safari/537.36" version="28.0.4">
   <diagram name="Alur Aplikasi CICLOVELA" id="ciclovela-flow">
-    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+    <mxGraphModel dx="1690" dy="1052" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-
-        <!-- Landing / Login -->
-        <mxCell id="n1" value="Landing Page&#10;CICLOVELA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
-          <mxGeometry x="440" y="40" width="180" height="50" as="geometry" />
+        <mxCell id="n1" value="Landing Page&#xa;CICLOVELA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="460" y="114" width="180" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="n2" value="Login / Register" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
-          <mxGeometry x="440" y="130" width="180" height="50" as="geometry" />
+        <mxCell id="n2" value="Login / Register" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="460" y="204" width="180" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="n3" value="Cek Role User" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
-          <mxGeometry x="460" y="220" width="140" height="80" as="geometry" />
+        <mxCell id="n3" value="Cek Role User" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="480" y="294" width="140" height="80" as="geometry" />
         </mxCell>
-
-        <!-- Admin -->
-        <mxCell id="n4" value="Admin Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
-          <mxGeometry x="40" y="360" width="180" height="50" as="geometry" />
+        <mxCell id="n4" value="Admin Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="60" y="434" width="180" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="n5" value="Approve Bisnis Baru" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="40" y="440" width="180" height="50" as="geometry" />
+        <mxCell id="n5" value="Approve Bisnis Baru" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="60" y="514" width="180" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="n6" value="Kelola Kategori &amp; User" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="40" y="520" width="180" height="50" as="geometry" />
+        <mxCell id="n6" value="Kelola Kategori &amp; User" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="60" y="594" width="180" height="50" as="geometry" />
         </mxCell>
-
-        <!-- Farmer -->
-        <mxCell id="n7" value="Farmer Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
-          <mxGeometry x="280" y="360" width="180" height="50" as="geometry" />
+        <mxCell id="n7" value="Farmer Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="300" y="434" width="180" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="n8" value="Kelola Produk &amp; Batch Panen" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="280" y="440" width="180" height="50" as="geometry" />
+        <mxCell id="n8" value="Kelola Produk &amp; Batch Panen" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="300" y="514" width="180" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="n9" value="Jual ke Distributor" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="280" y="520" width="180" height="50" as="geometry" />
+        <mxCell id="n9" value="Jual ke Distributor" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="300" y="594" width="180" height="50" as="geometry" />
         </mxCell>
-
-        <!-- Distributor -->
-        <mxCell id="n10" value="Distributor Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
-          <mxGeometry x="540" y="360" width="180" height="50" as="geometry" />
+        <mxCell id="n10" value="Distributor Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="560" y="434" width="180" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="n11" value="Beli Stok dari Farmer" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="540" y="440" width="180" height="50" as="geometry" />
+        <mxCell id="n11" value="Beli Stok dari Farmer" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="560" y="514" width="180" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="n12" value="Catat Limbah (Waste)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="540" y="520" width="180" height="50" as="geometry" />
+        <mxCell id="n12" value="Catat Limbah (Waste)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="560" y="594" width="180" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="n13" value="Jual ke Retailer" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="540" y="600" width="180" height="50" as="geometry" />
+        <mxCell id="n13" value="Jual ke Retailer" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="560" y="674" width="180" height="50" as="geometry" />
         </mxCell>
-
-        <!-- Retailer -->
-        <mxCell id="n14" value="Retailer Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
-          <mxGeometry x="800" y="360" width="180" height="50" as="geometry" />
+        <mxCell id="n14" value="Retailer Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="820" y="434" width="180" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="n15" value="Beli Stok dari Distributor" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="800" y="440" width="180" height="50" as="geometry" />
+        <mxCell id="n15" value="Beli Stok dari Distributor" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="820" y="514" width="180" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="n16" value="Jual ke Konsumen" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="800" y="520" width="180" height="50" as="geometry" />
+        <mxCell id="n16" value="Jual ke Konsumen" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="820" y="594" width="180" height="50" as="geometry" />
         </mxCell>
-
-        <!-- Public traceability -->
-        <mxCell id="n17" value="Halaman Lacak Produk&#10;(Publik, Tanpa Login)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
-          <mxGeometry x="1060" y="130" width="220" height="60" as="geometry" />
+        <mxCell id="n17" value="Halaman Lacak Produk&#xa;(Publik, Tanpa Login)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="1080" y="204" width="220" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="n18" value="Input Kode Batch" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="1060" y="230" width="220" height="50" as="geometry" />
+        <mxCell id="n18" value="Input Kode Batch" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1080" y="304" width="220" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="n19" value="Tampilkan Timeline&#10;(Panen -&gt; Distribusi -&gt; Konsumsi)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="1060" y="310" width="220" height="60" as="geometry" />
+        <mxCell id="n19" value="Tampilkan Timeline&#xa;(Panen -&gt; Distribusi -&gt; Konsumsi)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1080" y="384" width="220" height="60" as="geometry" />
         </mxCell>
-
-        <!-- End -->
-        <mxCell id="n20" value="Logout / Selesai" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
-          <mxGeometry x="460" y="700" width="180" height="50" as="geometry" />
-        </mxCell>
-
-        <!-- Edges -->
-        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n1" target="n2">
+        <mxCell id="NrAREdaGW7FS8zcBAzrt-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="n20" target="NrAREdaGW7FS8zcBAzrt-1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n1" target="n17">
+        <mxCell id="n20" value="Logout / Selesai" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+          <mxGeometry x="480" y="840" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n1" target="n2" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n2" target="n3">
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n1" target="n17" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-
-        <mxCell id="e4" value="Admin" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n3" target="n4">
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n2" target="n3" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e5" value="Farmer" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n3" target="n7">
+        <mxCell id="e4" value="Admin" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n3" target="n4" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e6" value="Distributor" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n3" target="n10">
+        <mxCell id="e5" value="Farmer" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n3" target="n7" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e7" value="Retailer" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n3" target="n14">
+        <mxCell id="e6" value="Distributor" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n3" target="n10" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-
-        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n4" target="n5">
+        <mxCell id="e7" value="Retailer" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n3" target="n14" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n5" target="n6">
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n4" target="n5" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-
-        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n7" target="n8">
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n5" target="n6" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n8" target="n9">
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n7" target="n8" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-
-        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n10" target="n11">
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n8" target="n9" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n11" target="n12">
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n10" target="n11" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n12" target="n13">
+        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n11" target="n12" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-
-        <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n14" target="n15">
+        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n12" target="n13" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e16" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n15" target="n16">
+        <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n14" target="n15" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-
-        <mxCell id="e17" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n17" target="n18">
+        <mxCell id="e16" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n15" target="n16" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e18" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n18" target="n19">
+        <mxCell id="e17" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n17" target="n18" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-
-        <mxCell id="e19" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n6" target="n20">
+        <mxCell id="e18" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n18" target="n19" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e20" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n9" target="n20">
+        <mxCell id="e19" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n6" target="n20" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="150" y="784" />
+              <mxPoint x="570" y="784" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e20" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n9" target="n20" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="390" y="784" />
+              <mxPoint x="570" y="784" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e21" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n13" target="n20" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e21" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n13" target="n20">
+        <mxCell id="e22" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="n16" target="n20" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="910" y="784" />
+              <mxPoint x="570" y="784" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NrAREdaGW7FS8zcBAzrt-1" value="END" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="938" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="NrAREdaGW7FS8zcBAzrt-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="NrAREdaGW7FS8zcBAzrt-2" target="n1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e22" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="n16" target="n20">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="NrAREdaGW7FS8zcBAzrt-2" value="START" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="14" width="120" height="60" as="geometry" />
         </mxCell>
-
       </root>
     </mxGraphModel>
   </diagram>

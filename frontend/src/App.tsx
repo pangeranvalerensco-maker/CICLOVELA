@@ -35,9 +35,7 @@ import Partners from './pages/Partners';
 import Impact from './pages/Impact';
 import Settings from './pages/settings/Settings';
 import Help from './pages/help/Help';
-
-const NotFound = () => <div className="min-h-screen flex items-center justify-center text-gray-500 text-2xl">404 - Halaman Tidak Ditemukan</div>;
-const Forbidden = () => <div className="min-h-screen flex items-center justify-center text-red-600 text-2xl">403 - Akses Ditolak</div>;
+import { Forbidden, NotFound, ServerError, Unauthorized } from './pages/errors/ErrorPages';
 
 function AppRoutes() {
   return (
@@ -87,7 +85,10 @@ function AppRoutes() {
       </Route>
 
       {/* Error Pages */}
+      <Route path="/401" element={<Unauthorized />} />
       <Route path="/403" element={<Forbidden />} />
+      <Route path="/404" element={<NotFound />} />
+      <Route path="/500" element={<ServerError />} />
       <Route path="*" element={<NotFound />} />
       </Routes>
     </>

@@ -12,8 +12,10 @@ const Sales = () => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [startDate, setStartDate] = useState('');
@@ -36,9 +38,10 @@ const Sales = () => {
 
   const fetchData = async () => {
     setLoading(true);
+    setLoadError(null);
     try {
       const [sortField, sortDir] = sortBy.split(',');
-      const params: any = { page, size: 10, search: search || '', sort: `${sortField},${sortDir}` };
+      const params: any = { page, size: pageSize, search: search || '', sort: `${sortField},${sortDir}` };
       if (filterStatus) params.status = filterStatus;
       if (startDate) params.startDate = new Date(`${startDate}T00:00:00`).toISOString();
       if (endDate) params.endDate = new Date(`${endDate}T23:59:59`).toISOString();
@@ -46,8 +49,10 @@ const Sales = () => {
       setData(res.data.data.content);
       setTotalPages(res.data.data.totalPages);
       setTotalElements(res.data.data.totalElements);
-    } catch (err) {
-      toast.error('Gagal mengambil data penjualan');
+    } catch (err: any) {
+      const message = err.response?.data?.message || 'Gagal mengambil data penjualan';
+      setLoadError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -55,7 +60,7 @@ const Sales = () => {
 
   useEffect(() => {
     fetchData();
-  }, [page, search, filterStatus, startDate, endDate, sortBy]);
+  }, [page, pageSize, search, filterStatus, startDate, endDate, sortBy]);
 
   const openCreateModal = async () => {
     setIsModalOpen(true);
@@ -189,7 +194,11 @@ const Sales = () => {
         columns={columns}
         data={data}
         loading={loading}
+        error={loadError}
+        onRetry={fetchData}
         page={page}
+        pageSize={pageSize}
+        onPageSizeChange={(size) => { setPageSize(size); setPage(0); }}
         totalPages={totalPages}
         totalElements={totalElements}
         onPageChange={setPage}

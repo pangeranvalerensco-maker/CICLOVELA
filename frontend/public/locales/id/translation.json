@@ -179,7 +179,31 @@
     "yes": "Ya",
     "status": "Status",
     "search": "Cari...",
-    "all": "Semua"
+    "all": "Semua",
+    "per_page": "Baris / halaman",
+    "page": "Halaman",
+    "validation_required": "Wajib diisi",
+    "validation_min": "Minimal {{min}} karakter",
+    "validation_max": "Maksimal {{max}} karakter",
+    "validation_email": "Format email tidak valid",
+    "validation_phone": "Format nomor telepon tidak valid",
+    "validation_match": "Konfirmasi tidak sama",
+    "validation_positive": "Harus lebih dari 0"
+  },
+  "errors": {
+    "back_home": "Kembali ke beranda",
+    "back_login": "Kembali ke login",
+    "retry": "Coba lagi",
+    "api_failed": "Gagal memuat data dari server",
+    "api_hint": "Periksa koneksi atau coba muat ulang.",
+    "e401_title": "Belum terautentikasi",
+    "e401_desc": "Sesi Anda berakhir atau belum login. Silakan login kembali.",
+    "e403_title": "Akses ditolak",
+    "e403_desc": "Akun Anda tidak memiliki hak akses ke halaman ini.",
+    "e404_title": "Halaman tidak ditemukan",
+    "e404_desc": "Alamat yang Anda tuju tidak tersedia.",
+    "e500_title": "Terjadi kesalahan server",
+    "e500_desc": "Server gagal memproses permintaan. Coba lagi beberapa saat."
   },
   "products": {
     "title": "Katalog Produk",

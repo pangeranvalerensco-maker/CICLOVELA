@@ -18,8 +18,10 @@ const Batches = () => {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [sortBy, setSortBy] = useState('createdAt,desc');
@@ -35,16 +37,19 @@ const Batches = () => {
 
   const fetchData = async () => {
     setLoading(true);
+    setLoadError(null);
     try {
       const [sortField, sortDir] = sortBy.split(',');
-      const params: any = { page, size: 10, search: search || '', sort: `${sortField},${sortDir}`, farmerId: isFarmer ? user?.id : undefined };
+      const params: any = { page, size: pageSize, search: search || '', sort: `${sortField},${sortDir}`, farmerId: isFarmer ? user?.id : undefined };
       if (filterStatus) params.status = filterStatus;
       const res = await batchApi.getAll(params);
       setData(res.data.data.content);
       setTotalPages(res.data.data.totalPages);
       setTotalElements(res.data.data.totalElements);
-    } catch (err) {
-      toast.error('Gagal mengambil data batch');
+    } catch (err: any) {
+      const message = err.response?.data?.message || 'Gagal mengambil data batch';
+      setLoadError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -62,7 +67,7 @@ const Batches = () => {
 
   useEffect(() => {
     fetchData();
-  }, [page, search, filterStatus, sortBy]);
+  }, [page, pageSize, search, filterStatus, sortBy]);
 
   useEffect(() => {
     if (isFarmer) fetchProducts();
@@ -179,7 +184,11 @@ const Batches = () => {
         columns={columns}
         data={data}
         loading={loading}
+        error={loadError}
+        onRetry={fetchData}
         page={page}
+        pageSize={pageSize}
+        onPageSizeChange={(size) => { setPageSize(size); setPage(0); }}
         totalPages={totalPages}
         totalElements={totalElements}
         onPageChange={setPage}

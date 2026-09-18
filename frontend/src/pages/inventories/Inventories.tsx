@@ -12,24 +12,29 @@ const Inventories = () => {
   const [detailItem, setDetailItem] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [filterType, setFilterType] = useState('');
   const [sortBy, setSortBy] = useState('updatedAt,desc');
 
   const fetchData = async () => {
     setLoading(true);
+    setLoadError(null);
     try {
       const [sortField, sortDir] = sortBy.split(',');
-      const params: any = { page, size: 10, search: search || '', sort: `${sortField},${sortDir}` };
+      const params: any = { page, size: pageSize, search: search || '', sort: `${sortField},${sortDir}` };
       if (filterType) params.accountType = filterType;
       const res = await inventoryApi.getAll(params);
       setData(res.data.data.content);
       setTotalPages(res.data.data.totalPages);
       setTotalElements(res.data.data.totalElements);
-    } catch (err) {
-      toast.error('Gagal mengambil data inventaris');
+    } catch (err: any) {
+      const message = err.response?.data?.message || 'Gagal mengambil data inventaris';
+      setLoadError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -37,7 +42,7 @@ const Inventories = () => {
 
   useEffect(() => {
     fetchData();
-  }, [page, search, filterType, sortBy]);
+  }, [page, pageSize, search, filterType, sortBy]);
 
   const filterOptions = [
     { value: '', label: t('common.all') + ' ' + t('common.status') },
@@ -100,7 +105,11 @@ const Inventories = () => {
         columns={columns}
         data={data}
         loading={loading}
+        error={loadError}
+        onRetry={fetchData}
         page={page}
+        pageSize={pageSize}
+        onPageSizeChange={(size) => { setPageSize(size); setPage(0); }}
         totalPages={totalPages}
         totalElements={totalElements}
         onPageChange={setPage}

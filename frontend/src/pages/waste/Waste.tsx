@@ -5,6 +5,8 @@ import { wasteApi, inventoryApi } from '../../api/endpoints';
 import DataTable from '../../components/ui/DataTable';
 import DetailModal from '../../components/ui/DetailModal';
 import { useTranslation } from 'react-i18next';
+import { notify } from '../../utils/notify';
+import { isPositiveNumber, isRequired } from '../../utils/validation';
 
 const Waste = () => {
   const { t } = useTranslation();
@@ -19,20 +21,25 @@ const Waste = () => {
   const [history, setHistory] = useState<any[]>([]);
   const [historyLoading, setHistoryLoading] = useState(false);
   const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
+  const [historyError, setHistoryError] = useState<string | null>(null);
   const [stocks, setStocks] = useState<any[]>([]);
   const [detailItem, setDetailItem] = useState<any>(null);
 
   const fetchHistory = async () => {
     setHistoryLoading(true);
+    setHistoryError(null);
     try {
-      const res = await wasteApi.getAll({ page, size: 10 });
+      const res = await wasteApi.getAll({ page, size: pageSize });
       setHistory(res.data.data.content);
       setTotalPages(res.data.data.totalPages);
       setTotalElements(res.data.data.totalElements);
-    } catch (err) {
-      toast.error('Gagal mengambil riwayat limbah');
+    } catch (err: any) {
+      const message = err.response?.data?.message || 'Gagal mengambil riwayat limbah';
+      setHistoryError(message);
+      toast.error(message);
     } finally {
       setHistoryLoading(false);
     }
@@ -49,7 +56,7 @@ const Waste = () => {
 
   useEffect(() => {
     fetchHistory();
-  }, [page]);
+  }, [page, pageSize]);
 
   useEffect(() => {
     fetchStocks();
@@ -57,6 +64,15 @@ const Waste = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isRequired(formData.inventoryId)) {
+      notify.warning(t('common.validation_required'));
+      return;
+    }
+    if (!isPositiveNumber(formData.quantity)) {
+      notify.warning(t('common.validation_positive'));
+      return;
+    }
+    notify.info(t('waste.processing'));
     try {
       setLoading(true);
       const payload = {
@@ -185,7 +201,11 @@ const Waste = () => {
           columns={columns}
           data={history}
           loading={historyLoading}
+          error={historyError}
+          onRetry={fetchHistory}
           page={page}
+          pageSize={pageSize}
+          onPageSizeChange={(size) => { setPageSize(size); setPage(0); }}
           totalPages={totalPages}
           totalElements={totalElements}
           onPageChange={setPage}

@@ -179,7 +179,31 @@
     "yes": "Yes",
     "status": "Status",
     "search": "Search...",
-    "all": "All"
+    "all": "All",
+    "per_page": "Rows / page",
+    "page": "Page",
+    "validation_required": "Required",
+    "validation_min": "Minimum {{min}} characters",
+    "validation_max": "Maximum {{max}} characters",
+    "validation_email": "Invalid email format",
+    "validation_phone": "Invalid phone number format",
+    "validation_match": "Confirmation does not match",
+    "validation_positive": "Must be greater than 0"
+  },
+  "errors": {
+    "back_home": "Back to home",
+    "back_login": "Back to login",
+    "retry": "Try again",
+    "api_failed": "Failed to load data from server",
+    "api_hint": "Check the connection or reload.",
+    "e401_title": "Unauthenticated",
+    "e401_desc": "Your session expired or you are not logged in. Please log in again.",
+    "e403_title": "Access denied",
+    "e403_desc": "Your account has no access to this page.",
+    "e404_title": "Page not found",
+    "e404_desc": "The address you requested is unavailable.",
+    "e500_title": "Server error",
+    "e500_desc": "The server failed to process the request. Please try again shortly."
   },
   "products": {
     "title": "Product Catalog",

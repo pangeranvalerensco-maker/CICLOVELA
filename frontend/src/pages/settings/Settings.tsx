@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useTranslation } from 'react-i18next';
 import { authApi } from '../../api/auth';
+import { hasMaxLength, hasMinLength, isPhone, isRequired } from '../../utils/validation';
 
 const emptyProfile = {
   name: '',
@@ -22,9 +23,25 @@ const Settings = () => {
   const { theme, toggleTheme } = useTheme();
   const { t, i18n } = useTranslation();
   const [form, setForm] = useState(emptyProfile);
+  const [errors, setErrors] = useState<{ name?: string; phone?: string }>({});
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [saving, setSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+
+  const validateProfileField = (name: string, value: string) => {
+    if (name === 'name') {
+      if (!isRequired(value)) return t('common.validation_required');
+      if (!hasMinLength(value, 3)) return t('common.validation_min', { min: 3 });
+      if (!hasMaxLength(value, 100)) return t('common.validation_max', { max: 100 });
+    }
+    if (name === 'phone' && !isPhone(value)) return t('common.validation_phone');
+    return undefined;
+  };
+
+  const updateProfileField = (name: 'name' | 'phone', value: string) => {
+    setForm({ ...form, [name]: value });
+    setErrors((prev) => ({ ...prev, [name]: validateProfileField(name, value) }));
+  };
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -54,6 +71,12 @@ const Settings = () => {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
+    const nextErrors = {
+      name: validateProfileField('name', form.name),
+      phone: validateProfileField('phone', form.phone),
+    };
+    setErrors(nextErrors);
+    if (Object.values(nextErrors).some(Boolean)) return;
     setSaving(true);
     try {
       const payload = {
@@ -117,7 +140,8 @@ const Settings = () => {
             <div className="space-y-4">
               <div>
                 <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">{t('settings.full_name')}</label>
-                <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="w-full p-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 outline-none focus:ring-2 focus:ring-emerald-500" />
+                <input required minLength={3} maxLength={100} value={form.name} onChange={(e) => updateProfileField('name', e.target.value)} className="w-full p-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 outline-none focus:ring-2 focus:ring-emerald-500" />
+                {errors.name && <p className="mt-1 text-xs font-semibold text-rose-500">{errors.name}</p>}
               </div>
               <div>
                 <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">{t('settings.contact_email')}</label>
@@ -128,7 +152,8 @@ const Settings = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">{t('settings.phone')}</label>
-                  <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="w-full p-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 outline-none focus:ring-2 focus:ring-emerald-500" />
+                  <input type="tel" maxLength={20} value={form.phone} onChange={(e) => updateProfileField('phone', e.target.value)} className="w-full p-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 outline-none focus:ring-2 focus:ring-emerald-500" />
+                  {errors.phone && <p className="mt-1 text-xs font-semibold text-rose-500">{errors.phone}</p>}
                 </div>
                 <div>
                   <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">{t('settings.gender')}</label>

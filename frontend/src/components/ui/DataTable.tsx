@@ -1,5 +1,6 @@
 import { Search, ChevronLeft, ChevronRight, ArrowUpDown, Filter } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { ApiFallback } from '../../pages/errors/ErrorPages';
 
 interface Column<T> {
   key: string;
@@ -21,6 +22,11 @@ interface DataTableProps<T> {
   columns: Column<T>[];
   data: T[];
   loading?: boolean;
+  error?: string | null;
+  onRetry?: () => void;
+  pageSize?: number;
+  onPageSizeChange?: (size: number) => void;
+  pageSizeOptions?: number[];
   search?: string;
   onSearchChange?: (val: string) => void;
   searchPlaceholder?: string;
@@ -40,7 +46,7 @@ interface DataTableProps<T> {
 }
 
 function DataTable<T extends { id?: string }>({
-  columns, data, loading, search, onSearchChange, searchPlaceholder,
+  columns, data, loading, error, onRetry, pageSize = 10, onPageSizeChange, pageSizeOptions = [5, 10, 20, 50], search, onSearchChange, searchPlaceholder,
   page, totalPages, totalElements, onPageChange, actions, headerActions, filters,
   filterOptions, activeFilter, onFilterChange,
   sortOptions, activeSort, onSortChange
@@ -124,6 +130,8 @@ function DataTable<T extends { id?: string }>({
           <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
             {loading ? (
               <tr><td colSpan={columns.length + (actions ? 1 : 0)} className="text-center py-12 text-slate-400 dark:text-slate-500">{t('common.loading')}</td></tr>
+            ) : error ? (
+              <tr><td colSpan={columns.length + (actions ? 1 : 0)}><ApiFallback message={error} onRetry={onRetry} /></td></tr>
             ) : data.length === 0 ? (
               <tr><td colSpan={columns.length + (actions ? 1 : 0)} className="text-center py-12 text-slate-400 dark:text-slate-500">{t('common.no_data')}</td></tr>
             ) : (
@@ -142,11 +150,25 @@ function DataTable<T extends { id?: string }>({
         </table>
       </div>
 
-      <div className="px-5 py-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/30">
+      <div className="px-5 py-3 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center gap-3 justify-between bg-slate-50/50 dark:bg-slate-800/30">
         <p className="text-xs text-slate-500 dark:text-slate-400">
           {t('common.showing')} <span className="font-semibold text-slate-700 dark:text-slate-300">{data.length}</span> {t('common.from')} <span className="font-semibold text-slate-700 dark:text-slate-300">{totalElements}</span> {t('common.data')}
         </p>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2 flex-wrap">
+          {onPageSizeChange && (
+            <label className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+              {t('common.per_page')}
+              <select
+                value={pageSize}
+                onChange={(e) => onPageSizeChange(Number(e.target.value))}
+                className="px-2 py-1.5 text-xs border border-slate-200 dark:border-slate-700 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none cursor-pointer"
+              >
+                {pageSizeOptions.map((size) => (
+                  <option key={size} value={size}>{size}</option>
+                ))}
+              </select>
+            </label>
+          )}
           <button
             onClick={() => onPageChange(page - 1)}
             disabled={page <= 0}
@@ -154,9 +176,19 @@ function DataTable<T extends { id?: string }>({
           >
             <ChevronLeft size={16} />
           </button>
-          <span className="text-xs text-slate-600 dark:text-slate-300 px-3 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md font-medium">
-            {page + 1} / {totalPages || 1}
-          </span>
+          {Array.from({ length: Math.max(totalPages || 1, 1) }, (_, i) => i)
+            .filter((p) => p === 0 || p === (totalPages || 1) - 1 || Math.abs(p - page) <= 1)
+            .map((p, idx, arr) => (
+              <span key={p} className="flex items-center gap-1">
+                {idx > 0 && p - arr[idx - 1] > 1 && <span className="text-xs text-slate-400">…</span>}
+                <button
+                  onClick={() => onPageChange(p)}
+                  className={`min-w-8 px-2 py-1 text-xs font-semibold rounded-md border transition-colors ${p === page ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'}`}
+                >
+                  {p + 1}
+                </button>
+              </span>
+            ))}
           <button
             onClick={() => onPageChange(page + 1)}
             disabled={page >= totalPages - 1}

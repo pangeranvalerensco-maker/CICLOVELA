@@ -11,8 +11,10 @@ const Entities = () => {
   const [detailItem, setDetailItem] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [sortBy, setSortBy] = useState('createdAt,desc');
@@ -21,22 +23,25 @@ const Entities = () => {
 
   const fetchData = async () => {
     setLoading(true);
+    setLoadError(null);
     try {
       const [sortField, sortDir] = sortBy.split(',');
-      const params: any = { page, size: 10, search: search || '', sort: `${sortField},${sortDir}` };
+      const params: any = { page, size: pageSize, search: search || '', sort: `${sortField},${sortDir}` };
       if (filterStatus) params.verificationStatus = filterStatus;
       const res = await businessApi.getAll(params);
       setData(res.data.data.content);
       setTotalPages(res.data.data.totalPages);
       setTotalElements(res.data.data.totalElements);
-    } catch (err) {
-      toast.error('Gagal mengambil data entitas bisnis');
+    } catch (err: any) {
+      const message = err.response?.data?.message || 'Gagal mengambil data entitas bisnis';
+      setLoadError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => { fetchData(); }, [page, search, filterStatus, sortBy]);
+  useEffect(() => { fetchData(); }, [page, pageSize, search, filterStatus, sortBy]);
 
   const executeApprove = async () => {
     if (!confirmApproveId) return;
@@ -105,7 +110,11 @@ const Entities = () => {
         columns={columns}
         data={data}
         loading={loading}
+        error={loadError}
+        onRetry={fetchData}
         page={page}
+        pageSize={pageSize}
+        onPageSizeChange={(size) => { setPageSize(size); setPage(0); }}
         totalPages={totalPages}
         totalElements={totalElements}
         onPageChange={setPage}

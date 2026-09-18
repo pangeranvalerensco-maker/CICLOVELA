@@ -7,6 +7,8 @@ import Modal from '../../components/ui/Modal';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
+import { notify } from '../../utils/notify';
+import { isPositiveNumber } from '../../utils/validation';
 
 const Purchases = () => {
   const { user } = useAuth();
@@ -16,8 +18,10 @@ const Purchases = () => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [startDate, setStartDate] = useState('');
@@ -38,9 +42,10 @@ const Purchases = () => {
 
   const fetchData = async () => {
     setLoading(true);
+    setLoadError(null);
     try {
       const [sortField, sortDir] = sortBy.split(',');
-      const params: any = { page, size: 10, search: search || '', sort: `${sortField},${sortDir}` };
+      const params: any = { page, size: pageSize, search: search || '', sort: `${sortField},${sortDir}` };
       if (filterStatus) params.status = filterStatus;
       if (startDate) params.startDate = new Date(`${startDate}T00:00:00`).toISOString();
       if (endDate) params.endDate = new Date(`${endDate}T23:59:59`).toISOString();
@@ -49,8 +54,10 @@ const Purchases = () => {
       setData(res.data.data.content);
       setTotalPages(res.data.data.totalPages);
       setTotalElements(res.data.data.totalElements);
-    } catch (err) {
-      toast.error('Gagal mengambil data pembelian');
+    } catch (err: any) {
+      const message = err.response?.data?.message || 'Gagal mengambil data pembelian';
+      setLoadError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -58,7 +65,7 @@ const Purchases = () => {
 
   useEffect(() => {
     fetchData();
-  }, [page, search, filterStatus, startDate, endDate, sortBy]);
+  }, [page, pageSize, search, filterStatus, startDate, endDate, sortBy]);
 
   const openCreateModal = async () => {
     setIsModalOpen(true);
@@ -89,7 +96,10 @@ const Purchases = () => {
     }
     try {
       const res = await batchApi.getAll({ page: 0, size: 100, status: 'ACTIVE', farmerId, search: '' });
-      setFarmerBatches(res.data?.data?.content || []);
+      const batches = res.data?.data?.content || [];
+      setFarmerBatches(batches);
+      if (batches.length === 0) notify.warning(t('common.no_data'));
+      else notify.info(`${batches.length} batch aktif dimuat`);
     } catch (err) {
       toast.error('Gagal memuat batch farmer');
     }
@@ -97,6 +107,10 @@ const Purchases = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isPositiveNumber(formData.quantity) || !isPositiveNumber(formData.unitPrice)) {
+      notify.warning(t('common.validation_positive'));
+      return;
+    }
     try {
       const payload = {
         buyerEntityId: formData.buyerEntityId,
@@ -181,7 +195,11 @@ const Purchases = () => {
         columns={columns}
         data={data}
         loading={loading}
+        error={loadError}
+        onRetry={fetchData}
         page={page}
+        pageSize={pageSize}
+        onPageSizeChange={(size) => { setPageSize(size); setPage(0); }}
         totalPages={totalPages}
         totalElements={totalElements}
         onPageChange={setPage}

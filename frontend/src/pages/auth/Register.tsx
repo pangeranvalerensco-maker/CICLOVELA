@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { authApi } from '../../api/auth';
 import { useAuth } from '../../context/AuthContext';
 import { Mail, Lock, User, Loader2, Tractor, ShoppingCart } from 'lucide-react';
+import { hasMaxLength, hasMinLength, isEmail, isRequired } from '../../utils/validation';
 
 const Register = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,20 +16,49 @@ const Register = () => {
     passwordConfirmation: '',
     role: 'CONSUMER'
   });
+  const [errors, setErrors] = useState<{ name?: string; email?: string; password?: string; passwordConfirmation?: string }>({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  const validateField = (name: string, value: string) => {
+    if (name === 'name') {
+      if (!isRequired(value)) return t('common.validation_required');
+      if (!hasMinLength(value, 3)) return t('common.validation_min', { min: 3 });
+      if (!hasMaxLength(value, 100)) return t('common.validation_max', { max: 100 });
+    }
+    if (name === 'email') {
+      if (!isRequired(value)) return t('common.validation_required');
+      if (!isEmail(value)) return t('common.validation_email');
+    }
+    if (name === 'password') {
+      if (!isRequired(value)) return t('common.validation_required');
+      if (!hasMinLength(value, 8)) return t('common.validation_min', { min: 8 });
+      if (!hasMaxLength(value, 100)) return t('common.validation_max', { max: 100 });
+    }
+    if (name === 'passwordConfirmation') {
+      if (!isRequired(value)) return t('common.validation_required');
+      if (value !== formData.password) return t('common.validation_match');
+    }
+    return undefined;
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const next = { ...formData, [e.target.name]: e.target.value };
+    setFormData(next);
+    setErrors((prev) => ({ ...prev, [e.target.name]: validateField(e.target.name, e.target.value) }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.password !== formData.passwordConfirmation) {
-      toast.error('Password dan konfirmasi tidak sama');
-      return;
-    }
+    const nextErrors = {
+      name: validateField('name', formData.name),
+      email: validateField('email', formData.email),
+      password: validateField('password', formData.password),
+      passwordConfirmation: validateField('passwordConfirmation', formData.passwordConfirmation),
+    };
+    setErrors(nextErrors);
+    if (Object.values(nextErrors).some(Boolean)) return;
 
     try {
       setLoading(true);
@@ -96,12 +128,15 @@ const Register = () => {
                   type="text"
                   name="name"
                   required
+                  minLength={3}
+                  maxLength={100}
                   value={formData.name}
                   onChange={handleChange}
                   className="focus:ring-emerald-500 focus:border-emerald-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 border"
                   placeholder="Nama Anda"
                 />
               </div>
+              {errors.name && <p className="mt-1 text-xs font-semibold text-rose-500">{errors.name}</p>}
             </div>
 
             <div>
@@ -114,12 +149,14 @@ const Register = () => {
                   type="email"
                   name="email"
                   required
+                  maxLength={150}
                   value={formData.email}
                   onChange={handleChange}
                   className="focus:ring-emerald-500 focus:border-emerald-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 border"
                   placeholder="anda@email.com"
                 />
               </div>
+              {errors.email && <p className="mt-1 text-xs font-semibold text-rose-500">{errors.email}</p>}
             </div>
 
             <div>
@@ -133,12 +170,14 @@ const Register = () => {
                   name="password"
                   required
                   minLength={8}
+                  maxLength={100}
                   value={formData.password}
                   onChange={handleChange}
                   className="focus:ring-emerald-500 focus:border-emerald-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 border"
                   placeholder="Minimal 8 karakter"
                 />
               </div>
+              {errors.password && <p className="mt-1 text-xs font-semibold text-rose-500">{errors.password}</p>}
             </div>
 
             <div>
@@ -157,6 +196,7 @@ const Register = () => {
                   placeholder="Ulangi password"
                 />
               </div>
+              {errors.passwordConfirmation && <p className="mt-1 text-xs font-semibold text-rose-500">{errors.passwordConfirmation}</p>}
             </div>
           </div>
 

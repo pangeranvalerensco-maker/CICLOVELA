@@ -9,6 +9,7 @@ import DetailModal from '../../components/ui/DetailModal';
 import FileUpload from '../../components/ui/FileUpload';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
+import { hasMaxLength, hasMinLength, isRequired } from '../../utils/validation';
 
 const Products = () => {
   const { user } = useAuth();
@@ -19,8 +20,10 @@ const Products = () => {
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const [sortBy, setSortBy] = useState('name,asc');
@@ -33,19 +36,23 @@ const Products = () => {
   
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [detailItem, setDetailItem] = useState<any>(null);
+  const [formErrors, setFormErrors] = useState<{ name?: string; sku?: string; shelfLifeDays?: string }>({});
 
   const fetchData = async () => {
     setLoading(true);
+    setLoadError(null);
     try {
       const [sortField, sortDir] = sortBy.split(',');
-      const params: any = { page, size: 10, search: search || '', sort: `${sortField},${sortDir}` };
+      const params: any = { page, size: pageSize, search: search || '', sort: `${sortField},${sortDir}` };
       if (filterCategory) params.categoryId = filterCategory;
       const res = await productApi.getAll(params);
       setData(res.data.data.content);
       setTotalPages(res.data.data.totalPages);
       setTotalElements(res.data.data.totalElements);
-    } catch (err) {
-      toast.error('Gagal mengambil data produk');
+    } catch (err: any) {
+      const message = err.response?.data?.message || 'Gagal mengambil data produk';
+      setLoadError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -62,7 +69,7 @@ const Products = () => {
 
   useEffect(() => {
     fetchData();
-  }, [page, search, filterCategory, sortBy]);
+  }, [page, pageSize, search, filterCategory, sortBy]);
 
   useEffect(() => {
     if (isAdminOrFarmer) fetchCategories();
@@ -73,6 +80,14 @@ const Products = () => {
 
 const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const nextErrors: { name?: string; sku?: string; shelfLifeDays?: string } = {};
+    if (!isRequired(formData.name)) nextErrors.name = t('common.validation_required');
+    else if (!hasMinLength(formData.name, 3)) nextErrors.name = t('common.validation_min', { min: 3 });
+    else if (!hasMaxLength(formData.name, 150)) nextErrors.name = t('common.validation_max', { max: 150 });
+    if (formData.sku && !hasMaxLength(formData.sku, 50)) nextErrors.sku = t('common.validation_max', { max: 50 });
+    if (formData.shelfLifeDays && Number(formData.shelfLifeDays) < 0) nextErrors.shelfLifeDays = t('common.validation_positive');
+    setFormErrors(nextErrors);
+    if (Object.values(nextErrors).some(Boolean)) return;
     try {
       const payload: any = {
         ...formData,
@@ -197,7 +212,11 @@ const handleSubmit = async (e: React.FormEvent) => {
         columns={columns}
         data={data}
         loading={loading}
+        error={loadError}
+        onRetry={fetchData}
         page={page}
+        pageSize={pageSize}
+        onPageSizeChange={(size) => { setPageSize(size); setPage(0); }}
         totalPages={totalPages}
         totalElements={totalElements}
         onPageChange={setPage}
@@ -244,12 +263,14 @@ const handleSubmit = async (e: React.FormEvent) => {
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2">
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Nama Produk *</label>
-              <input type="text" required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200" placeholder="Contoh: Tomat Cherry" />
+              <input type="text" required minLength={3} maxLength={150} value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200" placeholder="Contoh: Tomat Cherry" />
+              {formErrors.name && <p className="mt-1 text-xs font-semibold text-rose-500">{formErrors.name}</p>}
             </div>
             
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">SKU (Opsional)</label>
-              <input type="text" value={formData.sku} onChange={e => setFormData({...formData, sku: e.target.value})} className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm font-mono bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200" placeholder="TOM-CHE-01" />
+              <input type="text" maxLength={50} value={formData.sku} onChange={e => setFormData({...formData, sku: e.target.value})} className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm font-mono bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200" placeholder="TOM-CHE-01" />
+              {formErrors.sku && <p className="mt-1 text-xs font-semibold text-rose-500">{formErrors.sku}</p>}
             </div>
             
             <div>
@@ -298,6 +319,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Umur Simpan (Hari)</label>
               <input type="number" min="0" value={formData.shelfLifeDays} onChange={e => setFormData({...formData, shelfLifeDays: e.target.value})} className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200" placeholder="Contoh: 7" />
+              {formErrors.shelfLifeDays && <p className="mt-1 text-xs font-semibold text-rose-500">{formErrors.shelfLifeDays}</p>}
             </div>
             
             <div className="col-span-2">
